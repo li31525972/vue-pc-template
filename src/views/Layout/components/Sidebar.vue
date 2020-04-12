@@ -21,13 +21,16 @@
                 </template>
                 
                 <template v-for="(nav, index) in item.children">
+                    
+                    <!--菜单有三级-->
                     <el-submenu v-if="nav.children" :key="index + 'a'">
                         <template slot="title">{{ nav.meta.title }}</template>
-                        <el-menu-item v-for="(subnav, idx) in nav.children" :key="idx" @click="handleSetNav(item, subnav)" :index="item.path + '/' +
+                        <el-menu-item v-for="(subnav, idx) in nav.children" :key="idx" @click="handleSetNav(item, nav, subnav)" :index="item.path + '/' +
                         nav.path + '/' + subnav.path">{{ subnav.meta.title }}
                         </el-menu-item>
                     </el-submenu>
-                    <el-menu-item :key="index + 'a'" :index="item.path + '/' + nav.path">{{ nav.meta.title
+                    
+                    <el-menu-item :key="index + 'a'" @click="handleSetNav(item, nav)"  :index="item.path + '/' + nav.path">{{ nav.meta.title
                                                                                          }}</el-menu-item>
                 
                 </template>
@@ -78,15 +81,15 @@ export default {
     },
     methods: {
         handleSetNav(prev, cur) {
-            
+            // TODO 三级没有处理
             if (!cur) {
                 this.$store.commit('SET_TAGS', { path: prev.redirect, title: prev.meta.title })
             } else {
-                
+                // 二级菜单
                 if (prev.path !== '/') {
-                    this.$store.commit('SET_TAGS', { path: prev.path + '/' + cur.path, title: prev.meta.title })
+                    this.$store.commit('SET_TAGS', { path: prev.path + '/' + cur.path, title: cur.meta.title })
                 } else {
-                    this.$store.commit('SET_TAGS', { path: '/' + cur.path, title: prev.meta.title })
+                    this.$store.commit('SET_TAGS', { path: '/' + cur.path, title: cur.meta.title })
                 }
                 
             }
