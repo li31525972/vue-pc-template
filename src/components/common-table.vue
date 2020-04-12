@@ -83,16 +83,18 @@
         </el-table>
         
         <!--分页组件-->
-        <el-pagination
-                v-if="isPagination"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="PAGESIZES"
-                :page-size="currentSize"
-                :layout="LAYOUT"
-                :total="total || data.length">
-        </el-pagination>
+        <div class="common-page">
+            <el-pagination
+                    v-if="isPagination"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="PAGESIZES"
+                    :page-size="currentSize"
+                    :layout="LAYOUT"
+                    :total="total || data.length">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -344,9 +346,13 @@ export default {
     .is-click {
         cursor: pointer;
     }
-    .el-pagination {
-        margin-top: 5px;
-        float: right;
+    
+    .common-page {
+        margin-top: 10px;
+        height: 35px;
+        .el-pagination {
+            float: right;
+        }
     }
 }
 </style>

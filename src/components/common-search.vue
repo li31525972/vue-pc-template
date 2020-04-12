@@ -160,7 +160,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         background-color: #fff;
-        padding: 20px;
+        padding: 10px;
         padding-bottom: 0;
         -webkit-border-radius: 8px;
         -moz-border-radius: 8px;
