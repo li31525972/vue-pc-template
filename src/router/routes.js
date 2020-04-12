@@ -19,6 +19,41 @@ const routes = [
         }]
     },
     {
+        path: '/components',
+        meta: {
+            title: '组件',
+            icon: 'el-icon-menu'
+        },
+        component: Layout,
+        redirect: '',
+        children: [
+            {
+                path: 'search',
+                name: 'search',
+                meta: {
+                    title: '搜索'
+                },
+                component: () => import(/* webpackChunkName: 'search' */ '@/views/Components/Search')
+            },
+            {
+                path: 'button',
+                name: 'componentButton',
+                meta: {
+                    title: '按钮',
+                },
+                component: () => import(/* webpackChunkName: 'button' */ '@/views/Components/Button')
+            },
+            {
+                path: 'table',
+                name: 'componentTable',
+                meta: {
+                    title: '表格',
+                },
+                component: () => import(/* webpackChunkName: 'table' */ '@/views/Components/Table')
+            }
+        ],
+    },
+    {
         path: '/login',
         name: 'login',
         meta: { title: '登录', hidden: true },

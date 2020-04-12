@@ -6,8 +6,8 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
 import { Message, Notification } from 'element-ui'
-import { type } from '@/constant/methods'
-import { CODE } from '@/constant/httpCode'
+import { type } from '@/config/methods'
+import { CODE } from '@/config/httpCode'
 
 Nprogress.configure({
     easing: 'ease',  // 动画方式

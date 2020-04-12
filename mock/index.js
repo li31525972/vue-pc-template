@@ -29,3 +29,16 @@ Mock.mock('/login','post',(params) => {
         }
     }
 })
+
+
+// 获取状态
+Mock.mock('/getStatus', 'get', () => {
+    return {
+        code: 0,
+        data: [
+            { name: '完成中', key: 1 },
+            { name: '未完成', key: 2 },
+            { name: '已完成', key: 3 },
+        ]
+    }
+})
