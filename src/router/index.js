@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store'
 import routes from './routes'
 
 Vue.use(VueRouter)
@@ -14,11 +13,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
-    
     if (to.name !== 'login') {
         
-        if (!store.getters.TOKEN) {
-            
+        if (!sessionStorage.getItem('token')) {
             next('/login')
         }
     }

@@ -1,16 +1,14 @@
 import Mock from 'mockjs'
 
 Mock.setup({
-    timeout: '2000 - 5000'
+    timeout: '200 - 500'
 })
 
 // 登录
 Mock.mock('/login','post',(params) => {
     let body = JSON.parse(params.body)
-    console.log(11);
     if (body.name === "admin") {
         if (body.password === '123456') {
-            console.log(22);
             return {
                 code: 0,
                 data: {

@@ -5,19 +5,42 @@
 */
 
 <template>
-        <el-menu :default-active="path" class="el-menu-vertical-demo" background-color="#1f2d3d" text-color="rgb(191, 203, 217)" active-text-color="rgb(24, 144, 255)" :collapse="isCollapse" unique-opened router>
-            <el-submenu :index="i+''" v-for="(item,i) in routes" :key="i">
+    <el-menu :default-active="path"
+             class="el-menu-vertical-demo"
+             background-color="#545c64"
+             text-color="#fff"
+             active-text-color="#409EFF"
+             router
+             :collapse="isCollapse">
+        <template v-for="(item, i) in menu">
+            <!--菜单有二级-->
+            <el-submenu :key="i" v-if="item.meta.level !== 1" :index="'a' + i">
                 <template slot="title">
-                    <i :class="'el-icon-' + item.meta.icon"></i>
+                    <i :class="item.meta.icon"></i>
                     <span slot="title">{{ item.meta.title }}</span>
                 </template>
-                <el-menu-item-group>
-                    <el-menu-item @click="handleSetNav(item,route)" v-for="(route, key) in item.children" :key="i + '' + key" :index="item.path + '/' + route.path">{{
-                                                                                                                                                                     route.meta.title }}
-                    </el-menu-item>
-                </el-menu-item-group>
+                
+                <template v-for="(nav, index) in item.children">
+                    <el-submenu v-if="nav.children" :key="index + 'a'">
+                        <template slot="title">{{ nav.meta.title }}</template>
+                        <el-menu-item v-for="(subnav, idx) in nav.children" :key="idx" @click="handleSetNav(item, subnav)" :index="item.path + '/' +
+                        nav.path + '/' + subnav.path">{{ subnav.meta.title }}
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-menu-item :key="index + 'a'" :index="item.path + '/' + nav.path">{{ nav.meta.title
+                                                                                         }}</el-menu-item>
+                
+                </template>
+            
+            
             </el-submenu>
-        </el-menu>
+            <!--菜单没二级-->
+            <el-menu-item v-else @click="handleSetNav(item)" :index="item.redirect" :key="i">
+                <i :class="item.meta.icon"></i>
+                <span slot="title">{{ item.meta.title }}</span>
+            </el-menu-item>
+        </template>
+    </el-menu>
 </template>
 
 <script>
@@ -48,19 +71,36 @@ export default {
     },
     watch: {},
     created() {
-    
+        this.getMenu()
     },
     mounted() {
     
     },
     methods: {
         handleSetNav(prev, cur) {
-    
-            let path = prev.path + '/' + cur.path
-            let title = cur.meta.title
-    
-            this.$store.commit('SET_TAGS', { path, title })
             
+            if (!cur) {
+                this.$store.commit('SET_TAGS', { path: prev.redirect, title: prev.meta.title })
+            } else {
+                
+                if (prev.path !== '/') {
+                    this.$store.commit('SET_TAGS', { path: prev.path + '/' + cur.path, title: prev.meta.title })
+                } else {
+                    this.$store.commit('SET_TAGS', { path: '/' + cur.path, title: prev.meta.title })
+                }
+                
+            }
+            
+        },
+    
+        // 获取菜单信息
+        getMenu() {
+            let { routes } = this.$router.options
+            
+            this.menu = routes.filter(item => {
+                return item.meta && !item.meta.hidden
+            })
+        
         }
     }
 }

@@ -15,14 +15,14 @@
                         <div class="right-menu">
                             <i @click="openRight" class="setting-btn el-icon-setting"></i>
                             <i @click="handleFullScreen" class="el-icon-full-screen screen-full"></i>
-                            <el-dropdown trigger="click">
+                            <el-dropdown @command="handleCommand" trigger="click">
                                 <span class="el-dropdown-link">
                                     <el-avatar shape="square" size="medium" :src="circleUrl"></el-avatar>
                                     <i class="el-icon-arrow-down el-icon--right"></i>
                                 </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>个人中心</el-dropdown-item>
-                                    <el-dropdown-item>退出登录</el-dropdown-item>
+                                    <el-dropdown-item command="handleSynopsis">个人中心</el-dropdown-item>
+                                    <el-dropdown-item command="handleSignOut">退出登录</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </div>
@@ -70,7 +70,7 @@ export default {
     },
     data() {
         return {
-            isCollapse: false,
+            isCollapse: true,
             isOpen: false,
             circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
         }
@@ -132,7 +132,23 @@ export default {
         // 关闭设置
         handleClose(done) {
             done()
-        }
+        },
+    
+        handleCommand(name) {
+            this[name]()
+        },
+        
+        // 个人中心
+        handleSynopsis() {
+            console.log(2);
+        },
+        
+        // 退出登录
+        handleSignOut() {
+            this.$store.commit('RESET_STORE')
+            sessionStorage.clear()
+            this.$router.replace({ name: 'login' })
+        },
     }
 }
 
@@ -188,6 +204,7 @@ export default {
                 width: 100%;
                 background-color: #fff;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                border-bottom: 1px solid #ccc;
                 
                 .navbar {
                     height: 50px;

@@ -8,14 +8,11 @@ import Layout from '@/views/Layout'
 const routes = [
     {
         path: '/',
-        redirect: '/index/subIndex'
-    },
-    {
-        path: '/index',
+        redirect: '/index',
         component: Layout,
-        meta: { title: '首页', icon: 's-home' },
+        meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
         children: [{
-            path: 'subIndex',
+            path: 'index',
             name: 'home',
             meta: { title: '首页' },
             component: () => import( /* webpackChunkName: "home" */ '@/views/Home')
@@ -26,6 +23,11 @@ const routes = [
         name: 'login',
         meta: { title: '登录', hidden: true },
         component: () => import(/* webpackChunkName: "login" */ '@/views/Login')
+    },
+    {
+        path: '*',
+        name: '404',
+        component: () => import(/* webpackChunkName: '404' */ '@/views/Error/404.vue')
     }
 ]
 

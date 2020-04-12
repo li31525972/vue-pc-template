@@ -18,8 +18,8 @@ export default new Vuex.Store({
     })],
     state: {
         userInfo: {},
-        isFixedHeader: false,
-        isTagViews: false,
+        isFixedHeader: true,
+        isTagViews: true,
         tags: [],
     },
     mutations,
