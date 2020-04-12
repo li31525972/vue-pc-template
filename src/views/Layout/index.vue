@@ -271,9 +271,11 @@ export default {
             }
             main {
                 padding: 10px 0 10px 10px;
+                flex: 1;
                 overflow-x: hidden;
                 overflow-y: auto;
                 background-color: #EBEBF0;
+                min-height: calc(100% - 105px);
             }
             .main {
                 box-sizing: border-box;
