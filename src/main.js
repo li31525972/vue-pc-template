@@ -3,6 +3,7 @@ import App from './App.vue'
 import 'normalize.css'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import 'nprogress/nprogress.css'
 import router from './router'
 import store from './store'
 import * as filters from '@/filters'
