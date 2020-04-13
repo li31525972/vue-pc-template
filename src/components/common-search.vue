@@ -1,6 +1,11 @@
 <template>
-    <el-form :model="params" :rules="rules" :inline="true" ref="ruleForm" :label-width="labelWidth + 'px'" class="search-wrap">
-        <el-form-item :class="'item-' + item.type" v-for="(item, i) in options" :key="i" :label="item.label" :prop="item.name" >
+    <el-form
+            :model="params"
+            :rules="rules"
+            ref="ruleForm"
+            :label-width="labelWidth + 'px'"
+            class="search-wrap">
+        <el-form-item class="search-item" :style="styleObject(item)" v-for="(item, i) in options" :key="i" :label="item.label" :prop="item.name" >
             <el-input v-if="item.type === 'text' || !item.type"
                       v-model="params[item.name]"
                       :clearable="item.clear"
@@ -72,6 +77,10 @@ export default {
             type: [Number, String],
             default: 100,
         },
+        flex: {
+            type: [Number, String],
+            default: 4,
+        }
     },
     data() {
         return {
@@ -88,6 +97,17 @@ export default {
     
     },
     methods: {
+        // 计算宽度
+        styleObject(row) {
+            let flex = row.flex ? Number(row.flex) : Number(this.flex)
+            let width = 100 / flex + '%'
+            return {
+                width,
+                minWidth: width,
+                maxWidth: width,
+            }
+            
+        },
         init() {
             this.options.map(async (item, i) => {
                 // 获取下拉框的数据
@@ -142,65 +162,33 @@ export default {
 </script>
 
 <style>
-    .el-form-item .el-form-item__content {
-        flex: 1;
-        margin-left: 0;
+    .search-item .el-form-item__content {
+        display: flex;
     }
-    .el-form-item .el-form-item__content .el-select,
-    .el-form-item .el-form-item__content .el-date-editor {
+
+    .search-item label {
+        cursor: pointer;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .el-form-item__content .el-input,
+    .el-form-item__content .el-select,
+    .el-form-item__content .el-date-editor {
         width: 100%;
     }
-    .el-form-item__error {
-        top: 90%;
-    }
+
 </style>
 
 <style lang="scss" scoped>
     .search-wrap {
         display: flex;
         flex-wrap: wrap;
-        background-color: #fff;
         padding: 10px;
-        padding-bottom: 0;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        border-radius: 8px;
-        /*box-shadow: 0 15px 30px rgba(0,0,0, .1);*/
-    
-        label {
-            cursor: pointer;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        
-        .item-text,
-        .item-select,
-        .item-date {
+        .el-form-item {
             flex: 1;
-            min-width: 25%;
-            max-width: 25%;
-            display: flex;
-            height: 36px;
-            line-height: 36px;
-            margin-bottom: 15px;
-            margin-right: 0;
-            
-            .el-input,
-            .el-select {
-                flex: 1;
-            }
         }
-        .item-daterange {
-            display: flex;
-            flex: 2;
-            min-width: 50%;
-            max-width: 50%;
-            margin-right: 0;
-        }
-        
-        .search-button {
-            flex: 1;
+        &:last-child {
             text-align: right;
         }
     }

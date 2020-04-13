@@ -49,17 +49,18 @@ export default {
                     label: '姓名3',
                     name: 'name3',
                     type: 'text',
-                },{
-                    label: '姓名4',
-                    name: 'name4',
-                    type: 'text',
                 },
-                {
-                    label: '年龄1',
-                    name: 'age1',
-                    defaultValue: '18',
-                    type: 'text',
-                },
+                // {
+                //     label: '姓名4',
+                //     name: 'name4',
+                //     type: 'text',
+                // },
+                // {
+                //     label: '年龄1',
+                //     name: 'age1',
+                //     defaultValue: '18',
+                //     type: 'text',
+                // },
                 {
                     label: '状态',
                     name: 'status',
