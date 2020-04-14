@@ -83,7 +83,6 @@ const request = (url, data, method = 'POST', header = {}, options = {}, loading 
     if (axiosOptions.loading) {
         // 在第一个需要loading的api请求触发loading
         if (!loadingApi.length) {
-            console.log(loadingApi.length);
             Nprogress.start()
         }
 

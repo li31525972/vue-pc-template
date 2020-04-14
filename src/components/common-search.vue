@@ -11,7 +11,7 @@
                       :clearable="item.clear"
                       @input="value => $emit('inputChange', { name: item.name, value })"
                       :placeholder="'请输入'+ item.label"></el-input>
-    
+
             <!--下拉框-->
             <el-select v-else-if="item.type === 'select'"
                        v-model="params[item.name]"
@@ -28,7 +28,7 @@
                 :value="item.optionsValue ? item1[item.optionsValue] : item1.value">
                 </el-option>
             </el-select>
-            
+
             <!--date时间-->
             <el-date-picker
                     v-else-if="item.type === 'date'"
@@ -40,7 +40,7 @@
                     @change="value => $emit('dateChange', { name: item.name, value })"
                     :placeholder="'请选择' + item.label">
             </el-date-picker>
-            
+
             <!--日期范围-->
             <el-date-picker
                     v-else-if="item.type === 'daterange'"
@@ -54,9 +54,9 @@
                     :start-placeholder="item.placeholder ? item.placeholder[0] : '开始日期'"
                     :end-placeholder="item.placeholder ? item.placeholder[1] : '结束日期'">
             </el-date-picker>
-            
+
         </el-form-item>
-        
+
         <el-form-item class="search-button">
             <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
             <el-button @click="handleReset('ruleForm')">重置</el-button>
@@ -88,25 +88,35 @@ export default {
             rules: {},
         }
     },
-    computed: {},
+    computed: {
+
+    },
     watch: {},
     created() {
         this.init()
     },
     mounted() {
-    
+
     },
     methods: {
         // 计算宽度
         styleObject(row) {
-            let flex = row.flex ? Number(row.flex) : Number(this.flex)
-            let width = 100 / flex + '%'
+            // let flex = row.flex ? Number(row.flex) : Number(this.flex)
+            // let width = 100 / flex + '%'
+            // return {
+            //     width,
+            //     minWidth: width,
+            //     maxWidth: width,
+            // }
+
+            let flex = Number(this.flex)
+            let width = 100 / flex * (row.flex ? Number(row.flex) : 1) + '%'
             return {
                 width,
                 minWidth: width,
                 maxWidth: width,
             }
-            
+
         },
         init() {
             this.options.map(async (item, i) => {
@@ -115,7 +125,7 @@ export default {
                     // 开启loading
                     this.$set(this.options[i], 'loading', true)
                     await item.method().then(res => {
-                        
+
                         this.$set(this.options[i], 'options', res)
                         // item.options = res
                         // 关闭loading
@@ -126,7 +136,7 @@ export default {
                 if (item.defaultValue) {
                     this.$set(this.params, item.name, item.defaultValue)
                 }
-                
+
                 // 获取验证规则
                 if (item.rules) {
                     // this.rules[item.name] = item.rules
@@ -144,7 +154,7 @@ export default {
                     this.$set(this.params, item.name, undefined)
                 }
             })
-            
+
             this.$emit('handleReset', this.params)
         },
         // 点击搜索

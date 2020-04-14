@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Search :options="searchOptions" :labelWidth="80" @handleSearch="handleSearch"></Search>
+        <Search :options="searchOptions" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></Search>
     </div>
 </template>
 
@@ -82,22 +82,23 @@ export default {
                     label: '时间',
                     name: 'daterange',
                     type: 'daterange',
+                    flex: 1,
                     clear: true,
                 }
             ],
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
         // handleSearch(data) {
@@ -106,7 +107,7 @@ export default {
         //         console.log(res);
         //     })
         // }
-        
+
         init(data) {
             console.log(this.page);
         }
