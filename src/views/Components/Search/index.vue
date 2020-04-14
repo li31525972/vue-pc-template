@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Search :options="searchOptions" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></Search>
+        <Search :options="searchOptions" :formData="searchParams" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></Search>
     </div>
 </template>
 
 <script>
-import Search from 'components/common-search.vue'
+import Search from 'components/common-form.vue'
 import { search, table } from '@/mixins'
 import { getStatus } from '@/api/test'
 
@@ -34,7 +34,6 @@ export default {
                 {
                     label: '年龄',
                     name: 'age',
-                    defaultValue: '18',
                     type: 'text',
                 },
                 {
@@ -66,11 +65,10 @@ export default {
                     name: 'status',
                     type: 'select',
                     method: getStatus,
-                    options: [],
                     optionsLabel: 'name',
                     optionsValue: 'key',
                     filter: true,
-                    multiple: true,
+                    // multiple: true,
                 },
                 // {
                 //     label: '开始时间',
@@ -86,6 +84,10 @@ export default {
                     clear: true,
                 }
             ],
+            searchParams: {
+                name: '张三',
+                age: 18,
+            },
         }
     },
     computed: {
@@ -101,12 +103,13 @@ export default {
 
     },
     methods: {
-        // handleSearch(data) {
-        //     console.log(data);
-        //     getStatus().then(res => {
-        //         console.log(res);
-        //     })
-        // }
+        handleSearch(data) {
+            console.log(data);
+            // getStatus().then(res => {
+            //     console.log(res);
+            // })
+            
+        },
 
         init(data) {
             console.log(this.page);

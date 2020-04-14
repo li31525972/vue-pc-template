@@ -57,7 +57,7 @@
 
         </el-form-item>
 
-        <el-form-item class="search-button">
+        <el-form-item class="search-button" v-if="isShowSubmit">
             <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
             <el-button @click="handleReset('ruleForm')">重置</el-button>
         </el-form-item>
@@ -77,10 +77,21 @@ export default {
             type: [Number, String],
             default: 100,
         },
+        // 每行显示几个
         flex: {
             type: [Number, String],
             default: 4,
-        }
+        },
+        // 表单默认数据
+        formData: {
+            type: Object,
+            default: () => {}
+        },
+        // 是否显示提交按钮
+        isShowSubmit: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
@@ -91,8 +102,16 @@ export default {
     computed: {
 
     },
-    watch: {},
+    watch: {
+        formData: {
+            handler(val) {
+                this.params = { ...val }
+            },
+            deep: true,
+        }
+    },
     created() {
+        this.params = { ...this.formData }
         this.init()
     },
     mounted() {
@@ -101,14 +120,6 @@ export default {
     methods: {
         // 计算宽度
         styleObject(row) {
-            // let flex = row.flex ? Number(row.flex) : Number(this.flex)
-            // let width = 100 / flex + '%'
-            // return {
-            //     width,
-            //     minWidth: width,
-            //     maxWidth: width,
-            // }
-
             let flex = Number(this.flex)
             let width = 100 / flex * (row.flex ? Number(row.flex) : 1) + '%'
             return {
@@ -118,6 +129,7 @@ export default {
             }
 
         },
+        // 初始化方法
         init() {
             this.options.map(async (item, i) => {
                 // 获取下拉框的数据
@@ -126,15 +138,11 @@ export default {
                     this.$set(this.options[i], 'loading', true)
                     await item.method().then(res => {
 
-                        this.$set(this.options[i], 'options', res)
+                        this.$set(this.options[i], 'options', res ? res : [])
                         // item.options = res
                         // 关闭loading
                         this.$set(this.options[i], 'loading', false)
                     })
-                }
-                // 默认值处理
-                if (item.defaultValue) {
-                    this.$set(this.params, item.name, item.defaultValue)
                 }
 
                 // 获取验证规则
@@ -147,13 +155,7 @@ export default {
         // 重置
         handleReset(name) {
             this.$refs[name].resetFields();
-            this.options.map(item => {
-                if (item.defaultValue) {
-                    this.$set(this.params, item.name, item.defaultValue)
-                } else {
-                    this.$set(this.params, item.name, undefined)
-                }
-            })
+            this.params = { ...this.formData }
 
             this.$emit('handleReset', this.params)
         },
@@ -195,10 +197,11 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding: 10px;
+        padding-bottom: 0;
         .el-form-item {
             flex: 1;
         }
-        &:last-child {
+        .search-button {
             text-align: right;
         }
     }

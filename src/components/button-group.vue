@@ -4,9 +4,9 @@
             <!--上传按钮-->
             <el-upload
                     v-if="item.upload"
-                    :key="item.label"
+                    :key="i"
                     class="upload-demo"
-                    :action="item.action"
+                    :action="item.action || ''"
                     :headers="item.headers || {}"
                     :data="item.data || {}"
                     :name="item.fileName || 'file'"
@@ -21,17 +21,18 @@
             
             <el-button
                     v-else
-                    :key="item.label"
+                    :key="i"
                     :type="item.type || 'text'"
                     :size="item.size"
                     :plain="item.plain"
                     :round="item.round"
                     :circle="item.circle"
                     :disabled="item.disabled"
+                    :class="[item.class, item.icon ? 'button-icon' : '']"
                     :icon="item.icon"
                     @click="() => $emit('handleAction', item.name)"
             >
-                <span>{{ item.label }}</span>
+                <span v-if="item.label">{{ item.label }}</span>
             </el-button>
         </template>
     </div>
@@ -70,7 +71,7 @@ export default {
 
 <style lang="scss" scoped>
 .button-group {
-    padding: 10px 0;
+    padding: 0 0 10px 0;
     .upload-demo {
         display: inline-block;
     }
@@ -79,6 +80,9 @@ export default {
     }
     button + .upload-demo {
         margin-left: 10px;
+    }
+    .button-icon {
+        font-size: 16px;
     }
 }
 </style>

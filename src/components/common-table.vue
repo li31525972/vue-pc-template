@@ -204,7 +204,8 @@ export default {
         operArrayLength() {
             let width = 0
             this.operArr.forEach(item => {
-                let btnWidth = item.label.length * 15
+                let btnWidth = item.label && item.label.length * 15 || 30
+                console.log(btnWidth);
                 if (item.type && item.type !== 'text') {
                     
                     width += 42 + btnWidth
@@ -213,7 +214,7 @@ export default {
                     width += 10 + btnWidth
                 }
             })
-            
+            console.log(width);
             return width
         },
     },
@@ -234,7 +235,7 @@ export default {
             deep: true
         },
         options: {
-            handler(val) {
+            handler() {
                 this.options.forEach(item => {
                     this.settingList.push(item.label)
                 })

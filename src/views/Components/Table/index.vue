@@ -17,7 +17,7 @@
 <script>
 import CommonTable from '@/components/common-table'
 import ButtonGroup from '@/components/button-group'
-import Search from '@/components/common-search'
+import Search from '@/components/common-form'
 import { search, table } from '@/mixins'
 import { getStatus } from '@/api/test'
 export default {
@@ -109,7 +109,7 @@ export default {
                 },
                 {
                     label: '年龄111111111',
-                    prop: 'age',
+                    prop: 'age1',
                 },
                 {
                     label: '时间2222222222',
@@ -119,47 +119,47 @@ export default {
                 },
                 {
                     label: '年龄23333333',
-                    prop: 'age',
+                    prop: 'age23',
                 },
                 {
                     label: '年龄344444444',
-                    prop: 'age',
+                    prop: 'age3',
                 },
                 {
                     label: '年龄44444444',
-                    prop: 'age',
+                    prop: 'age4',
                 },
                 {
                     label: '年龄5455555555',
-                    prop: 'age',
+                    prop: 'age5',
                 },
                 {
                     label: '年龄66666666666',
-                    prop: 'age',
+                    prop: 'age6',
                 },
                 {
                     label: '年龄7',
-                    prop: 'age',
+                    prop: 'age7',
                 },
                 {
                     label: '年龄8',
-                    prop: 'age',
+                    prop: 'age8',
                 },
                 {
                     label: '年龄9',
-                    prop: 'age',
+                    prop: 'ag9e',
                 },
                 {
                     label: '年龄10',
-                    prop: 'age',
+                    prop: 'age10',
                 },
                 {
                     label: '年龄11',
-                    prop: 'age',
+                    prop: 'age11',
                 },
                 {
                     label: '年龄12',
-                    prop: 'age',
+                    prop: 'age12',
                 },
                 {
                     label: '性别',
@@ -204,18 +204,19 @@ export default {
             BtnOptions: [
                 {
                     label: '查看',
-                    type: 'primary',
+                    // type: 'primary',
                     name: 'handleLook'
                 },
                 {
                     label: '编辑',
-                    type: 'primary',
+                    // type: 'primary',
                     upload: true,
                     name: 'handleEdit',
                 },
                 {
-                    label: '删除',
-                    type: 'primary',
+                    // label: '删除',
+                    icon: 'el-icon-delete',
+                    // type: 'primary',
                     name: 'handleDelete'
                 }
             ],
@@ -274,7 +275,10 @@ export default {
         },
         onPageChange(data) {
             console.log(data);
-        }
+        },
+        handleAction() {
+        
+        },
     }
 }
 </script>
