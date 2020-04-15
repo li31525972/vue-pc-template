@@ -1,26 +1,47 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
+/**
+ * vuex 的持久化插件，是一个函数，
+ * 参数：  1. 对象options
+ *        2. storage，默认为options.storage || (window && window.localStorage)
+ *        3. key 默认为 options.key || 'vuex'
+ */
+// import createPersistedState from 'vuex-persistedstate'
+
+// 下面为手动实现的持久化插件
+import saveLocal from './plugins'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    plugins: [createPersistedState({
-        storage: sessionStorage,
-        reducer(val) {
-            return {
-                userInfo: val.userInfo
-            }
-        }
-    })],
+    strict: process.env.NODE_ENV === 'development', // 开发环境下开启严格模式，严格不能在mutaitions之外修改state的状态
+    /**
+     * plugins: 是一个数组，里面的元素为函数，该函数有一个默认参数store，
+     *      vuex-persistedstate这个插件的实现 (options, storage, key) => store => {} 这是一个函数，直接调用，返回一个函数实现传参的效果
+     */
+    // 插件实现持久化
+    // plugins: [createPersistedState({
+    //     storage: sessionStorage,
+    //     reducer(val) {
+    //         return {
+    //             userInfo: val.userInfo
+    //         }
+    //     }
+    // })],
+    /**
+     * 下面为手动实现的vuex的持久化插件、弱化版
+     *
+     */
+    plugins: [saveLocal({ hidden: true })],
     state: {
         userInfo: {},
         isFixedHeader: true,
         isTagViews: true,
         tags: [],
+        test: 1,
     },
     mutations,
     actions,

@@ -2,23 +2,23 @@
     <div class="common-table">
         <!--表格配置项按钮-->
         <span v-if="setting" :class="['el-icon-setting', 'table-setting']" @click="isShowSetting = !isShowSetting"></span>
-    
+
         <div v-if="isShowSetting" :class="['setting-wrap']">
             <!--所有列表配置项-->
             <el-checkbox-group v-model="settingList">
                 <template v-for="(item, i) in options">
                     <el-checkbox :label="item.label"></el-checkbox>
                 </template>
-        
+
             </el-checkbox-group>
         </div>
-        
+
         <el-table
                 :data="data"
                 :border="border"
                 @select="(selection, row) => $emit('handleClickSelection', { selection, row })"
                 :style="'width:' + width">
-    
+
             <el-table-column
                     v-if="isSelection"
                     type="selection"
@@ -35,9 +35,9 @@
                     align="center"
                     width="60">
             </el-table-column>
-        
+
             <template v-for="item in tableOptions">
-            
+
                 <el-table-column
                         :key="item.label"
                         :prop="item.prop"
@@ -46,27 +46,27 @@
                         :show-overflow-tooltip="tooltip"
                         :align="item.align || 'center'"
                         :min-width="item.width || '120'">
-                    
+
                     <template slot-scope="{ row, $index }">
-                        
+
                         <div :class="cellClassMethod(item, row, $index)" @click="onTdClick(item, row, $index)">
                             <!--时间格式化-->
                             <span v-if="item.type === 'date'">{{ row[item.prop] | dateformat(item.dateformat || 'YYYY-MM-DD') }}</span>
-    
+
                             <!--需要格式化的-->
                             <span v-else-if="item.formatter">{{ item.formatter(row) }}</span>
-                            
+
                             <!--需要插槽-->
                             <slot v-else-if="item.slot" :slot="item.slot"></slot>
                             <!--不需要处理的-->
                             <span v-else>{{ row[item.prop] }}</span>
                         </div>
-                        
+
                     </template>
                 </el-table-column>
-                
+
             </template>
-    
+
             <!--操作列-->
             <el-table-column
                     v-if="operArr.length"
@@ -79,9 +79,9 @@
                     <ButtonGroup ref="btnGroup" :options="operArr" @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></ButtonGroup>
                 </template>
             </el-table-column>
-            
+
         </el-table>
-        
+
         <!--分页组件-->
         <div class="common-page">
             <el-pagination
@@ -177,7 +177,7 @@ export default {
             type: Number,
             default: 0,
         }
-        
+
     },
     components: {
         ButtonGroup,
@@ -186,10 +186,10 @@ export default {
         return {
             PAGESIZES,
             LAYOUT,
-            
+
             currentPage: 1, // 当前页
             currentSize: 10, // 当前页条数
-            
+
             isShowSetting: false, // 是否显示表格配置项
             settingList: [], // 表格配置项
             settingCheckList: [], // 表格选中配置项
@@ -205,16 +205,14 @@ export default {
             let width = 0
             this.operArr.forEach(item => {
                 let btnWidth = item.label && item.label.length * 15 || 30
-                console.log(btnWidth);
                 if (item.type && item.type !== 'text') {
-                    
+
                     width += 42 + btnWidth
-                    
+
                 } else {
                     width += 10 + btnWidth
                 }
             })
-            console.log(width);
             return width
         },
     },
@@ -249,7 +247,7 @@ export default {
         })
     },
     mounted() {
-    
+
     },
     methods: {
         // 表格序号
@@ -280,7 +278,7 @@ export default {
                     data.push(item.class(row, index))
                 }
             }
-            
+
             return data
         },
         // 点击单元格
@@ -309,7 +307,7 @@ export default {
 </style>
 <style lang="scss" scoped>
     @import '~@/assets/css/base.scss';
-    
+
 .common-table {
     position: relative;
     /*表格设置按钮样式*/
@@ -327,7 +325,7 @@ export default {
             color: $themeColor;
         }
     }
-    
+
     /*表格配置项盒子样式*/
     .setting-wrap {
         margin-bottom: 10px;
@@ -337,7 +335,7 @@ export default {
         -moz-border-radius: $boxRadius;
         border-radius: $boxRadius;
         transition: all 1s;
-        
+
         .el-checkbox {
             height: 30px;
             line-height: 30px;
@@ -347,7 +345,7 @@ export default {
     .is-click {
         cursor: pointer;
     }
-    
+
     .common-page {
         margin-top: 10px;
         height: 35px;

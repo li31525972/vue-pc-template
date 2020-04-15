@@ -3,7 +3,7 @@ export default {
     RESET_STORE(state, data = {}) {
         state = data
     },
-    
+
     // 存储用户信息
     SET_USER(state, val) {
         state.userInfo = val
@@ -29,4 +29,8 @@ export default {
     SET_SHOW_TAGVIEWS(state, value) {
         state.isTagViews = value
     },
+
+    SET_TEST(state) {
+        state.test += 1
+    }
 }

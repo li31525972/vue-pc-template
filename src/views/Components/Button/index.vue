@@ -1,6 +1,7 @@
 <template>
     <div>
         <ButtonGroup :options="options" @handleAction="handleAction"/>
+        {{ $store.state.test }}
     </div>
 </template>
 
@@ -45,16 +46,16 @@ export default {
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
         handleAction({ name }) {
@@ -62,7 +63,10 @@ export default {
         },
         handleNewBuild() {
             console.log(1);
-        }
+        },
+        handleDelete() {
+            this.$store.commit('SET_TEST')
+        },
     }
 }
 </script>

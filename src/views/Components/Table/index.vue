@@ -253,16 +253,16 @@ export default {
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+        console.log(process.env.NODE_ENV)
     },
     mounted() {
-    
+
     },
     methods: {
         onTdClick(row, index) {
@@ -277,7 +277,7 @@ export default {
             console.log(data);
         },
         handleAction() {
-        
+
         },
     }
 }

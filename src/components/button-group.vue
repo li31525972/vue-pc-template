@@ -18,7 +18,7 @@
                     :limit="item.limit">
                 <el-button :size="item.size" :type="item.type || 'text'">{{ item.label }}</el-button>
             </el-upload>
-            
+
             <el-button
                     v-else
                     :key="i"
@@ -30,7 +30,7 @@
                     :disabled="item.disabled"
                     :class="[item.class, item.icon ? 'button-icon' : '']"
                     :icon="item.icon"
-                    @click="() => $emit('handleAction', item.name)"
+                    @click="() => $emit('handleAction', item)"
             >
                 <span v-if="item.label">{{ item.label }}</span>
             </el-button>
@@ -48,23 +48,23 @@ export default {
     },
     data() {
         return {
-        
+
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
-    
+
     }
 }
 </script>
