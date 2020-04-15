@@ -1,7 +1,6 @@
 <template>
     <div>
         <ButtonGroup :options="options" @handleAction="handleAction"/>
-        {{ $store.state.test }}
     </div>
 </template>
 
@@ -16,18 +15,6 @@ export default {
         return {
             options: [
                 {
-                    label: '新建',
-                    name: 'handleNewBuild',
-                    size: 'medium',
-                    type: 'primary'
-                },
-                {
-                    label: '删除',
-                    name: 'handleDelete',
-                    size: 'small',
-                    type: 'success',
-                },
-                {
                     label: '上传',
                     name: 'handleUpload',
                     upload: true,
@@ -41,7 +28,21 @@ export default {
                         // console.log(this);
                         this.handleNewBuild()
                     }
-                }
+                },
+                {
+                    label: '删除',
+                    name: 'handleDelete',
+                    size: 'small',
+                    type: 'success',
+                    loading: false,
+                },
+                {
+                    label: '新建',
+                    name: 'handleNewBuild',
+                    size: 'medium',
+                    type: 'primary',
+                    tips: true,
+                },
             ]
         }
     },
@@ -58,14 +59,19 @@ export default {
 
     },
     methods: {
-        handleAction({ name }) {
-            this[name]()
+        handleAction(data) {
+            console.log(data);
+            setTimeout(() => {
+                this[data.name](data)
+            }, 2000)
+            data.type = 'danger'
         },
         handleNewBuild() {
             console.log(1);
         },
-        handleDelete() {
-            this.$store.commit('SET_TEST')
+        handleDelete(btn) {
+            console.log('删除----', btn);
+            btn.loading = false
         },
     }
 }

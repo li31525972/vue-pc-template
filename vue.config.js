@@ -50,7 +50,7 @@ module.exports = {
     chainWebpack: config => {
         // 链式配置
         config.resolve.symlinks(true)
-        config.resolve.alias.set('@', resolve('src')).set('components', resolve('src/components'))
+        config.resolve.alias.set('@', resolve('src')).set('_c', resolve('src/components'))
     },
     // 配置高于chainWebpack中关于 css loader 的配置, 有需求再配置
     // css: {

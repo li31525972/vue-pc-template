@@ -1,6 +1,6 @@
 /*
 * @file 手动实现持久化插件 -> 目前只做了持久化以及数据的显示和隐藏， !!!期望后期加入手动存储想存的数据
-* @date 2020-04-15
+* @date 2020-03-15
 * @author YaHui Li
 * 参数  1. options 配置项
 *               hidden  是否隐藏数据
@@ -26,8 +26,8 @@ export default (options, storage, key) => (store) => {
         storage.setItem(key, JSON.stringify(store.state))
     }
 
-    store.subscribe((mutation, state) => {
-
-
-    })
+    // store.subscribe((mutation, state) => {
+    //
+    //
+    // })
 }

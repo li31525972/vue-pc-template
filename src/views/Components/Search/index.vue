@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Search from 'components/common-form.vue'
+import Search from '_c/common-form.vue'
 import { search, table } from '@/mixins'
 import { getStatus } from '@/api/test'
 

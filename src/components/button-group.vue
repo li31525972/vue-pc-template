@@ -1,45 +1,92 @@
 <template>
     <div class="button-group">
         <template v-for="(item, i) in options">
-            <!--上传按钮-->
-            <el-upload
-                    v-if="item.upload"
-                    :key="i"
-                    class="upload-demo"
-                    :action="item.action || ''"
-                    :headers="item.headers || {}"
-                    :data="item.data || {}"
-                    :name="item.fileName || 'file'"
-                    :accept="item.accept"
-                    :multiple="item.multiple"
-                    :on-success="item.onSuccess"
-                    :on-error="item.onError"
-                    :show-file-list="false"
-                    :limit="item.limit">
-                <el-button :size="item.size" :type="item.type || 'text'">{{ item.label }}</el-button>
-            </el-upload>
-
-            <el-button
-                    v-else
-                    :key="i"
-                    :type="item.type || 'text'"
-                    :size="item.size"
-                    :plain="item.plain"
-                    :round="item.round"
-                    :circle="item.circle"
-                    :disabled="item.disabled"
-                    :class="[item.class, item.icon ? 'button-icon' : '']"
-                    :icon="item.icon"
-                    @click="() => $emit('handleAction', item)"
-            >
-                <span v-if="item.label">{{ item.label }}</span>
-            </el-button>
+            
+            <template v-if="item.tips">
+                <el-popconfirm
+                        :key="i"
+                        class="btn-tips"
+                        @onConfirm="() => handleBtnClick(item)"
+                        @onCancel="handleClickCancel"
+                        :title="item.tipsText || '确定要继续操作吗？'"
+                >
+        
+                    <!--<el-button-->
+                            <!--:type="item.type || 'text'"-->
+                            <!--:size="item.size"-->
+                            <!--:plain="item.plain"-->
+                            <!--:round="item.round"-->
+                            <!--:circle="item.circle"-->
+                            <!--slot="reference"-->
+                            <!--:disabled="item.disabled"-->
+                            <!--:class="[item.class, item.icon ? 'button-icon' : '']"-->
+                            <!--:icon="item.icon"-->
+                    <!--&gt;-->
+                        <!--<span v-if="item.label">{{ item.label }}</span>-->
+                    <!--</el-button>-->
+                    <CommonButton
+                            :type="item.type"
+                            :size="item.size"
+                            :plain="item.plain"
+                            :round="item.round"
+                            :circle="item.circle"
+                            :disabled="item.disabled"
+                            :btnClass="item.class"
+                            :loading="item.loading"
+                            :icon="item.icon"
+                            :label="item.label"
+                            :btnSlot="item.slot || 'reference'"
+                    >
+                    </CommonButton>
+                </el-popconfirm>
+            </template>
+            
+            <template v-else>
+                <el-upload
+                        v-if="item.upload"
+                        :key="i"
+                        class="upload-demo"
+                        :action="item.action || ''"
+                        :headers="item.headers || {}"
+                        :data="item.data || {}"
+                        :name="item.fileName || 'file'"
+                        :accept="item.accept"
+                        :multiple="item.multiple"
+                        :on-success="item.onSuccess"
+                        :on-error="item.onError"
+                        :show-file-list="false"
+                        :limit="item.limit">
+                    <el-button :size="item.size" :type="item.type || 'text'">{{ item.label }}</el-button>
+                </el-upload>
+    
+                <CommonButton
+                        v-else
+                        :key="i"
+                        :type="item.type || 'text'"
+                        :size="item.size"
+                        :plain="item.plain"
+                        :round="item.round"
+                        :circle="item.circle"
+                        :disabled="item.disabled"
+                        :btnClass="item.class"
+                        :loading="item.loading"
+                        :icon="item.icon"
+                        :label="item.label"
+                        @handleClick="event => handleBtnClick(item)"
+                >
+                </CommonButton>
+            </template>
+            
         </template>
     </div>
 </template>
 
 <script>
+import CommonButton from '_c/common-button'
 export default {
+    components: {
+        CommonButton,
+    },
     props: {
         options: {
             type: Array,
@@ -64,7 +111,13 @@ export default {
 
     },
     methods: {
-
+        handleBtnClick(data) {
+            data.loading = data.hasOwnProperty('loading') && data.loading == false
+            this.$emit('handleAction', data)
+        },
+        handleClickCancel() {
+        
+        },
     }
 }
 </script>
@@ -75,10 +128,15 @@ export default {
     .upload-demo {
         display: inline-block;
     }
-    .upload-demo + button {
+    .btn-tips + button {
         margin-left: 10px;
     }
-    button + .upload-demo {
+    .btn-tips + button,
+    button + .btn-tips,
+    .upload-demo + .btn-tips,
+    .btn-tips + .upload-demo,
+    button + .upload-demo,
+    .upload-demo + button {
         margin-left: 10px;
     }
     .button-icon {

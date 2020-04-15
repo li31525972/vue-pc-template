@@ -41,7 +41,6 @@ export default new Vuex.Store({
         isFixedHeader: true,
         isTagViews: true,
         tags: [],
-        test: 1,
     },
     mutations,
     actions,

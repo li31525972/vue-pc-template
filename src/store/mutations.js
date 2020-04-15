@@ -7,7 +7,6 @@ export default {
     // 存储用户信息
     SET_USER(state, val) {
         state.userInfo = val
-        sessionStorage.setItem('token', val.token)
     },
     // 添加快捷导航栏
     SET_TAGS(state, val) {
@@ -29,8 +28,4 @@ export default {
     SET_SHOW_TAGVIEWS(state, value) {
         state.isTagViews = value
     },
-
-    SET_TEST(state) {
-        state.test += 1
-    }
 }
