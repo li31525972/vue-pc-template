@@ -99,10 +99,10 @@ export default {
         },
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {},
     methods: {
@@ -133,20 +133,19 @@ export default {
         handleClose(done) {
             done()
         },
-    
+
         handleCommand(name) {
             this[name]()
         },
-        
+
         // 个人中心
         handleSynopsis() {
             console.log(2);
         },
-        
+
         // 退出登录
         handleSignOut() {
-            this.$store.commit('RESET_STORE')
-            sessionStorage.clear()
+            this.$store.commit('RESET_TOKEN')
             this.$router.replace({ name: 'login' })
         },
     }
@@ -158,16 +157,16 @@ export default {
         font-weight: 600;
         color: #333;
     }
-    
+
     .l-container .el-drawer {
         overflow: visible;
     }
-    
+
     .right-menu .el-badge__content.is-fixed {
         top: 12px;
         right: 18px;
     }
-    
+
     .right-menu .el-badge__content {
         height: 12px;
         line-height: 12px;
@@ -182,11 +181,11 @@ export default {
         width: 100%;
         height: 100%;
         /*background-color: #f5f5f5;*/
-        
+
         &>aside {
             /*width: 200px;*/
         }
-        
+
         &>.content {
             flex: 1;
             width: 100%;
@@ -194,58 +193,58 @@ export default {
             overflow-x: hidden;
             overflow-y: auto;
             position: relative;
-            
+
             &.fixed-header {
                 display: flex;
                 flex-direction: column;
             }
-            
+
             header {
                 width: 100%;
                 background-color: #fff;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
                 border-bottom: 1px solid #ccc;
-                
+
                 .navbar {
                     height: 50px;
                     display: flex;
                     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                    
+
                     .hamburger {
                         width: 50px;
                         line-height: 50px;
                         text-align: center;
                         font-size: 22px;
                         cursor: pointer;
-                        
+
                         &:hover {
                             color: #409EFF;
                         }
                     }
-                    
+
                     .content {
                         flex: 1;
                         display: flex;
                         justify-content: space-between;
-                        
+
                         .right-menu {
                             height: 100%;
                             line-height: 50px;
                             margin-right: 10px;
                             display: flex;
                             align-items: center;
-                            
+
                             .el-dropdown {
                                 cursor: pointer;
                                 height: 100%;
-                                
+
                                 .el-dropdown-link.el-dropdown-selfdefine {
                                     display: flex;
                                     height: 100%;
                                     align-items: center;
                                 }
                             }
-                            
+
                             i {
                                 font-size: 20px;
                                 font-weight: 700;
@@ -255,14 +254,14 @@ export default {
                         }
                     }
                 }
-                
+
                 .tags-view {
                     height: 34px;
                     line-height: 34px;
                     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
                 }
             }
-            
+
             .wrap {
                 /*padding: 10px;*/
                 background-color: #fff;
@@ -282,26 +281,26 @@ export default {
                 flex: 1;
                 width: 100%;
                 height: 100%;
-                
+
                 .wrap {
                     -webkit-box-sizing: border-box;
                     -moz-box-sizing: border-box;
                     box-sizing: border-box;
                     width: 100%;
                     min-height: 100%;
-                    
+
                 }
             }
         }
     }
-    
+
     .drawer-list {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         height: 100%;
         padding: 0 20px;
-        
+
         li {
             display: flex;
             align-items: center;
@@ -310,29 +309,29 @@ export default {
             justify-content: space-between;
         }
     }
-    
+
     // fade
     .fade-enter-active,
     .fade-leave-active {
         transition: opacity 0.28s;
     }
-    
+
     .fade-enter,
     .fade-leave-active {
         opacity: 0;
     }
-    
+
     // fade-transform
     .fade-transform-leave-active,
     .fade-transform-enter-active {
         transition: all .5s;
     }
-    
+
     .fade-transform-enter {
         opacity: 0;
         transform: translateX(-30px);
     }
-    
+
     .fade-transform-leave-to {
         opacity: 0;
         transform: translateX(30px);

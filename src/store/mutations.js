@@ -28,4 +28,7 @@ export default {
     SET_SHOW_TAGVIEWS(state, value) {
         state.isTagViews = value
     },
+    RESET_TOKEN(state) {
+        state.userInfo.token = null
+    },
 }
