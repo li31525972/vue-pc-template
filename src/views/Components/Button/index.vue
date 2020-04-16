@@ -18,6 +18,7 @@ export default {
                     label: '上传',
                     name: 'handleUpload',
                     upload: true,
+                    loading: false,
                     type: 'primary',
                     action: 'https://jsonplaceholder.typicode.com/posts/',
                     onError: () => {
@@ -42,6 +43,7 @@ export default {
                     size: 'medium',
                     type: 'primary',
                     tips: true,
+                    loading: false,
                 },
             ]
         }
@@ -64,10 +66,10 @@ export default {
             setTimeout(() => {
                 this[data.name](data)
             }, 2000)
-            data.type = 'danger'
         },
-        handleNewBuild() {
+        handleNewBuild(data) {
             console.log(1);
+            data.loading = false
         },
         handleDelete(btn) {
             console.log('删除----', btn);

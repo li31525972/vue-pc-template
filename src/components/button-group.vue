@@ -1,7 +1,7 @@
 <template>
     <div class="button-group">
         <template v-for="(item, i) in options">
-            
+
             <template v-if="item.tips">
                 <el-popconfirm
                         :key="i"
@@ -10,20 +10,6 @@
                         @onCancel="handleClickCancel"
                         :title="item.tipsText || '确定要继续操作吗？'"
                 >
-        
-                    <!--<el-button-->
-                            <!--:type="item.type || 'text'"-->
-                            <!--:size="item.size"-->
-                            <!--:plain="item.plain"-->
-                            <!--:round="item.round"-->
-                            <!--:circle="item.circle"-->
-                            <!--slot="reference"-->
-                            <!--:disabled="item.disabled"-->
-                            <!--:class="[item.class, item.icon ? 'button-icon' : '']"-->
-                            <!--:icon="item.icon"-->
-                    <!--&gt;-->
-                        <!--<span v-if="item.label">{{ item.label }}</span>-->
-                    <!--</el-button>-->
                     <CommonButton
                             :type="item.type"
                             :size="item.size"
@@ -35,12 +21,12 @@
                             :loading="item.loading"
                             :icon="item.icon"
                             :label="item.label"
-                            :btnSlot="item.slot || 'reference'"
+                            slot="reference"
                     >
                     </CommonButton>
                 </el-popconfirm>
             </template>
-            
+
             <template v-else>
                 <el-upload
                         v-if="item.upload"
@@ -52,13 +38,26 @@
                         :name="item.fileName || 'file'"
                         :accept="item.accept"
                         :multiple="item.multiple"
-                        :on-success="item.onSuccess"
-                        :on-error="item.onError"
+                        :before-upload="() => handleBeforeUpload(item)"
+                        :on-success="() => onSuccess(item)"
+                        :on-error="() => onError(item)"
                         :show-file-list="false"
                         :limit="item.limit">
-                    <el-button :size="item.size" :type="item.type || 'text'">{{ item.label }}</el-button>
+                    <CommonButton
+                            :type="item.type"
+                            :size="item.size"
+                            :plain="item.plain"
+                            :round="item.round"
+                            :circle="item.circle"
+                            :disabled="item.disabled"
+                            :btnClass="item.class"
+                            :loading="item.loading"
+                            :icon="item.icon"
+                            :label="item.label"
+                    >
+                    </CommonButton>
                 </el-upload>
-    
+
                 <CommonButton
                         v-else
                         :key="i"
@@ -76,7 +75,7 @@
                 >
                 </CommonButton>
             </template>
-            
+
         </template>
     </div>
 </template>
@@ -116,7 +115,20 @@ export default {
             this.$emit('handleAction', data)
         },
         handleClickCancel() {
-        
+
+        },
+
+        handleBeforeUpload(data) {
+            console.log(2);
+            data.loading = data.hasOwnProperty('loading') && data.loading == false
+        },
+
+        onSuccess(data) {
+            data.loading = !(data.hasOwnProperty('loading') && data.loading == true)
+        },
+
+        onError(data) {
+            data.loading = !(data.hasOwnProperty('loading') && data.loading == true)
         },
     }
 }
