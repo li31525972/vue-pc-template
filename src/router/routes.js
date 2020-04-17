@@ -50,6 +50,14 @@ const routes = [
                     title: '表格',
                 },
                 component: () => import(/* webpackChunkName: 'table' */ '@/views/Components/Table')
+            },
+            {
+                path: 'countTo',
+                name: 'countTo',
+                meta: {
+                    title: '数值动画',
+                },
+                component: () => import(/* webpackChunkName: 'countTo' */ '@/views/Components/CountTo')
             }
         ],
     },
