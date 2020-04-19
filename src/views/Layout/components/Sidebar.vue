@@ -13,7 +13,7 @@
              router
              :collapse="isCollapse">
         <template v-for="(item, i) in menu">
-            <!--菜单有二级-->
+            <!--&lt;!&ndash;菜单有二级&ndash;&gt;-->
             <el-submenu :key="i" v-if="item.meta.level !== 1" :index="'a' + i">
                 <template slot="title">
                     <i :class="item.meta.icon"></i>
@@ -42,14 +42,20 @@
                 <i :class="item.meta.icon"></i>
                 <span slot="title">{{ item.meta.title }}</span>
             </el-menu-item>
+
+            <!--<ReSubmenu :parent="item" :index="i" :key="i"/>-->
         </template>
     </el-menu>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import ReSubmenu from './ReSubmenu'
 export default {
     name: 'Sidebar',
+    components: {
+        ReSubmenu,
+    },
     props: {
         routes: {
             type: Array,
@@ -62,11 +68,11 @@ export default {
     },
     data() {
         return {
-        
+            menu: []
         }
     },
     computed: {
-        ...mapGetters(['Tags']),
+        ...mapGetters(['Tags', 'menuList']),
         // 获取当前的路由路径
         path() {
             return this.$route.path;

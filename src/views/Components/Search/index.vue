@@ -23,13 +23,13 @@ export default {
                     name: 'name',
                     type: 'text',
                     clear: true,
-                    rules: [
-                        {
-                            required: true,
-                            message: '请输入姓名',
-                            trigger: 'blur'
-                        }
-                    ]
+                    // rules: [
+                    //     {
+                    //         required: true,
+                    //         message: '请输入姓名',
+                    //         trigger: 'blur'
+                    //     }
+                    // ]
                 },
                 {
                     label: '年龄',

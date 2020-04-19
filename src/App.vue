@@ -6,14 +6,14 @@
 
 <style>
 
-html, body, #app {
+html, body {
     height: 100%;
     width: 100%;
     min-width: 1024px;
+    overflow: hidden;
 }
 #app {
     height: 100%;
     width: 100%;
-    overflow: hidden;
 }
 </style>

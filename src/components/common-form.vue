@@ -5,7 +5,7 @@
             ref="ruleForm"
             :label-width="labelWidth + 'px'"
             class="search-wrap">
-        <el-form-item class="search-item" :style="styleObject(item)" v-for="(item, i) in options" :key="i" :label="item.label" :prop="item.name" >
+        <el-form-item :class="['search-item', { 'no-rules-item': !rulesFlag} ]" :style="styleObject(item)" v-for="(item, i) in options" :key="i" :label="item.label" :prop="item.name" >
             <el-input v-if="item.type === 'text' || !item.type"
                       v-model="params[item.name]"
                       :clearable="item.clear"
@@ -97,10 +97,11 @@ export default {
         return {
             params: {},
             rules: {},
+            rulesFlag: false,
         }
     },
     computed: {
-
+    
     },
     watch: {
         formData: {
@@ -111,6 +112,7 @@ export default {
         }
     },
     created() {
+        
         this.params = { ...this.formData }
         this.init()
     },
@@ -147,6 +149,7 @@ export default {
 
                 // 获取验证规则
                 if (item.rules) {
+                    this.rulesFlag = true
                     // this.rules[item.name] = item.rules
                     this.$set(this.rules, item.name, item.rules)
                 }
@@ -198,11 +201,17 @@ export default {
         flex-wrap: wrap;
         padding: 10px;
         padding-bottom: 0;
+        .no-rules-item {
+            margin-bottom: 10px;
+        }
         .el-form-item {
             flex: 1;
         }
         .search-button {
             text-align: right;
         }
+    }
+    .el-col {
+        background-color: red;
     }
 </style>

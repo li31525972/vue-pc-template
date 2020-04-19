@@ -8,8 +8,6 @@
     <div>
         <CountTo :endValue="number"/>
         <button @click="handleUpdeta">更新</button>
-        
-        <div @click="handleBtnclick">1111</div>
     </div>
 </template>
 
@@ -37,14 +35,8 @@ export default {
     
     },
     methods: {
-        handleBtnclick() {
-            return this.handleClick('张三')
-        },
         handleUpdeta() {
             this.number += Math.random() * 1000
-        },
-        handleClick(name) {
-            console.log(name);
         },
     }
 }

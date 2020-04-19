@@ -7,7 +7,7 @@
             <!--所有列表配置项-->
             <el-checkbox-group v-model="settingList">
                 <template v-for="(item, i) in options">
-                    <el-checkbox :label="item.label"></el-checkbox>
+                    <el-checkbox :key="i" :label="item.label"></el-checkbox>
                 </template>
 
             </el-checkbox-group>

@@ -4,6 +4,47 @@ Mock.setup({
     timeout: '200 - 500'
 })
 
+// 菜单列表
+let menu = [
+    {
+        path: '/index',
+        meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
+    },
+    {
+        path: '',
+        meta: {
+            title: '组件',
+            icon: 'el-icon-menu'
+        },
+        children: [
+            {
+                path: '/components/search',
+                meta: {
+                    title: '搜索'
+                },
+            },
+            {
+                path: '/components/button',
+                meta: {
+                    title: '按钮',
+                },
+            },
+            {
+                path: '/components/table',
+                meta: {
+                    title: '表格',
+                },
+            },
+            {
+                path: '/components/countTo',
+                meta: {
+                    title: '数值动画',
+                },
+            }
+        ],
+    },
+]
+
 // 登录
 Mock.mock('/login','post',(params) => {
     let body = JSON.parse(params.body)
@@ -13,7 +54,8 @@ Mock.mock('/login','post',(params) => {
                 code: 0,
                 data: {
                     name: '测试',
-                    token: 'sdfdasdasadasdas'
+                    token: 'sdfdasdasadasdas',
+                    menu,
                 }
             }
         } else {
