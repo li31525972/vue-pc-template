@@ -12,7 +12,7 @@
 <script>
 import { MessageBox } from '@/components'
 export default {
-    name: 'MessageBox',
+    name: 'messageBox',
     components: {
         MessageBox
     },

@@ -4,13 +4,14 @@
 * @author Yahui Li
 */
 <template>
-    <div>
+    <div class="message-wrap">
         111
     </div>
 </template>
 
 <script>
 export default {
+    name: 'MessageBox',
     data() {
         return {
         
