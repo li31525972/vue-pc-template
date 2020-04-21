@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import CommonButton from '_c/common-button'
+import { CommonButton } from '@/components'
 export default {
     components: {
         CommonButton,

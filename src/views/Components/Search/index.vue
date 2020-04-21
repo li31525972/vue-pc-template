@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Search :options="searchOptions" :formData="searchParams" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></Search>
+        <CommonForm :options="searchOptions" :formData="searchParams" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></CommonForm>
     </div>
 </template>
 
 <script>
-import Search from '_c/common-form.vue'
+import { CommonForm } from '@/components'
 import { search, table } from '@/mixins'
 import { getStatus } from '@/api/test'
 
@@ -13,7 +13,7 @@ export default {
     name: 'search',
     mixins: [search, table],
     components: {
-        Search,
+        CommonForm,
     },
     data() {
         return {

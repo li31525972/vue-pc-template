@@ -76,7 +76,7 @@
                     :width="operWidth || operArrayLength"
             >
                 <template slot-scope="{ row, $index }">
-                    <ButtonGroup ref="btnGroup" :options="operArr" @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></ButtonGroup>
+                    <CommonBtnGroup ref="btnGroup" :options="operArr" @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></CommonBtnGroup>
                 </template>
             </el-table-column>
 
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import ButtonGroup from '@/components/button-group'
+import { CommonBtnGroup } from '@/components'
 import { PAGESIZES, LAYOUT } from '@/config/constant'
 export default {
     props: {
@@ -180,7 +180,7 @@ export default {
 
     },
     components: {
-        ButtonGroup,
+        CommonBtnGroup,
     },
     data() {
         return {

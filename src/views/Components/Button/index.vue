@@ -1,15 +1,15 @@
 <template>
     <div>
-        <ButtonGroup :options="options" @handleAction="handleAction"/>
+        <CommonBtnGroup :options="options" @handleAction="handleAction"/>
     </div>
 </template>
 
 <script>
-import ButtonGroup from '@/components/button-group'
+import { CommonBtnGroup } from '@/components'
 export default {
     name: 'componentButton',
     components: {
-        ButtonGroup,
+        CommonBtnGroup,
     },
     data() {
         return {

@@ -58,6 +58,14 @@ const routes = [
                     title: '数值动画',
                 },
                 component: () => import(/* webpackChunkName: 'countTo' */ '@/views/Components/CountTo')
+            },
+            {
+                path: 'messageBox',
+                name: 'messageBox',
+                meta: {
+                    title: '消息提示框'
+                },
+                component: () => import(/* webpackChunkName: 'messageBox' */ '@/views/Components/MessageBox')
             }
         ],
     },

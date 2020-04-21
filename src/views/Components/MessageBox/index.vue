@@ -1,25 +1,24 @@
 /**
-* @file 数值动画案例
-* @date 2020-04-16
+* @file 测试消息弹出框
+* @date 2020-04-21
 * @author Yahui Li
 */
-
 <template>
     <div>
-        <CountTo :endValue="number"/>
-        <button @click="handleUpdeta">更新</button>
+        <MessageBox />
     </div>
 </template>
 
 <script>
-import { CountTo } from '@/components'
+import { MessageBox } from '@/components'
 export default {
+    name: 'MessageBox',
     components: {
-        CountTo,
+        MessageBox
     },
     data() {
         return {
-            number: 1000
+        
         }
     },
     computed: {
@@ -35,9 +34,7 @@ export default {
     
     },
     methods: {
-        handleUpdeta() {
-            this.number += Math.random() * 1000
-        },
+    
     }
 }
 </script>

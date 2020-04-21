@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Search :options="searchOptions" :labelWidth="80" @handleSearch="handleSearch"></Search>
-        <ButtonGroup :options="options1" @handleAction="handleAction"/>
+        <CommonForm :options="searchOptions" :labelWidth="80" @handleSearch="handleSearch"></CommonForm>
+        <CommonBtnGroup :options="options1" @handleAction="handleAction"/>
         <CommonTable
                 :options="options"
                 isIndex
@@ -15,17 +15,15 @@
 </template>
 
 <script>
-import CommonTable from '@/components/common-table'
-import ButtonGroup from '@/components/button-group'
-import Search from '@/components/common-form'
+import { CommonTable, CommonBtnGroup, CommonForm } from '@/components'
 import { search, table } from '@/mixins'
 import { getStatus } from '@/api/test'
 export default {
     name: 'compomentTable',
     components: {
         CommonTable,
-        ButtonGroup,
-        Search
+        CommonBtnGroup,
+        CommonForm
     },
     mixins: [search, table],
     data() {
