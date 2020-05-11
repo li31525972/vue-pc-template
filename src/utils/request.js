@@ -141,10 +141,4 @@ const request = (url, data, method = 'POST', header = {}, options = {}, loading 
     })
 }
 
-/**
- * request 使用方式
- * 1. request(url, data, method...)
- * 2. request({ url: 'xx', data: xx, method: 'xxx' .... })
- */
-
 export default request
