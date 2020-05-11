@@ -21,7 +21,7 @@
                 :data="data"
                 :border="border"
                 @select="handleSelection"
-                :height="isFlex ? null : null"
+                :height="isFlex ? tableHeight : null"
                 :style="'width:' + width">
 
             <el-table-column
@@ -228,7 +228,7 @@ export default {
             if (this.height) {
                 height = this.height
             } else if (this.isFlex) {
-                let pagination = this.isPagination ? '45px' : '0px'
+                let pagination = this.isPagination ? '52px' : '0px'
                 height = `calc(100% - ${ pagination })`
             }
             return height

@@ -266,40 +266,48 @@ export default {
 
         main {
             /*内容区域不固定导航样式*/
+            display: flex;
+            flex-direction: column;
+            flex: 1;
             box-sizing: border-box;
+            overflow: auto;
             width: 100%;
-            height: calc(100% - 50px);
+            min-height: calc(100% - 50px);
             background-color: #EBEBF0;
             padding: 10px 0 10px 10px;
             .wrap {
                 box-sizing: border-box;
-                height: 100%;
+                min-height: 100%;
                 background-color: #fff;
                 border-radius: 2px 0 0 2px;
                 padding: 10px;
+                /*margin: 0 0 10px 10px;*/
             }
         }
         /*有tab栏的样式*/
         .is-tags main {
-            height: calc(100% - 85px);
+            /*height: calc(100% - 85px);*/
+            /*min-height: calc(100% - 85px);*/
             transition: all .3s ease-in-out;
         }
         /*顶部固定时内容区域样式*/
         .main {
-            height: 100%;
+            min-height: 100%;
             padding-top: 60px;
             transition: all .3s ease-in-out;
         }
         /*顶部固定并且有tab栏时内容区域样式*/
         .is-tags .main {
-            height: 100%;
+            min-height: 100%;
             padding-top: 95px;
             transition: all .3s ease-in-out;
         }
 
         /*菜单栏折叠展开右侧内容区域样式 */
         & > .content {
-            height: 100%;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
             padding-left: 200px;
             transition: all .3s ease-in-out;
             /*顶部导航固定时侧边栏展开样式*/
