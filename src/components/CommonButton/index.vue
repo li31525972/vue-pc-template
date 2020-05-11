@@ -28,6 +28,7 @@
 
 <script>
 export default {
+    name: 'commonButton',
     props: {
         // 按钮类型
         type: {
@@ -94,23 +95,23 @@ export default {
     },
     data() {
         return {
-        
+
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
-    
+
     }
 }
 </script>

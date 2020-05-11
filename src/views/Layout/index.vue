@@ -175,6 +175,7 @@ export default {
     }
 
 </style>
+
 <style lang="scss" scoped>
     .l-container {
         display: flex;
@@ -283,8 +284,8 @@ export default {
                 height: 100%;
 
                 .wrap {
-                    -webkit-box-sizing: border-box;
-                    -moz-box-sizing: border-box;
+                     -webkit-box-sizing: border-box;
+                     -moz-box-sizing: border-box;
                     box-sizing: border-box;
                     width: 100%;
                     min-height: 100%;
@@ -295,8 +296,8 @@ export default {
     }
 
     .drawer-list {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
         box-sizing: border-box;
         height: 100%;
         padding: 0 20px;

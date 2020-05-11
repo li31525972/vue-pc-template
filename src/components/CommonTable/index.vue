@@ -1,5 +1,7 @@
 <template>
-    <div class="common-table">
+    <div :class="['common-table', {
+    'page-fixed': isFixed
+    }]">
         <!--表格配置项按钮-->
         <span v-if="setting" :class="['el-icon-setting', 'table-setting']" @click="isShowSetting = !isShowSetting"></span>
 
@@ -14,13 +16,14 @@
         </div>
 
         <el-table
+                ref="commonTable"
                 :data="data"
                 :border="border"
-                @select="(selection, row) => $emit('handleClickSelection', { selection, row })"
+                @select="handleSelection"
                 :style="'width:' + width">
 
             <el-table-column
-                    v-if="isSelection"
+                    v-if="isSelection || isRadio"
                     type="selection"
                     fixed
                     align="center"
@@ -138,6 +141,11 @@ export default {
             type: Boolean,
             default: false
         },
+        // 是否单选
+        isRadio: {
+            type: Boolean,
+            default: false,
+        },
         // 是否显示序列号
         isIndex: {
             type: Boolean,
@@ -193,6 +201,7 @@ export default {
             isShowSetting: false, // 是否显示表格配置项
             settingList: [], // 表格配置项
             settingCheckList: [], // 表格选中配置项
+            isFixed: true,
         }
     },
     computed: {
@@ -281,6 +290,16 @@ export default {
 
             return data
         },
+
+        // 多选框发生改变
+        handleSelection(selection) {
+            if (this.isRadio && selection.length > 1) {
+                this.$refs.commonTable.clearSelection()
+                this.$refs.commonTable.toggleRowSelection(selection.pop())
+            }
+            this.$emit('handleSelection', selection)
+        },
+
         // 点击单元格
         onTdClick(item, row, index) {
             if (item.click) {
@@ -310,6 +329,7 @@ export default {
 
 .common-table {
     position: relative;
+
     /*表格设置按钮样式*/
     .table-setting {
         position: absolute;

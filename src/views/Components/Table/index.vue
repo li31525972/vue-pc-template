@@ -5,9 +5,10 @@
         <CommonTable
                 :options="options"
                 isIndex
-                isSelection
+                isRadio
                 @onTdClick="onTdClick"
                 :operArr="BtnOptions"
+                @handleSelection="handleSelection"
                 @handleOperClick="handleOperClick"
                 @onPageChange="onPageChange"
                 :data="data"></CommonTable>
@@ -23,7 +24,7 @@ export default {
     components: {
         CommonTable,
         CommonBtnGroup,
-        CommonForm
+        CommonForm,
     },
     mixins: [search, table],
     data() {
@@ -276,6 +277,10 @@ export default {
         },
         handleAction() {
 
+        },
+
+        handleSelection(data) {
+            console.log(data);
         },
     }
 }

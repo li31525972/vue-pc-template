@@ -3,6 +3,7 @@
 border: '', 布尔值，默认为true， 是否显示表格边框
 width: '', 表格的宽度， 默认为 '100%'
 isSelection: '', 是否显示多选框， 默认为false
+isRadio: false, 是否单选，默认false
 tooltip: '', 当内容过长被隐藏显示tooltip, 默认true
 
 
@@ -23,7 +24,8 @@ options: [  * 号为必传项
 ]
 
 
-
+表格事件
+@handleSelection="handleSelection" 参数为选中的数组
 
 
 ```
