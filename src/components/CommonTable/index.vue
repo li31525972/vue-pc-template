@@ -1,25 +1,27 @@
 <template>
     <div :class="['common-table', {
-    'page-fixed': isFixed
+    'page-fixed': isFixed,
+    'table-flex': isFlex,
     }]">
         <!--表格配置项按钮-->
-        <span v-if="setting" :class="['el-icon-setting', 'table-setting']" @click="isShowSetting = !isShowSetting"></span>
+        <!--<span v-if="setting" :class="['el-icon-setting', 'table-setting']" @click="isShowSetting = !isShowSetting"></span>-->
 
-        <div v-if="isShowSetting" :class="['setting-wrap']">
-            <!--所有列表配置项-->
-            <el-checkbox-group v-model="settingList">
-                <template v-for="(item, i) in options">
-                    <el-checkbox :key="i" :label="item.label"></el-checkbox>
-                </template>
+        <!--<div v-if="isShowSetting" :class="['setting-wrap']">-->
+        <!--&lt;!&ndash;所有列表配置项&ndash;&gt;-->
+        <!--<el-checkbox-group v-model="settingList">-->
+        <!--<template v-for="(item, i) in options">-->
+        <!--<el-checkbox :key="i" :label="item.label"></el-checkbox>-->
+        <!--</template>-->
 
-            </el-checkbox-group>
-        </div>
+        <!--</el-checkbox-group>-->
+        <!--</div>-->
 
         <el-table
                 ref="commonTable"
                 :data="data"
                 :border="border"
                 @select="handleSelection"
+                :height="isFlex ? null : null"
                 :style="'width:' + width">
 
             <el-table-column
@@ -39,7 +41,7 @@
                     width="60">
             </el-table-column>
 
-            <template v-for="item in tableOptions">
+            <template v-for="item in options">
 
                 <el-table-column
                         :key="item.label"
@@ -76,10 +78,11 @@
                     :label="btnConfig.label || '操作'"
                     :fixed="btnConfig.fixed || 'right'"
                     :align="btnConfig.align || 'center'"
-                    :width="operWidth || operArrayLength"
+                    :width="operWidth || 100"
             >
                 <template slot-scope="{ row, $index }">
-                    <CommonBtnGroup ref="btnGroup" :options="operArr" @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></CommonBtnGroup>
+                    <CommonBtnGroup ref="btnGroup" :options="operArr"
+                                    @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></CommonBtnGroup>
                 </template>
             </el-table-column>
 
@@ -104,6 +107,7 @@
 <script>
 import { CommonBtnGroup } from '@/components'
 import { PAGESIZES, LAYOUT } from '@/config/constant'
+
 export default {
     props: {
         // 表格配置项
@@ -125,6 +129,15 @@ export default {
         width: {
             type: String,
             default: '100%'
+        },
+        // 表格自定义高度
+        height: {
+            type: Number,
+            default: 0
+        },
+        isFlex: {
+            type: Boolean,
+            default: false,
         },
         // 是否显示边框
         border: {
@@ -209,21 +222,32 @@ export default {
         tableOptions() {
             return this.options.filter(item => this.settingList.includes(item.label))
         },
-        // 表格操作列默认宽度
-        operArrayLength() {
-            let width = 0
-            this.operArr.forEach(item => {
-                let btnWidth = item.label && item.label.length * 15 || 30
-                if (item.type && item.type !== 'text') {
-
-                    width += 42 + btnWidth
-
-                } else {
-                    width += 10 + btnWidth
-                }
-            })
-            return width
+        // 表格高度
+        tableHeight() {
+            let height = 0
+            if (this.height) {
+                height = this.height
+            } else if (this.isFlex) {
+                let pagination = this.isPagination ? '45px' : '0px'
+                height = `calc(100% - ${ pagination })`
+            }
+            return height
         },
+        // 表格操作列默认宽度
+        // operArrayLength() {
+        //     let width = 0
+        //     this.operArr.forEach(item => {
+        //         let btnWidth = item.label && item.label.length * 15 || 30
+        //         if (item.type && item.type !== 'text') {
+        //
+        //             width += 42 + btnWidth
+        //
+        //         } else {
+        //             width += 10 + btnWidth
+        //         }
+        //     })
+        //     return width
+        // },
     },
     watch: {
         page: {
@@ -327,51 +351,73 @@ export default {
 <style lang="scss" scoped>
     @import '~@/assets/css/base.scss';
 
-.common-table {
-    position: relative;
+    .common-table {
+        /*flex: 1;*/
+        /*position: relative;*/
 
-    /*表格设置按钮样式*/
-    .table-setting {
-        position: absolute;
-        right: 0;
-        top: -40px;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        font-size: 18px;
-        text-align: center;
-        cursor: pointer;
-        &:hover {
-            color: $themeColor;
-        }
-    }
+        /*表格设置按钮样式*/
+        /* .table-setting {
+            position: absolute;
+            right: 0;
+            top: -40px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            &:hover {
+                color: $themeColor;
+            }
+        } */
 
-    /*表格配置项盒子样式*/
-    .setting-wrap {
-        margin-bottom: 10px;
-        padding: 10px;
-        background-color: #fff;
-        -webkit-border-radius: $boxRadius;
-        -moz-border-radius: $boxRadius;
-        border-radius: $boxRadius;
-        transition: all 1s;
+        /*表格配置项盒子样式*/
+        /* .setting-wrap {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            -webkit-border-radius: $boxRadius;
+            -moz-border-radius: $boxRadius;
+            border-radius: $boxRadius;
+            transition: all 1s;
 
-        .el-checkbox {
-            height: 30px;
-            line-height: 30px;
-        }
-    }
-    /*表格有点击事件时*/
-    .is-click {
-        cursor: pointer;
-    }
+            .el-checkbox {
+                height: 30px;
+                line-height: 30px;
+            }
+        } */
+        /*表格有点击事件时*/
+        /*.is-click {*/
+            /*cursor: pointer;*/
+        /*}*/
 
-    .common-page {
-        margin-top: 10px;
-        height: 35px;
-        .el-pagination {
-            float: right;
-        }
+        /*& > .el-table {*/
+            /*position: absolute;*/
+        /*}*/
+
+        /*.common-page {*/
+            /*!*position: absolute;*!*/
+            /*!*bottom: 0;*!*/
+            /*!*right: 0;*!*/
+            /*margin-top: 10px;*/
+            /*height: 35px;*/
+
+            /*.el-pagination {*/
+                /*float: right;*/
+            /*}*/
+        /*}*/
+
+    /*}*/
+
+    /*.table-flex {*/
+        /*position: relative;*/
+        /*& > .el-table {*/
+            /*position: absolute;*/
+        /*}*/
+        /*.common-page {*/
+            /*position: absolute;*/
+            /*bottom: 0;*/
+            /*right: 0;*/
+        /*}*/
     }
-}
 </style>

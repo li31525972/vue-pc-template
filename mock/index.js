@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 Mock.setup({
-    timeout: '200 - 500'
+    timeout: '2000 - 5000'
 })
 
 // 菜单列表

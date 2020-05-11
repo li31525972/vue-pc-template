@@ -1,17 +1,17 @@
 //字体图标库
 [class*='icon-'],
 [class^='icon-'] {
-    font-family: 'iconfont';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: baseline;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-family: 'iconfont';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 //主题颜色
@@ -19,11 +19,42 @@ $themeColor: #409EFF;
 $boxRadius: 5px; // 盒子圆角
 
 .blue {
-    color: blue;
+  color: blue;
 }
 
 .red {
-    color: red;
+  color: red;
 }
 
+//分页组件样式
+.common-page {
+  display: flex;
+  padding: 10px;
+  justify-content: flex-end;
+}
 
+//表格自适应高度
+//.common-table.table-flex {
+//  flex: 1;
+//  .el-table {
+//    height: 100%;
+//  }
+//}
+
+//有分页
+
+.common-wrap {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.table-flex .el-table {
+  flex: 1;
+}
+
+//position: absolute;
+//bottom: 0;
+//right: 0;
+//margin-top: 10px;
+//height: 35px;

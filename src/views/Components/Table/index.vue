@@ -1,16 +1,18 @@
 <template>
-    <div>
-        <CommonForm :options="searchOptions" :labelWidth="80" @handleSearch="handleSearch"></CommonForm>
+    <div class="common-wrap">
+        <CommonForm :options="searchOptions" :labelWidth="80" flex="4" @handleSearch="handleSearch"></CommonForm>
         <CommonBtnGroup :options="options1" @handleAction="handleAction"/>
         <CommonTable
                 :options="options"
                 isIndex
                 isRadio
+                isFlex
                 @onTdClick="onTdClick"
                 :operArr="BtnOptions"
                 @handleSelection="handleSelection"
                 @handleOperClick="handleOperClick"
                 @onPageChange="onPageChange"
+                :operWidth="operWidth"
                 :data="data"></CommonTable>
     </div>
 </template>
@@ -219,7 +221,7 @@ export default {
                     name: 'handleDelete'
                 }
             ],
-            operWidth: 210,
+            operWidth: 180,
             options1: [
                 {
                     label: '新建',
