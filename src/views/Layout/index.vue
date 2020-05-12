@@ -5,11 +5,12 @@
 */
 <template>
     <div class="l-container">
-        <Sidebar :isCollapse="isCollapse" :routes="routes" />
+        <Sidebar :isCollapse="isCollapse" :routes="routes"/>
         <div class="content" :class="{ 'fixed-header': FixedHeader, 'is-collapse': isCollapse, 'is-tags': TagViews }">
             <header :class="{ 'fixed-header': FixedHeader }">
                 <div class="navbar">
-                    <div class="hamburger" @click="handleCollapse" :class="[ isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></div>
+                    <div class="hamburger" @click="handleCollapse"
+                         :class="[ isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></div>
                     <div class="content">
                         <BreadCrumbs class="bread"></BreadCrumbs>
                         <div class="right-menu">
@@ -28,16 +29,17 @@
                         </div>
                     </div>
                 </div>
-                <TagViews :class="['tags-view', { 'is-tags': TagViews }]" />
+                <TagViews :class="['tags-view', { 'is-tags': TagViews }]"/>
             </header>
             <main :class="{ 'main': FixedHeader }">
                 <!--<transition name="fade-transform" mode="out-in">-->
-                    <keep-alive>
-                        <router-view class="wrap" />
-                    </keep-alive>
+                <keep-alive>
+                    <router-view class="wrap"/>
+                </keep-alive>
                 <!--</transition>-->
             </main>
-            <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen" direction="rtl" :before-close="handleClose">
+            <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen"
+                       direction="rtl" :before-close="handleClose">
                 <ul class="drawer-list">
                     <li>
                         <span>固定 Header</span>
@@ -98,13 +100,12 @@ export default {
             }
         },
     },
-    watch: {
-
-    },
+    watch: {},
     created() {
         console.log(process.env);
     },
-    mounted() {},
+    mounted() {
+    },
     methods: {
         ...mapActions([
             'changeHeader',
@@ -183,123 +184,132 @@ export default {
 
 
     .l-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    /*background-color: #f5f5f5;*/
+        display: flex;
+        width: 100%;
+        height: 100%;
+        /*background-color: #f5f5f5;*/
 
-    &>aside {
-    /*width: 200px;*/
-    }
+        & > aside {
+            /*width: 200px;*/
+        }
 
-    &>.content {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: relative;
+        & > .content {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
 
-    &.fixed-header {
-    display: flex;
-    flex-direction: column;
-    }
+            &.fixed-header {
+                display: flex;
+                flex-direction: column;
+            }
 
-    header {
-    width: 100%;
-    background-color: #fff;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-    border-bottom: 1px solid #ccc;
+            header {
+                width: 100%;
+                background-color: #fff;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                border-bottom: 1px solid #ccc;
 
-    .navbar {
-    height: 50px;
-    display: flex;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                .navbar {
+                    height: 50px;
+                    display: flex;
+                    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 
-    .hamburger {
-    width: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 22px;
-    cursor: pointer;
+                    .hamburger {
+                        width: 50px;
+                        line-height: 50px;
+                        text-align: center;
+                        font-size: 22px;
+                        cursor: pointer;
 
-    &:hover {
-    color: #409EFF;
-    }
-    }
+                        &:hover {
+                            color: #409EFF;
+                        }
+                    }
 
-    .content {
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
+                    .content {
+                        flex: 1;
+                        display: flex;
+                        justify-content: space-between;
 
-    .right-menu {
-    height: 100%;
-    line-height: 50px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+                        .right-menu {
+                            height: 100%;
+                            line-height: 50px;
+                            margin-right: 10px;
+                            display: flex;
+                            align-items: center;
 
-    .el-dropdown {
-    cursor: pointer;
-    height: 100%;
+                            .el-dropdown {
+                                cursor: pointer;
+                                height: 100%;
 
-    .el-dropdown-link.el-dropdown-selfdefine {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    }
-    }
+                                .el-dropdown-link.el-dropdown-selfdefine {
+                                    display: flex;
+                                    height: 100%;
+                                    align-items: center;
+                                }
+                            }
 
-    i {
-    font-size: 20px;
-    font-weight: 700;
-    margin-right: 10px;
-    cursor: pointer;
-    }
-    }
-    }
-    }
+                            i {
+                                font-size: 20px;
+                                font-weight: 700;
+                                margin-right: 10px;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
 
-    .tags-view {
-    height: 34px;
-    line-height: 34px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-    }
-    }
+                .tags-view {
+                    height: 0;
+                    overflow: hidden;
 
-    .wrap {
-    /*padding: 10px;*/
-    background-color: #fff;
-    border-radius: 2px 0 0 2px;
-    padding: 10px;
-    }
-    main {
-    box-sizing: border-box;
-    display: flex;
-    padding: 10px 0 10px 10px;
-    flex: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: #EBEBF0;
-    min-height: calc(100% - 85px);
-    }
-    .main {
+                    transition: $transition;
+                    &.is-tags {
+                        height: 34px;
+                        line-height: 34px;
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                        transition: $transition;
+                    }
+                }
+            }
 
-    flex: 1;
-    width: 100%;
-    min-height: 100%;
+            .wrap {
+                /*padding: 10px;*/
+                background-color: #fff;
+                border-radius: 2px 0 0 2px;
+                padding: 10px;
+            }
 
-    .wrap {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100%;
+            main {
+                box-sizing: border-box;
+                display: flex;
+                padding: 10px 0 10px 10px;
+                flex: 1;
+                overflow-x: hidden;
+                overflow-y: auto;
+                background-color: #EBEBF0;
+                min-height: calc(100% - 85px);
+            }
 
-    }
-    }
-    }
+            .main {
+
+                flex: 1;
+                width: 100%;
+                min-height: calc(100% - 85px);
+
+                .wrap {
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    width: 100%;
+                    min-height: 100%;
+
+                }
+            }
+        }
     }
 
     .drawer-list {
