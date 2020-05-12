@@ -10,7 +10,6 @@ html, body {
     height: 100%;
     width: 100%;
     min-width: 1024px;
-    /*overflow-x: hidden;*/
 }
 
 #app {

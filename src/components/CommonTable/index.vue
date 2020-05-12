@@ -231,6 +231,7 @@ export default {
                 let pagination = this.isPagination ? '52px' : '0px'
                 height = `calc(100% - ${ pagination })`
             }
+            console.log(height);
             return height
         },
         // 表格操作列默认宽度
@@ -352,11 +353,11 @@ export default {
     @import '~@/assets/css/base.scss';
 
     .common-table {
-        /*flex: 1;*/
-        /*position: relative;*/
+        flex: 1;
+        position: relative;
 
         /*表格设置按钮样式*/
-        /* .table-setting {
+        .table-setting {
             position: absolute;
             right: 0;
             top: -40px;
@@ -369,10 +370,10 @@ export default {
             &:hover {
                 color: $themeColor;
             }
-        } */
+        }
 
         /*表格配置项盒子样式*/
-        /* .setting-wrap {
+        .setting-wrap {
             margin-bottom: 10px;
             padding: 10px;
             background-color: #fff;
@@ -385,39 +386,39 @@ export default {
                 height: 30px;
                 line-height: 30px;
             }
-        } */
+        }
         /*表格有点击事件时*/
-        /*.is-click {*/
-            /*cursor: pointer;*/
-        /*}*/
+        .is-click {
+            cursor: pointer;
+        }
 
-        /*& > .el-table {*/
-            /*position: absolute;*/
-        /*}*/
+        & > .el-table {
+            position: absolute;
+        }
 
-        /*.common-page {*/
-            /*!*position: absolute;*!*/
-            /*!*bottom: 0;*!*/
-            /*!*right: 0;*!*/
-            /*margin-top: 10px;*/
-            /*height: 35px;*/
-
-            /*.el-pagination {*/
-                /*float: right;*/
-            /*}*/
-        /*}*/
-
-    /*}*/
-
-    /*.table-flex {*/
-        /*position: relative;*/
-        /*& > .el-table {*/
-            /*position: absolute;*/
-        /*}*/
-        /*.common-page {*/
+        .common-page {
             /*position: absolute;*/
             /*bottom: 0;*/
             /*right: 0;*/
-        /*}*/
+            margin-top: 10px;
+            height: 35px;
+
+            .el-pagination {
+                float: right;
+            }
+        }
+
+    }
+
+    .table-flex {
+        position: relative;
+        & > .el-table {
+            position: absolute;
+        }
+        .common-page {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     }
 </style>

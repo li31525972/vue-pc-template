@@ -17,6 +17,7 @@
 //主题颜色
 $themeColor: #409EFF;
 $boxRadius: 5px; // 盒子圆角
+$transition: all .3s ease-in-out;
 
 .blue {
     color: blue;
@@ -26,39 +27,7 @@ $boxRadius: 5px; // 盒子圆角
     color: red;
 }
 
-//分页组件样式
-.common-page {
-    display: flex;
-    padding: 10px;
-    justify-content: flex-end;
-}
-
-//表格自适应高度
-//.common-table.table-flex {
-//  flex: 1;
-//  .el-table {
-//    height: 100%;
-//  }
-//}
-
-//有分页
-
 .common-wrap {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
-
-.table-flex {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-}
-
-//position: absolute;
-//bottom: 0;
-//right: 0;
-//margin-top: 10px;
-//height: 35px;

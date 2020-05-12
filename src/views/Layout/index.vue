@@ -31,11 +31,11 @@
                 <TagViews :class="['tags-view', { 'is-tags': TagViews }]" />
             </header>
             <main :class="{ 'main': FixedHeader }">
-                <transition name="fade-transform" mode="out-in">
+                <!--<transition name="fade-transform" mode="out-in">-->
                     <keep-alive>
                         <router-view class="wrap" />
                     </keep-alive>
-                </transition>
+                <!--</transition>-->
             </main>
             <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen" direction="rtl" :before-close="handleClose">
                 <ul class="drawer-list">
@@ -178,274 +178,129 @@ export default {
 
 
 <style lang="scss" scoped>
+    @import '~@/assets/css/base.scss';
     /*最外层盒子*/
+
+
     .l-container {
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        /*菜单栏*/
-        .el-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 999;
-            height: 100%;
-        }
-        /*顶部导航样式*/
-        header {
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-            border-bottom: 1px solid #ccc;
-            .navbar {
-                height: 50px;
-                display: flex;
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                .hamburger {
-                    width: 50px;
-                    line-height: 50px;
-                    text-align: center;
-                    font-size: 22px;
-                    cursor: pointer;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /*background-color: #f5f5f5;*/
 
-                    &:hover {
-                        color: #409EFF;
-                    }
-                }
-                .content {
-                    flex: 1;
-                    display: flex;
-                    justify-content: space-between;
-                    .right-menu {
-                        height: 100%;
-                        line-height: 50px;
-                        margin-right: 10px;
-                        display: flex;
-                        align-items: center;
-
-                        .el-dropdown {
-                            cursor: pointer;
-                            height: 100%;
-
-                            .el-dropdown-link.el-dropdown-selfdefine {
-                                display: flex;
-                                height: 100%;
-                                align-items: center;
-                            }
-                        }
-
-                        i {
-                            font-size: 20px;
-                            font-weight: 700;
-                            margin-right: 10px;
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-            .tags-view {
-                height: 0;
-                overflow: hidden;
-                line-height: 34px;
-                transition: all .3s ease-in-out;
-                &.is-tags {
-                    height: 34px;
-                    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                    transition: all .3s ease-in-out;
-                }
-            }
-        }
-        /*顶部导航固定样式*/
-        header.fixed-header {
-            box-sizing: border-box;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 200;
-        }
-
-        main {
-            /*内容区域不固定导航样式*/
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            box-sizing: border-box;
-            overflow: auto;
-            width: 100%;
-            min-height: calc(100% - 50px);
-            background-color: #EBEBF0;
-            padding: 10px 0 10px 10px;
-            .wrap {
-                box-sizing: border-box;
-                min-height: 100%;
-                background-color: #fff;
-                border-radius: 2px 0 0 2px;
-                padding: 10px;
-                /*margin: 0 0 10px 10px;*/
-            }
-        }
-        /*有tab栏的样式*/
-        .is-tags main {
-            /*height: calc(100% - 85px);*/
-            /*min-height: calc(100% - 85px);*/
-            transition: all .3s ease-in-out;
-        }
-        /*顶部固定时内容区域样式*/
-        .main {
-            min-height: 100%;
-            padding-top: 60px;
-            transition: all .3s ease-in-out;
-        }
-        /*顶部固定并且有tab栏时内容区域样式*/
-        .is-tags .main {
-            min-height: 100%;
-            padding-top: 95px;
-            transition: all .3s ease-in-out;
-        }
-
-        /*菜单栏折叠展开右侧内容区域样式 */
-        & > .content {
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-            padding-left: 200px;
-            transition: all .3s ease-in-out;
-            /*顶部导航固定时侧边栏展开样式*/
-            header.fixed-header {
-                padding-left: 200px;
-                transition: all .3s ease-in-out;
-            }
-            &.is-collapse {
-                padding-left: 64px;
-                transition: all .3s ease-in-out;
-                /*顶部导航固定时侧边栏折叠样式*/
-                header.fixed-header {
-                    padding-left: 64px;
-                    transition: all .3s ease-in-out;
-                }
-            }
-        }
+    &>aside {
+    /*width: 200px;*/
     }
 
-    /*.l-container {*/
-    /*display: flex;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*!*background-color: #f5f5f5;*!*/
+    &>.content {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
 
-    /*&>aside {*/
-    /*!*width: 200px;*!*/
-    /*}*/
+    &.fixed-header {
+    display: flex;
+    flex-direction: column;
+    }
 
-    /*&>.content {*/
-    /*flex: 1;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: auto;*/
-    /*position: relative;*/
+    header {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid #ccc;
 
-    /*&.fixed-header {*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*}*/
+    .navbar {
+    height: 50px;
+    display: flex;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 
-    /*header {*/
-    /*width: 100%;*/
-    /*background-color: #fff;*/
-    /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);*/
-    /*border-bottom: 1px solid #ccc;*/
+    .hamburger {
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 22px;
+    cursor: pointer;
 
-    /*.navbar {*/
-    /*height: 50px;*/
-    /*display: flex;*/
-    /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);*/
+    &:hover {
+    color: #409EFF;
+    }
+    }
 
-    /*.hamburger {*/
-    /*width: 50px;*/
-    /*line-height: 50px;*/
-    /*text-align: center;*/
-    /*font-size: 22px;*/
-    /*cursor: pointer;*/
+    .content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
 
-    /*&:hover {*/
-    /*color: #409EFF;*/
-    /*}*/
-    /*}*/
+    .right-menu {
+    height: 100%;
+    line-height: 50px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
 
-    /*.content {*/
-    /*flex: 1;*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
+    .el-dropdown {
+    cursor: pointer;
+    height: 100%;
 
-    /*.right-menu {*/
-    /*height: 100%;*/
-    /*line-height: 50px;*/
-    /*margin-right: 10px;*/
-    /*display: flex;*/
-    /*align-items: center;*/
+    .el-dropdown-link.el-dropdown-selfdefine {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    }
+    }
 
-    /*.el-dropdown {*/
-    /*cursor: pointer;*/
-    /*height: 100%;*/
+    i {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 10px;
+    cursor: pointer;
+    }
+    }
+    }
+    }
 
-    /*.el-dropdown-link.el-dropdown-selfdefine {*/
-    /*display: flex;*/
-    /*height: 100%;*/
-    /*align-items: center;*/
-    /*}*/
-    /*}*/
+    .tags-view {
+    height: 34px;
+    line-height: 34px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    }
+    }
 
-    /*i {*/
-    /*font-size: 20px;*/
-    /*font-weight: 700;*/
-    /*margin-right: 10px;*/
-    /*cursor: pointer;*/
-    /*}*/
-    /*}*/
-    /*}*/
-    /*}*/
-
-    /*.tags-view {*/
-    /*height: 34px;*/
-    /*line-height: 34px;*/
-    /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);*/
-    /*}*/
-    /*}*/
-
-    /*.wrap {*/
-    /*!*padding: 10px;*!*/
-    /*background-color: #fff;*/
-    /*border-radius: 2px 0 0 2px;*/
+    .wrap {
     /*padding: 10px;*/
-    /*}*/
-    /*main {*/
-    /*box-sizing: border-box;*/
-    /*display: flex;*/
-    /*padding: 10px 0 10px 10px;*/
-    /*flex: 1;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: auto;*/
-    /*background-color: #EBEBF0;*/
-    /*min-height: calc(100% - 105px);*/
-    /*}*/
-    /*.main {*/
+    background-color: #fff;
+    border-radius: 2px 0 0 2px;
+    padding: 10px;
+    }
+    main {
+    box-sizing: border-box;
+    display: flex;
+    padding: 10px 0 10px 10px;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #EBEBF0;
+    min-height: calc(100% - 85px);
+    }
+    .main {
 
-    /*flex: 1;*/
-    /*width: 100%;*/
-    /*min-height: 100%;*/
+    flex: 1;
+    width: 100%;
+    min-height: 100%;
 
-    /*.wrap {*/
-    /*-webkit-box-sizing: border-box;*/
-    /*-moz-box-sizing: border-box;*/
-    /*box-sizing: border-box;*/
-    /*width: 100%;*/
-    /*min-height: 100%;*/
+    .wrap {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
 
-    /*}*/
-    /*}*/
-    /*}*/
-    /*}*/
+    }
+    }
+    }
+    }
 
     .drawer-list {
         -webkit-box-sizing: border-box;
