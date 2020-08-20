@@ -66,7 +66,7 @@ const routes = [
                     title: '消息提示框'
                 },
                 component: () => import(/* webpackChunkName: 'messageBox' */ '@/views/Components/MessageBox')
-            }
+            },
         ],
     },
     {
