@@ -327,6 +327,18 @@ export default {
             justify-content: space-between;
         }
     }
+    
+    /deep/ .el-drawer__header span {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        &:focus {
+            outline: none;
+        }
+    }
 
     // fade
     .fade-enter-active,
