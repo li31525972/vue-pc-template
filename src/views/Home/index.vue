@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import NmInput from '@/components/Base/Select'
+import NmInput from '@/components/Base/TimePicker'
 export default {
     components: {
         NmInput,
     },
     data() {
         return {
-            value: '',
+            value: null,
             options: {
                 optionsKey: ['label', 'value'],
                 options: [
