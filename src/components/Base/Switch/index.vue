@@ -1,6 +1,7 @@
 <template>
     <el-switch
             v-bind="$attrs"
+            ref="switch"
             :disabled="options.disabled"
             :width="options.width"
             :activeIconClass="options.activeIconClass"
@@ -13,7 +14,6 @@
             :inactiveColor="options.inactiveColor"
             :name="options.name"
             :validateEvent="options.validateEvent"
-            :focus="options.focus"
             @input="value => $emit('input', value)"
             @change="value => $emit('change', value)"
     >
@@ -28,6 +28,11 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.switch.focus()
+        },
     },
 }
 </script>

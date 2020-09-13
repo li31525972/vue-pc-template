@@ -1,6 +1,7 @@
 <template>
     <el-select
             v-bind="$attrs"
+            ref="select"
             :placeholder="options.placeholder"
             :multiple="options.multiple"
             :disabled="options.disabled"
@@ -25,8 +26,6 @@
             :defaultFirstOption="options.defaultFirstOption"
             :popperAppendToBody="options.popperAppendToBody"
             :automaticDropdown="options.automaticDropdown"
-            :focus="options.focus"
-            :blur="options.blur"
             @input="value => $emit('input', value)"
             @change="value => $emit('change', value)"
             @visibleChange="value => $emit('visibleChange', value)"
@@ -54,6 +53,14 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.select.focus()
+        },
+        blur() {
+            this.$refs.select.blur()
+        },
     },
 }
 </script>

@@ -1,6 +1,7 @@
 <template>
     <el-autocomplete
             v-bind="$attrs"
+            ref="autocomplete"
             :placeholder="options.placeholder"
             :disabled="options.disabled"
             :valueKey="options.valueKey"
@@ -17,7 +18,6 @@
             :hideLoading="options.hideLoading"
             :popperAppendToBody="options.popperAppendToBody"
             :highlightFirstItem="options.highlightFirstItem"
-            :focus="options.focus"
             @input="event => $emit('input', event)"
             @select="event => $emit('select', event)"
     >
@@ -36,6 +36,11 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.autocomplete.focus()
+        },
     },
 }
 </script>

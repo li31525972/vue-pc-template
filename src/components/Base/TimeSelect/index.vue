@@ -1,6 +1,7 @@
 <template>
     <el-time-select
             v-bind="$attrs"
+            ref="timeSelect"
             :readonly="options.readonly"
             :disabled="options.disabled"
             :editable="options.editable"
@@ -13,7 +14,6 @@
             :name="options.name"
             :prefixIcon="options.prefixIcon"
             :clearIcon="options.clearIcon"
-            :focus="options.focus"
             @input="value => $emit('input', value)"
             @change="value => $emit('change', value)"
             @blur="value => $emit('blur', value)"
@@ -29,6 +29,11 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.timeSelect.focus()
+        },
     },
 }
 </script>

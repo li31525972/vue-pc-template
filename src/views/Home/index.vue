@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import NmInput from '@/components/Base/TimePicker'
+import NmInput from '@/components/Base/Upload'
 export default {
     components: {
         NmInput,
@@ -20,6 +20,8 @@ export default {
             value: null,
             options: {
                 optionsKey: ['label', 'value'],
+                action: '',
+                autoUpload: false,
                 options: [
                     { label: '111', value: 1, children: [{ label: 'xa', value: 33 }] },
                     { label: '222', value: 2, children: [{ label: 'xa', value: 33 }] },

@@ -1,6 +1,7 @@
 <template>
     <el-input
             v-bind="$attrs"
+            ref="input"
             :placeholder="options.placeholder"
             :type="options.type"
             :maxlength="options.maxlength"
@@ -26,8 +27,6 @@
             :label="options.label"
             :tabindex="options.tabindex"
             :validateEvent="options.validateEvent"
-            :focus="options.focus"
-            :blur="options.blur"
             @input="value => $emit('input', value)"
             @blur="event => $emit('blur', event)"
             @focus="event => $emit('focus', event)"
@@ -48,6 +47,14 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.input.focus()
+        },
+        blur() {
+            this.$refs.input.blur()
+        },
     },
 }
 </script>

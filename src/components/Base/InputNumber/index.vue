@@ -1,6 +1,7 @@
 <template>
     <el-input-number
             v-bind="$attrs"
+            ref="inputNumber"
             :min="options.min"
             :max="options.max"
             :step="options.step"
@@ -13,8 +14,6 @@
             :name="options.name"
             :label="options.label"
             :placeholder="options.placeholder"
-            :focus="options.focus"
-            :select="options.select"
             @input="value => $emit('input', value)"
             @change="value => $emit('change', value)"
             @blur="value => $emit('blur', value)"
@@ -32,6 +31,14 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    methods: {
+        focus() {
+            this.$refs.inputNumber.focus()
+        },
+        select() {
+            this.$refs.inputNumber.select()
+        },
     },
 }
 </script>
