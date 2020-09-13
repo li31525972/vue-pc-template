@@ -1,8 +1,7 @@
 <template>
     <el-input
             v-bind="$attrs"
-            ref="input"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || `请输入${options.label}`"
             :type="options.type"
             :maxlength="options.maxlength"
             :minlength="options.minlength"
@@ -28,6 +27,7 @@
             :tabindex="options.tabindex"
             :validateEvent="options.validateEvent"
             @input="value => $emit('input', value)"
+            @change="value => $emit('change', value)"
             @blur="event => $emit('blur', event)"
             @focus="event => $emit('focus', event)"
             @clear="event => $emit('clear', event)"

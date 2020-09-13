@@ -1,7 +1,6 @@
 <template>
     <el-time-select
             v-bind="$attrs"
-            ref="timeSelect"
             :readonly="options.readonly"
             :disabled="options.disabled"
             :editable="options.editable"

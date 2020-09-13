@@ -1,6 +1,8 @@
 <template>
     <div>
-        <CommonForm :options="searchOptions" :formData="searchParams" :labelWidth="80" :flex="4" @handleSearch="handleSearch"></CommonForm>
+        <CommonForm :options="searchOptions" ref="form" :formData="searchParams" @change="onChange" :labelWidth="80"
+                    :flex="4"
+                    @handleSearch="handleSearch"></CommonForm>
     </div>
 </template>
 
@@ -21,8 +23,9 @@ export default {
                 {
                     label: '姓名',
                     name: 'name',
-                    type: 'text',
-                    clear: true,
+                    element: 'input',
+                    clearable: true,
+                    rules: [],
                     // rules: [
                     //     {
                     //         required: true,
@@ -34,20 +37,20 @@ export default {
                 {
                     label: '年龄',
                     name: 'age',
-                    type: 'text',
+                    element: 'input',
                 },
                 {
                     label: '姓名1',
                     name: 'name1',
-                    type: 'text',
+                    element: 'input',
                 },{
                     label: '姓名2',
                     name: 'name2',
-                    type: 'text',
+                    element: 'datePicker',
                 },{
                     label: '姓名3',
                     name: 'name3',
-                    type: 'text',
+                    element: 'input',
                 },
                 // {
                 //     label: '姓名4',
@@ -63,7 +66,7 @@ export default {
                 {
                     label: '状态',
                     name: 'status',
-                    type: 'select',
+                    element: 'select',
                     method: getStatus,
                     optionsLabel: 'name',
                     optionsValue: 'key',
@@ -79,7 +82,7 @@ export default {
                 {
                     label: '时间',
                     name: 'daterange',
-                    type: 'daterange',
+                    element: 'datePicker',
                     flex: 1,
                     clear: true,
                 }
@@ -105,6 +108,7 @@ export default {
     methods: {
         handleSearch(data) {
             console.log(data);
+            console.log(this.$refs.form.$refs);
             // getStatus().then(res => {
             //     console.log(res);
             // })
@@ -113,7 +117,10 @@ export default {
 
         init(data) {
             console.log(this.page);
-        }
+        },
+        onChange({ name, value }) {
+            console.log(name, ':', value);
+        },
     }
 }
 </script>

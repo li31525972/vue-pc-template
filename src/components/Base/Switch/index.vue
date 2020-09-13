@@ -1,7 +1,6 @@
 <template>
     <el-switch
             v-bind="$attrs"
-            ref="switch"
             :disabled="options.disabled"
             :width="options.width"
             :activeIconClass="options.activeIconClass"

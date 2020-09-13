@@ -1,7 +1,6 @@
 <template>
     <el-date-picker
             v-bind="$attrs"
-            ref="datePicker"
             :readonly="options.readonly"
             :disabled="options.disabled"
             :editable="options.editable"

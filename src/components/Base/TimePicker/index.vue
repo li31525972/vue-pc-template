@@ -1,7 +1,6 @@
 <template>
     <el-time-picker
             v-bind="$attrs"
-            ref="timePicker"
             :readonly="options.readonly"
             :disabled="options.disabled"
             :editable="options.editable"

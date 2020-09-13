@@ -1,7 +1,6 @@
 <template>
     <el-upload
             v-bind="$attrs"
-            ref="upload"
             :action="options.action || ''"
             :headers="options.headers"
             :multiple="options.multiple"

@@ -1,7 +1,6 @@
 <template>
     <el-autocomplete
             v-bind="$attrs"
-            ref="autocomplete"
             :placeholder="options.placeholder"
             :disabled="options.disabled"
             :valueKey="options.valueKey"

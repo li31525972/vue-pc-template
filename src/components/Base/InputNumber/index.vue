@@ -1,7 +1,6 @@
 <template>
     <el-input-number
             v-bind="$attrs"
-            ref="inputNumber"
             :min="options.min"
             :max="options.max"
             :step="options.step"

@@ -1,59 +1,99 @@
 <template>
     <el-form
+            ref="ruleForm"
             :model="params"
             :rules="rules"
-            ref="ruleForm"
-            :label-width="labelWidth + 'px'"
+            :inline="inline"
+            :labelPosition="labelPosition"
+            :labelSuffix="labelSuffix"
+            :hideRequiredAsterisk="hideRequiredAsterisk"
+            :showMessage="showMessage"
+            :inlineMessage="inlineMessage"
+            :statusIcon="statusIcon"
+            :validateOnRuleChange="validateOnRuleChange"
+            :size="size"
+            :disabled="disabled"
+            :labelWidth="labelWidth + 'px'"
             class="search-wrap">
-        <el-form-item :class="['search-item', { 'no-rules-item': !rulesFlag} ]" :style="styleObject(item)" v-for="(item, i) in options" :key="i" :label="item.label" :prop="item.name" >
-            <el-input v-if="item.type === 'text' || !item.type"
-                      v-model="params[item.name]"
-                      :clearable="item.clear"
-                      @input="value => $emit('inputChange', { name: item.name, value })"
-                      :placeholder="'请输入'+ item.label"></el-input>
-
-            <!--下拉框-->
-            <el-select v-else-if="item.type === 'select'"
-                       v-model="params[item.name]"
-                       @change="value => $emit('selectChange', { name: item.name, value })"
-                       :filterable="item.filter"
-                       :multiple="item.multiple"
-                       :clearable="item.clear"
-                       :loading="item.loading || false"
-                       :placeholder="'请选择' + item.label">
-                <el-option
-                v-for="item1 in item.options"
-                :key="item.optionsValue ? item1[item.optionsValue] : item1.value"
-                :label="item.optionsLabel ? item1[item.optionsLabel] : item1.label"
-                :value="item.optionsValue ? item1[item.optionsValue] : item1.value">
-                </el-option>
-            </el-select>
-
-            <!--date时间-->
-            <el-date-picker
-                    v-else-if="item.type === 'date'"
+        <el-form-item
+                v-for="(item, i) in options"
+                :key="i"
+                :class="['search-item', { 'no-rules-item': !rulesFlag} ]"
+                :style="styleObject(item)"
+                :prop="item.name"
+                :label="item.label"
+                :labelWidth="item.labelWidth"
+                :required="item.required"
+                :rules="item.rules"
+                :error="item.error"
+                :showMessage="item.showMessage"
+                :inlineMessage="item.inlineMessage"
+                :size="item.size"
+        >
+            <slot name="label"></slot>
+            <component
+                    :is="element[item.element]"
+                    :ref="item.name"
+                    :options="item"
                     v-model="params[item.name]"
-                    type="date"
-                    :clearable="item.clear"
-                    :format="item.format ? item.format : 'yyyy-MM-dd'"
-                    :value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"
-                    @change="value => $emit('dateChange', { name: item.name, value })"
-                    :placeholder="'请选择' + item.label">
-            </el-date-picker>
+                    @input="value => $emit('input', { name: item.name, value: value })"
+                    @change="value => $emit('change', { name: item.name, value: value })"
+                    @blur="value => $emit('blur', { name: item.name, value: value })"
+                    @focus="value => $emit('focus', { name: item.name, value: value })"
+                    @select="value => $emit('select', { name: item.name, value: value })"
+                    @clear="value => $emit('clear', { name: item.name, value: value })"
+                    @expandChange="value => $emit('expandChange', { name: item.name, value: value })"
+                    @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
+            >
+            </component>
+            <!--<el-input v-if="item.type === 'text' || !item.type"-->
+                      <!--v-model="params[item.name]"-->
+                      <!--:clearable="item.clear"-->
+                      <!--@input="value => $emit('inputChange', { name: item.name, value })"-->
+                      <!--:placeholder="'请输入'+ item.label"></el-input>-->
 
-            <!--日期范围-->
-            <el-date-picker
-                    v-else-if="item.type === 'daterange'"
-                    v-model="params[item.name]"
-                    :format="item.format ? item.format : 'yyyy-MM-dd'"
-                    :value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"
-                    type="daterange"
-                    :clearable="item.clear"
-                    @change="value => $emit('dateChange', { name: item.name, value })"
-                    :range-separator="item.separator ? item.separator : '-'"
-                    :start-placeholder="item.placeholder ? item.placeholder[0] : '开始日期'"
-                    :end-placeholder="item.placeholder ? item.placeholder[1] : '结束日期'">
-            </el-date-picker>
+            <!--&lt;!&ndash;下拉框&ndash;&gt;-->
+            <!--<el-select v-else-if="item.type === 'select'"-->
+                       <!--v-model="params[item.name]"-->
+                       <!--@change="value => $emit('selectChange', { name: item.name, value })"-->
+                       <!--:filterable="item.filter"-->
+                       <!--:multiple="item.multiple"-->
+                       <!--:clearable="item.clear"-->
+                       <!--:loading="item.loading || false"-->
+                       <!--:placeholder="'请选择' + item.label">-->
+                <!--<el-option-->
+                <!--v-for="item1 in item.options"-->
+                <!--:key="item.optionsValue ? item1[item.optionsValue] : item1.value"-->
+                <!--:label="item.optionsLabel ? item1[item.optionsLabel] : item1.label"-->
+                <!--:value="item.optionsValue ? item1[item.optionsValue] : item1.value">-->
+                <!--</el-option>-->
+            <!--</el-select>-->
+
+            <!--&lt;!&ndash;date时间&ndash;&gt;-->
+            <!--<el-date-picker-->
+                    <!--v-else-if="item.type === 'date'"-->
+                    <!--v-model="params[item.name]"-->
+                    <!--type="date"-->
+                    <!--:clearable="item.clear"-->
+                    <!--:format="item.format ? item.format : 'yyyy-MM-dd'"-->
+                    <!--:value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"-->
+                    <!--@change="value => $emit('dateChange', { name: item.name, value })"-->
+                    <!--:placeholder="'请选择' + item.label">-->
+            <!--</el-date-picker>-->
+
+            <!--&lt;!&ndash;日期范围&ndash;&gt;-->
+            <!--<el-date-picker-->
+                    <!--v-else-if="item.type === 'daterange'"-->
+                    <!--v-model="params[item.name]"-->
+                    <!--:format="item.format ? item.format : 'yyyy-MM-dd'"-->
+                    <!--:value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"-->
+                    <!--type="daterange"-->
+                    <!--:clearable="item.clear"-->
+                    <!--@change="value => $emit('dateChange', { name: item.name, value })"-->
+                    <!--:range-separator="item.separator ? item.separator : '-'"-->
+                    <!--:start-placeholder="item.placeholder ? item.placeholder[0] : '开始日期'"-->
+                    <!--:end-placeholder="item.placeholder ? item.placeholder[1] : '结束日期'">-->
+            <!--</el-date-picker>-->
 
         </el-form-item>
 
@@ -65,7 +105,41 @@
 </template>
 
 <script>
+
+const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
+const NmCascader = () =>  import('@/components/Base/Cascader')
+const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
+const NmDatePicker = () =>  import('@/components/Base/DatePicker')
+const NmInput = () =>  import('@/components/Base/Input')
+const NmInputNumber = () =>  import('@/components/Base/InputNumber')
+const NmRadio = () =>  import('@/components/Base/Radio')
+const NmRadioButton = () =>  import('@/components/Base/RadioButton')
+const NmRate = () =>  import('@/components/Base/Rate')
+const NmSelect = () =>  import('@/components/Base/Select')
+const NmSlider = () =>  import('@/components/Base/Slider')
+const NmSwitch = () =>  import('@/components/Base/Switch')
+const NmTimePicker = () =>  import('@/components/Base/TimePicker')
+const NmTimeSelect = () =>  import('@/components/Base/TimeSelect')
+const NmUpload = () =>  import('@/components/Base/Upload')
+
 export default {
+    components: {
+        NmAutocomplete,
+        NmCascader,
+        NmColorPicker,
+        NmDatePicker,
+        NmInput,
+        NmInputNumber,
+        NmRadio,
+        NmRadioButton,
+        NmRate,
+        NmSelect,
+        NmSlider,
+        NmSwitch,
+        NmTimePicker,
+        NmTimeSelect,
+        NmUpload,
+    },
     props: {
         // 搜索组件配置
         options: {
@@ -76,6 +150,50 @@ export default {
         labelWidth: {
             type: [Number, String],
             default: 100,
+        },
+        // 行内表单模式
+        inline: {
+            type: Boolean,
+            default: false,
+        },
+        // 表单域标签的位置，如果值为 left 或者 right 时，则需要设置 label-width
+        labelPosition: {
+            type: String,
+            default: 'right',
+        },
+        // 表单域标签的后缀
+        labelSuffix: String,
+        // 是否显示必填字段的标签旁边的红色星号
+        hideRequiredAsterisk: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否显示校验错误信息
+        showMessage: {
+            type: Boolean,
+            default: true,
+        },
+        // 是否以行内形式展示校验信息
+        inlineMessage: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否在输入框中显示校验结果反馈图标
+        statusIcon: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否在 rules 属性改变后立即触发一次验证
+        validateOnRuleChange: {
+            type: Boolean,
+            default: true,
+        },
+        // 用于控制该表单内组件的尺寸
+        size: String,
+        // 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效
+        disabled: {
+            type: Boolean,
+            default: false,
         },
         // 每行显示几个
         flex: {
@@ -98,6 +216,23 @@ export default {
             params: {},
             rules: {},
             rulesFlag: false,
+            element: {
+                input: 'NmInput',
+                cascader: 'NmCascader',
+                colorPicker: 'NmColorPicker',
+                datePicker: 'NmDatePicker',
+                autocomplete: 'NmAutocomplete',
+                inputNumber: 'NmInputNumber',
+                radio: 'NmRadio',
+                radioButton: 'NmRadioButton',
+                rate: 'NmRate',
+                select: 'NmSelect',
+                slider: 'NmSlider',
+                switch: 'NmSwitch',
+                timePicker: 'NmTimePicker',
+                timeSelect: 'NmTimeSelect',
+                upload: 'NmUpload',
+            }
         }
     },
     computed: {
@@ -114,7 +249,7 @@ export default {
     created() {
         
         this.params = { ...this.formData }
-        this.init()
+        // this.init()
     },
     mounted() {
 

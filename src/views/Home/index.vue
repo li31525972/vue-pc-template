@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import NmInput from '@/components/Base/Upload'
+import NmInput from '@/components/Base/ColorPicker'
 export default {
     components: {
         NmInput,
