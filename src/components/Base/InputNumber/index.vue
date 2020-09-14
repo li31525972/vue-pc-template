@@ -12,7 +12,7 @@
             :controlsPosition="options.controlsPosition"
             :name="options.name"
             :label="options.label"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || constant.inputStr(options.label)"
             @input="value => $emit('input', value)"
             @change="value => $emit('change', value)"
             @blur="value => $emit('blur', value)"
@@ -23,12 +23,18 @@
 </template>
 
 <script>
+import * as constant from '@/config/constant'
 export default {
     name: 'NmInputNumber',
     props: {
         options: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    data() {
+        return {
+            constant,
         }
     },
     methods: {

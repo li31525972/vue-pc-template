@@ -1,7 +1,7 @@
 <template>
     <el-autocomplete
             v-bind="$attrs"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || constant.inputStr(options.label)"
             :disabled="options.disabled"
             :valueKey="options.valueKey"
             :debounce="options.debounce"
@@ -28,12 +28,19 @@
 </template>
 
 <script>
+import * as constant from '@/config/constant'
+
 export default {
     name: 'NmAutocomplete',
     props: {
         options: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    data() {
+        return {
+            constant,
         }
     },
     methods: {

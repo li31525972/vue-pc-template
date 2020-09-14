@@ -94,9 +94,9 @@
                     v-if="isPagination"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :current-page="currentPage"
+                    :current-page="page"
                     :page-sizes="PAGESIZES"
-                    :page-size="currentSize"
+                    :page-size="size"
                     :layout="LAYOUT"
                     :total="total || data.length">
             </el-pagination>

@@ -46,54 +46,6 @@
                     @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
             >
             </component>
-            <!--<el-input v-if="item.type === 'text' || !item.type"-->
-                      <!--v-model="params[item.name]"-->
-                      <!--:clearable="item.clear"-->
-                      <!--@input="value => $emit('inputChange', { name: item.name, value })"-->
-                      <!--:placeholder="'请输入'+ item.label"></el-input>-->
-
-            <!--&lt;!&ndash;下拉框&ndash;&gt;-->
-            <!--<el-select v-else-if="item.type === 'select'"-->
-                       <!--v-model="params[item.name]"-->
-                       <!--@change="value => $emit('selectChange', { name: item.name, value })"-->
-                       <!--:filterable="item.filter"-->
-                       <!--:multiple="item.multiple"-->
-                       <!--:clearable="item.clear"-->
-                       <!--:loading="item.loading || false"-->
-                       <!--:placeholder="'请选择' + item.label">-->
-                <!--<el-option-->
-                <!--v-for="item1 in item.options"-->
-                <!--:key="item.optionsValue ? item1[item.optionsValue] : item1.value"-->
-                <!--:label="item.optionsLabel ? item1[item.optionsLabel] : item1.label"-->
-                <!--:value="item.optionsValue ? item1[item.optionsValue] : item1.value">-->
-                <!--</el-option>-->
-            <!--</el-select>-->
-
-            <!--&lt;!&ndash;date时间&ndash;&gt;-->
-            <!--<el-date-picker-->
-                    <!--v-else-if="item.type === 'date'"-->
-                    <!--v-model="params[item.name]"-->
-                    <!--type="date"-->
-                    <!--:clearable="item.clear"-->
-                    <!--:format="item.format ? item.format : 'yyyy-MM-dd'"-->
-                    <!--:value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"-->
-                    <!--@change="value => $emit('dateChange', { name: item.name, value })"-->
-                    <!--:placeholder="'请选择' + item.label">-->
-            <!--</el-date-picker>-->
-
-            <!--&lt;!&ndash;日期范围&ndash;&gt;-->
-            <!--<el-date-picker-->
-                    <!--v-else-if="item.type === 'daterange'"-->
-                    <!--v-model="params[item.name]"-->
-                    <!--:format="item.format ? item.format : 'yyyy-MM-dd'"-->
-                    <!--:value-format="item.valueFormat ? item.valueFormat : 'yyyy-MM-dd'"-->
-                    <!--type="daterange"-->
-                    <!--:clearable="item.clear"-->
-                    <!--@change="value => $emit('dateChange', { name: item.name, value })"-->
-                    <!--:range-separator="item.separator ? item.separator : '-'"-->
-                    <!--:start-placeholder="item.placeholder ? item.placeholder[0] : '开始日期'"-->
-                    <!--:end-placeholder="item.placeholder ? item.placeholder[1] : '结束日期'">-->
-            <!--</el-date-picker>-->
 
         </el-form-item>
 
@@ -105,7 +57,7 @@
 </template>
 
 <script>
-
+import * as utils from '@/utils'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
@@ -232,7 +184,8 @@ export default {
                 timePicker: 'NmTimePicker',
                 timeSelect: 'NmTimeSelect',
                 upload: 'NmUpload',
-            }
+            },
+            refs: {},
         }
     },
     computed: {
@@ -241,18 +194,17 @@ export default {
     watch: {
         formData: {
             handler(val) {
-                this.params = { ...val }
+                this.params = JSON.parse(JSON.stringify(val))
             },
+            immediate: true,
             deep: true,
         }
     },
     created() {
         
-        this.params = { ...this.formData }
         // this.init()
     },
     mounted() {
-
     },
     methods: {
         // 计算宽度
@@ -306,7 +258,15 @@ export default {
                     return false
                 }
             })
-        }
+        },
+        // 修改表单中的值
+        changeFormData(data) {
+            if (utils.type(data) === 'Object') {
+                for (let key in data) {
+                    this.$set(this.params, key, data[key])
+                }
+            }
+        },
     }
 }
 </script>

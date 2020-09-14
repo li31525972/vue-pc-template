@@ -4,7 +4,7 @@
             :options="options.options"
             :props="options.props"
             :size="options.size"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || constant.selectStr(options.label)"
             :disabled="options.disabled"
             :clearable="options.clearable"
             :showAllLevels="options.showAllLevels"
@@ -17,17 +17,21 @@
             :popperClass="options.popperClass"
             :getCheckedNodes="options.getCheckedNodes"
             @change="value => $emit('change', value)"
+            @input="value => $emit('input', value)"
             @expandChange="value => $emit('expandChange', value)"
             @blur="value => $emit('blur', value)"
             @focus="value => $emit('focus', value)"
             @visibleChange="value => $emit('visibleChange', value)"
             @removeTag="value => $emit('removeTag', value)"
     >
-        <slot :name="options.slot"></slot>
+        <template v-slot="{ node, data }" >
+            <slot :node="node" :data="data"></slot>
+        </template>
     </el-cascader>
 </template>
 
 <script>
+import * as constant from '@/config/constant'
 export default {
     name: 'NmInput',
     props: {
@@ -35,6 +39,14 @@ export default {
             type: Object,
             default: () => ({}),
         }
+    },
+    data() {
+        return {
+            constant,
+        }
+    },
+    methods: {
+        
     },
 }
 </script>

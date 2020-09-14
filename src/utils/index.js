@@ -3,8 +3,6 @@
 * @date 2020-04-08
 * @author YaHui Li
 */
-import { MessageBox } from 'element-ui';
-
 // 精确判断数据类型
 export const type = data => Object.prototype.toString.call(data).slice(8, -1)
 

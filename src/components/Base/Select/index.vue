@@ -2,7 +2,7 @@
     <el-select
             v-bind="$attrs"
             ref="select"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || constant.selectStr(options.label)"
             :multiple="options.multiple"
             :disabled="options.disabled"
             :valueKey="options.valueKey"
@@ -46,12 +46,18 @@
 </template>
 
 <script>
+import * as constant from '@/config/constant'
 export default {
     name: 'NmSelect',
     props: {
         options: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    data() {
+        return {
+            constant,
         }
     },
     methods: {

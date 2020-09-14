@@ -6,7 +6,7 @@
             :editable="options.editable"
             :clearable="options.clearable"
             :size="options.size"
-            :placeholder="options.placeholder"
+            :placeholder="options.placeholder || constant.selectStr(options.label)"
             :startPlaceholder="options.startPlaceholder"
             :endPlaceholder="options.endPlaceholder"
             :type="options.type"
@@ -31,12 +31,18 @@
 </template>
 
 <script>
+import * as constant from '@/config/constant'
 export default {
     name: 'NmDatePicker',
     props: {
         options: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    data() {
+        return {
+            constant,
         }
     },
     methods: {

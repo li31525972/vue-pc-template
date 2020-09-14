@@ -1,7 +1,7 @@
 <template>
     <el-input
             v-bind="$attrs"
-            :placeholder="options.placeholder || `请输入${options.label}`"
+            :placeholder="options.placeholder || constant.inputStr(options.label)"
             :type="options.type"
             :maxlength="options.maxlength"
             :minlength="options.minlength"
@@ -40,12 +40,18 @@
 </template>
 
 <script>
+import * as constant from '@/config/constant'
 export default {
     name: 'NmInput',
     props: {
         options: {
             type: Object,
             default: () => ({}),
+        }
+    },
+    data() {
+        return {
+            constant,
         }
     },
     methods: {
