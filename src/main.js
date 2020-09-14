@@ -9,7 +9,7 @@ import router from './router'
 import store from './store'
 import * as filters from '@/filters'
 
-require('../mock')
+// require('../mock')
 
 Vue.use(Element,{ size: 'small' })
 Vue.config.productionTip = false

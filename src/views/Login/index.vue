@@ -10,8 +10,8 @@
                 <span>后台管理系统</span>
             </div>
             <el-form :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px" class="ruleForm">
-                <el-form-item label="用户名" prop="name">
-                    <el-input type="text" v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                <el-form-item label="用户名" prop="username">
+                    <el-input type="text" v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
                     <el-input type="password" @keyup.enter.native="submitForm('ruleForm')" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
@@ -25,17 +25,18 @@
 </template>
 
 <script>
-
+import * as api from '@/api/user'
 export default {
     name: "login",
     data() {
         return {
             ruleForm: {
-                name: '',
-                password: ''
+                username: '',
+                password: '',
+                grant_type: 'password',
             },
             rules: {
-                name: [
+                username: [
                     { required: true, message: '用户名不能为空', trigger: 'blur' },
                     { min: 2, max: 20, message: '长度在2到20之间', trigger: 'blur' }
                 ],
@@ -52,14 +53,28 @@ export default {
          * @param formName
          */
         submitForm(formName) {
-            this.$refs[formName].validate(async (valid) => {
+            this.$refs[formName].validate(valid => {
                 if (valid) {
-                    
-                    this.$store.dispatch('login', this.ruleForm).then(() => {
-                        this.$router.replace('/')
+                    let formData = new FormData()
+                    for (let key in this.ruleForm) {
+                        if (this.ruleForm[key]) {
+                            formData.append(key, this.ruleForm[key])
+                        }
+                    }
+                    // 进行认证
+                    api.authToken(formData).then(response => {
+                        sessionStorage.setItem('token', response.access_token)
+
+                        return api.login(formData)
+                        // 进行登录
+                    }).then(response => {
+                        // 存储个人信息、跳转到首页
+                        this.$store.commit('SET_USER', response.data)
+                        this.$router.replace({ path: '/' })
                     })
+
                 } else {
-                    
+
                     return false;
                 }
             });
@@ -84,7 +99,7 @@ export default {
         margin: auto;
         padding: 25px;
         border-radius: 5px;
-        
+
         .title {
             text-align: center;
             font-weight: 700;
@@ -92,13 +107,13 @@ export default {
             color: #fff;
         }
     }
-    
+
     .ruleForm {
         margin-top: 20px;
         padding: 20px 40px 20px 20px;
         background-color: #fff;
         border-radius: 10px;
-        
+
         .submit-btn {
             margin-left: 20px;
         }

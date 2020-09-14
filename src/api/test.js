@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import axios from '@/utils/axios'
 
 // 测试
-export const getStatus = () => request('/getStatus', null, 'get')
+export const getStatus = () => axios.get('/getStatus')

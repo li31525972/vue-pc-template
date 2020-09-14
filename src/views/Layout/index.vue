@@ -147,6 +147,7 @@ export default {
         // 退出登录
         handleSignOut() {
             this.$store.commit('RESET_TOKEN')
+            sessionStorage.clear()
             this.$router.replace({ name: 'login' })
         },
     }
@@ -277,7 +278,6 @@ export default {
             }
 
             .wrap {
-                /*padding: 10px;*/
                 background-color: #fff;
                 border-radius: 2px 0 0 2px;
                 padding: 10px;
@@ -286,12 +286,15 @@ export default {
             main {
                 box-sizing: border-box;
                 display: flex;
-                padding: 10px 0 10px 10px;
+                padding: 10px;
                 flex: 1;
                 overflow-x: hidden;
                 overflow-y: auto;
                 background-color: #EBEBF0;
                 min-height: calc(100% - 85px);
+                .wrap {
+                    width: 100%;
+                }
             }
 
             .main {
@@ -327,7 +330,7 @@ export default {
             justify-content: space-between;
         }
     }
-    
+
     /deep/ .el-drawer__header span {
         -webkit-user-select: none;
         -webkit-touch-callout: none;

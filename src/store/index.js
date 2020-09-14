@@ -9,10 +9,10 @@ import getters from './getters'
  *        2. storage，默认为options.storage || (window && window.localStorage)
  *        3. key 默认为 options.key || 'vuex'
  */
-// import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from 'vuex-persistedstate'
 
 // 下面为手动实现的持久化插件
-import saveLocal from './plugins'
+// import saveLocal from './plugins'
 
 Vue.use(Vuex)
 
@@ -23,19 +23,14 @@ export default new Vuex.Store({
      *      vuex-persistedstate这个插件的实现 (options, storage, key) => store => {} 这是一个函数，直接调用，返回一个函数实现传参的效果
      */
     // 插件实现持久化
-    // plugins: [createPersistedState({
-    //     storage: sessionStorage,
-    //     reducer(val) {
-    //         return {
-    //             userInfo: val.userInfo
-    //         }
-    //     }
-    // })],
+    plugins: [createPersistedState({
+        storage: sessionStorage,
+    })],
     /**
      * 下面为手动实现的vuex的持久化插件、弱化版
      *
      */
-    plugins: [saveLocal({ hidden: true })],
+    // plugins: [saveLocal()],
     state: {
         userInfo: {},
         isFixedHeader: true,

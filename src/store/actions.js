@@ -1,10 +1,4 @@
-import { login } from '@/api/user'
-
 export default {
-    async login({ commit }, val) {
-        let data = await login(val)
-        commit('SET_USER', data)
-    },
     // 固定头部改变
     changeHeader({ commit }, value) {
         commit('SET_HEADER', value)

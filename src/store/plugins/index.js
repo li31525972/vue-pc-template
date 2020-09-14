@@ -10,9 +10,9 @@
 
 export default (options, storage, key) => (store) => {
     options = options || {}
-    storage = storage || options.storage || window && window.sessionStorage
+    storage = (storage || options.storage) || window && window.sessionStorage
     key = typeof key === 'string' && key || typeof options.key === 'string' && options.key || 'state'
-    
+
     // 用于将本地存储中的数据赋值给vuex中的state -> 搭配
     if (storage.getItem(key)) {
         store.replaceState(JSON.parse(storage.getItem(key)))
@@ -25,5 +25,5 @@ export default (options, storage, key) => (store) => {
 
         storage.setItem(key, JSON.stringify(store.state))
     }
-    
+
 }
