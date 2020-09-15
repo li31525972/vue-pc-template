@@ -1,7 +1,10 @@
+import { initState } from './index'
 export default {
     // 重置store的数据
-    RESET_STORE(state, data = {}) {
-        state = data
+    RESET_STORE(state) {
+        console.log(initState);
+        state = Object.assign({}, initState)
+        console.log(state);
     },
 
     // 存储用户信息

@@ -16,6 +16,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
+export const initState = {
+    userInfo: {},
+    isFixedHeader: true,
+    isTagViews: true,
+    tags: [],
+}
+
 export default new Vuex.Store({
     strict: process.env.NODE_ENV === 'development', // 开发环境下开启严格模式，严格不能在mutaitions之外修改state的状态
     /**
@@ -31,12 +38,7 @@ export default new Vuex.Store({
      *
      */
     // plugins: [saveLocal()],
-    state: {
-        userInfo: {},
-        isFixedHeader: true,
-        isTagViews: true,
-        tags: [],
-    },
+    state: JSON.parse(JSON.stringify(initState)),
     mutations,
     actions,
     getters,

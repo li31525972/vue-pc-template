@@ -1,0 +1,57 @@
+/**
+* @file 公共样式修改
+* @date 2020-03-06
+* @author Yahui Li
+*/
+@import './base';
+
+//抽屉组件样式修改
+.base_drawer {
+    &:focus {
+        outline: none;
+    }
+    //标题
+    .el-drawer__header {
+        padding: 0 10px;
+        margin: 0;
+        height: 49px;
+        line-height: 49px;
+        border-bottom: $titleBorder;
+
+        & > span, & > button {
+            &:focus {
+                outline: none;
+            }
+        }
+
+        span {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
+    .el-drawer__body {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        word-wrap:break-word;
+        word-break:normal;
+
+        .base_drawer_content {
+            flex: 1;
+            width: 100%;
+            padding: 10px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .base_drawer_footer {
+            height: 50px;
+            line-height: 50px;
+            border-top: $titleBorder;
+        }
+    }
+}
