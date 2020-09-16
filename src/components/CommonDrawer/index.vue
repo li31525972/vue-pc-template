@@ -39,7 +39,7 @@ export default {
         // Drawer 自身是否插入至 body 元素上。嵌套的 Drawer 必须指定该属性并赋值为 true
         appendToBody: {
             type: Boolean,
-            default: false,
+            default: true,
         },
         // 关闭前的回调，会暂停 Drawer 的关闭
         beforeClose: {
@@ -116,7 +116,7 @@ export default {
         closeDrawer() {
             this.$refs.drawer.closeDrawer()
         },
-        
+
         // 默认关闭
         defaultBeforeClose(done) {
             this.$emit('update:visible', false)
