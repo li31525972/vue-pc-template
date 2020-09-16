@@ -17,10 +17,11 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 export const initState = {
-    userInfo: {},
+    userInfo: {}, // 用户信息
     isFixedHeader: true,
     isTagViews: true,
     tags: [],
+    menuList: [], // 菜单数据
 }
 
 export default new Vuex.Store({

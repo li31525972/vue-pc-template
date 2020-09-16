@@ -5,7 +5,11 @@
 */
 <template>
     <div class="l-container">
-        <Sidebar :isCollapse="isCollapse" :routes="routes"/>
+        <!--左侧菜单栏-->
+        <Sidebar
+                :isCollapse="isCollapse"
+                :data="routes"
+        />
         <div class="content" :class="{ 'fixed-header': FixedHeader, 'is-collapse': isCollapse, 'is-tags': TagViews }">
             <header :class="{ 'fixed-header': FixedHeader }">
                 <div class="navbar">
@@ -32,34 +36,27 @@
                 <TagViews :class="['tags-view', { 'is-tags': TagViews }]"/>
             </header>
             <main :class="{ 'main': FixedHeader }">
-                <!--<transition name="fade-transform" mode="out-in">-->
+                <transition name="fade-transform" mode="out-in">
                 <keep-alive>
                     <router-view class="wrap"/>
                 </keep-alive>
-                <!--</transition>-->
+                </transition>
             </main>
-            <!--<el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen"-->
-                       <!--direction="rtl" :before-close="handleClose">-->
-                <!--<ul class="drawer-list">-->
-                    <!--<li>-->
-                        <!--<span>固定 Header</span>-->
-                        <!--<el-switch v-model="FixedHeader">-->
-                        <!--</el-switch>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<span>显示 Tag-views</span>-->
-                        <!--<el-switch v-model="TagViews">-->
-                        <!--</el-switch>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</el-drawer>-->
-            <CommonDrawer
-                :visible.sync="isOpen"
-                size="60%"
-            >
-                <el-button @click="isShow = !isShow">打开</el-button>
-                <CommonDrawer :visible.sync="isShow"></CommonDrawer>
-            </CommonDrawer>
+            <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen"
+                       direction="rtl" :before-close="handleClose">
+                <ul class="drawer-list">
+                    <li>
+                        <span>固定 Header</span>
+                        <el-switch v-model="FixedHeader">
+                        </el-switch>
+                    </li>
+                    <li>
+                        <span>显示 Tag-views</span>
+                        <el-switch v-model="TagViews">
+                        </el-switch>
+                    </li>
+                </ul>
+            </el-drawer>
         </div>
     </div>
 </template>
@@ -69,7 +66,6 @@ import { mapGetters, mapActions } from 'vuex'
 import Sidebar from './components/Sidebar'
 import TagViews from './components/tag-view'
 import BreadCrumbs from './components/bread.vue'
-import { CommonDrawer } from '@/components'
 
 export default {
     name: 'layout',
@@ -77,7 +73,6 @@ export default {
         Sidebar,
         TagViews,
         BreadCrumbs,
-        CommonDrawer
     },
     data() {
         return {
@@ -88,10 +83,14 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['isFixedHeader', 'isTagViews']),
+        ...mapGetters({
+            isFixedHeader: 'isFixedHeader',
+            isTagViews: 'isTagViews',
+            menuList: 'menuList',
+        }),
         // 过滤菜单
         routes() {
-            return this.$router.options.routes.filter(item => item.children)
+            return this.menuList || this.getMenu()
         },
         FixedHeader: {
             get() {
@@ -121,6 +120,21 @@ export default {
             'changeHeader',
             'changeTagView',
         ]),
+        
+        // 获取菜单信息
+        getMenu() {
+            let { routes } = this.$router.options
+            
+            return routes.filter(item => {
+                return item.meta && !item.meta.hidden
+            })
+        
+        },
+        
+        
+        
+        
+        
         // 全屏
         handleFullScreen() {
             if (!screenFull.isEnabled) {

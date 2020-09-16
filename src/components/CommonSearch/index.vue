@@ -1,3 +1,8 @@
+/**
+* @file 搜索组件
+* @date 2020-09-16
+* @author Yahui Li
+*/
 <template>
     <el-form
             ref="ruleForm"
@@ -46,13 +51,18 @@
                     @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
             >
             </component>
-
+        
         </el-form-item>
-
+        
+        <el-form-item class="search-button" v-if="isShowSubmit">
+            <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
+            <el-button @click="handleReset('ruleForm')">重置</el-button>
+        </el-form-item>
     </el-form>
 </template>
 
 <script>
+import * as utils from '@/utils'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
@@ -152,6 +162,11 @@ export default {
             type: Object,
             default: () => {}
         },
+        // 是否显示提交按钮
+        isShowSubmit: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
@@ -175,6 +190,7 @@ export default {
                 timeSelect: 'NmTimeSelect',
                 upload: 'NmUpload',
             },
+            refs: {},
         }
     },
     computed: {
@@ -205,11 +221,66 @@ export default {
                 minWidth: width,
                 maxWidth: width,
             }
-
+            
+        },
+        // 初始化方法
+        init() {
+            this.options.map(async (item, i) => {
+                // 获取下拉框的数据
+                if (item.type === 'select' && item.method) {
+                    // 开启loading
+                    this.$set(this.options[i], 'loading', true)
+                    await item.method().then(res => {
+                        
+                        this.$set(this.options[i], 'options', res ? res : [])
+                        // item.options = res
+                        // 关闭loading
+                        this.$set(this.options[i], 'loading', false)
+                    })
+                }
+                
+                // 获取验证规则
+                if (item.rules) {
+                    this.rulesFlag = true
+                    // this.rules[item.name] = item.rules
+                    this.$set(this.rules, item.name, item.rules)
+                }
+            })
+        },
+        // 重置
+        handleReset(name) {
+            this.$refs[name].resetFields();
+            this.params = { ...this.formData }
+            
+            this.$emit('handleReset', this.params)
+        },
+        // 点击搜索
+        handleSearch(name) {
+            this.$refs[name].validate(valid => {
+                if (valid) {
+                    this.$emit('handleSearch', this.params)
+                } else {
+                    return false
+                }
+            })
+        },
+        // 修改表单中的值
+        changeFormData(data) {
+            if (utils.type(data) === 'Object') {
+                for (let key in data) {
+                    this.$set(this.params, key, data[key])
+                }
+            }
         },
     }
 }
 </script>
+
+<style>
+
+
+
+</style>
 
 <style lang="scss" scoped>
 

@@ -2,14 +2,13 @@ import { initState } from './index'
 export default {
     // 重置store的数据
     RESET_STORE(state) {
-        console.log(initState);
         state = Object.assign({}, initState)
-        console.log(state);
     },
 
     // 存储用户信息
     SET_USER(state, val) {
         state.userInfo = val
+        state.menuList = val.menuInfoList || []
     },
     // 添加快捷导航栏
     SET_TAGS(state, val) {

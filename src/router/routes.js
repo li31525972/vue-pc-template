@@ -10,6 +10,7 @@ const routes = [
         path: '/',
         redirect: '/index',
         component: Layout,
+        title: '首页',
         meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
         children: [{
             path: 'index',

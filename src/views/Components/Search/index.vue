@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { CommonForm } from '@/components'
+import { CommonSearch, CommonForm } from '@/components'
 import { search, table } from '@/mixins'
 import * as api from '@/api/test'
 
@@ -15,6 +15,7 @@ export default {
     name: 'search',
     mixins: [search, table],
     components: {
+        CommonSearch,
         CommonForm,
     },
     data() {

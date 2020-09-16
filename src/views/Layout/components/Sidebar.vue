@@ -6,6 +6,7 @@
 
 <template>
     <el-menu :default-active="path"
+             :mode="mode"
              class="el-menu-vertical-demo"
              background-color="#545c64"
              text-color="#fff"
@@ -51,20 +52,38 @@
 <script>
 import { mapGetters } from 'vuex'
 import ReSubmenu from './ReSubmenu'
+import Submenu from './Submenu'
 export default {
     name: 'Sidebar',
     components: {
         ReSubmenu,
+        Submenu,
     },
     props: {
-        routes: {
+        // 菜单数据
+        data: {
             type: Array,
             default: () => []
         },
+        // 菜单是否展开
         isCollapse: {
             type: Boolean,
             default: false
         },
+        // 菜单使用的配置项
+        props: {
+            type: Object,
+            default: () => {
+                return {
+                    label: 'title',
+                    icon: 'icon',
+                    path: 'path',
+                    children: 'children',
+                }
+            }
+        },
+        // 模式
+        mode: String,
     },
     data() {
         return {
@@ -78,7 +97,15 @@ export default {
             return this.$route.path;
         }
     },
-    watch: {},
+    watch: {
+        data: {
+            handler(val) {
+                console.log(val)
+            },
+            immediate: true,
+            deep: true,
+        },
+    },
     created() {
         this.getMenu()
     },
@@ -105,7 +132,6 @@ export default {
         // 获取菜单信息
         getMenu() {
             let { routes } = this.$router.options
-            
             this.menu = routes.filter(item => {
                 return item.meta && !item.meta.hidden
             })

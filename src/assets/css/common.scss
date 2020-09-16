@@ -6,6 +6,9 @@
 @import './base';
 
 //抽屉组件样式修改
+.el-drawer .el-drawer__header span:focus {
+    outline: none;
+}
 .base_drawer {
     &:focus {
         outline: none;
@@ -54,4 +57,36 @@
             border-top: $titleBorder;
         }
     }
+}
+
+//搜索、表单组件样式修改
+.search-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    padding-bottom: 0;
+    .no-rules-item {
+        margin-bottom: 10px;
+    }
+    .el-form-item {
+        flex: 1;
+
+        label {
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+    .search-button {
+        text-align: right;
+    }
+    .el-form-item__content > [class^='el-'] {
+        width: 100%;
+    }
+
+    .el-form-item__content [class^='el-button'] {
+        width: auto;
+    }
+
 }
