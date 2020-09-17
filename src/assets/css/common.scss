@@ -5,6 +5,55 @@
 */
 @import './base';
 
+//菜单样式修改
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    height: 100%;
+    min-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.el-menu--collapse {
+    height: 100%;
+}
+
+.el-menu-item-group__title {
+    padding: 0;
+}
+.el-submenu__title,
+.el-menu-item {
+    height: 45px;
+    line-height: 45px;
+}
+
+.el-submenu__title,
+.el-menu-item {
+    font-size: 16px;
+
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    & > i {
+        font-size: 16px;
+    }
+    .base_menu_title {
+        font-size: 14px;
+    }
+}
+
+.menu_icon {
+    margin-right: 5px;
+}
+//子菜单样式
+.base_menu_item {
+
+}
+
 //抽屉组件样式修改
 .el-drawer .el-drawer__header span:focus {
     outline: none;

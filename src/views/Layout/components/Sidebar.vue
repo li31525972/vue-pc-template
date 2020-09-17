@@ -5,70 +5,59 @@
 */
 
 <template>
-    <el-menu :default-active="path"
-             :mode="mode"
-             class="el-menu-vertical-demo"
-             background-color="#545c64"
-             text-color="#fff"
-             active-text-color="#409EFF"
-             router
-             :collapse="isCollapse">
-        <template v-for="(item, i) in menu">
-            <!--&lt;!&ndash;菜单有二级&ndash;&gt;-->
-            <el-submenu :key="i" v-if="item.meta.level !== 1" :index="'a' + i">
-                <template slot="title">
-                    <i :class="item.meta.icon"></i>
-                    <span slot="title">{{ item.meta.title }}</span>
-                </template>
-                
-                <template v-for="(nav, index) in item.children">
-                    
-                    <!--菜单有三级-->
-                    <el-submenu v-if="nav.children" :key="index + 'a'">
-                        <template slot="title">{{ nav.meta.title }}</template>
-                        <el-menu-item v-for="(subnav, idx) in nav.children" :key="idx" @click="handleSetNav(item, nav, subnav)" :index="item.path + '/' +
-                        nav.path + '/' + subnav.path">{{ subnav.meta.title }}
-                        </el-menu-item>
-                    </el-submenu>
-                    
-                    <el-menu-item :key="index + 'a'" @click="handleSetNav(item, nav)"  :index="item.path + '/' + nav.path">{{ nav.meta.title
-                                                                                         }}</el-menu-item>
-                
-                </template>
-            
-            
-            </el-submenu>
-            <!--菜单没二级-->
-            <el-menu-item v-else @click="handleSetNav(item)" :index="item.redirect" :key="i">
-                <i :class="item.meta.icon"></i>
-                <span slot="title">{{ item.meta.title }}</span>
-            </el-menu-item>
-
-            <!--<ReSubmenu :parent="item" :index="i" :key="i"/>-->
+    <el-menu
+            :default-active="path"
+            :mode="mode"
+            :backgroundColor="backgroundColor"
+            :textColor="textColor"
+            :activeTextColor="activeTextColor"
+            :defaultOpeneds="defaultOpeneds"
+            :uniqueOpened="uniqueOpened"
+            :menuTrigger="menuTrigger"
+            :router="router"
+            :collapse="collapse"
+            :collapseTransition="collapseTransition"
+            class="el-menu-vertical-demo"
+    >
+        
+        <template v-for="(item, i) in data">
+            {{ props.title }}
+            <Submenu
+                    v-if="item[props.children] && item[props.children].length"
+                    :key="i"
+                    :index="`${item[props.label] + i}`"
+                    :icon="item[props.icon]"
+                    :title="item[props.label]"
+                    :props="props"
+                    :children="item[props.children]"
+            />
+            <MenuItem
+                    v-else
+                    :key="i"
+                    :index="item[props.path]"
+                    :icon="item[props.icon]"
+                    :title="item[props.label]"
+            />
         </template>
+        
     </el-menu>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import ReSubmenu from './ReSubmenu'
 import Submenu from './Submenu'
+import MenuItem from './MenuItem'
+
 export default {
     name: 'Sidebar',
     components: {
-        ReSubmenu,
         Submenu,
+        MenuItem,
     },
     props: {
         // 菜单数据
         data: {
             type: Array,
             default: () => []
-        },
-        // 菜单是否展开
-        isCollapse: {
-            type: Boolean,
-            default: false
         },
         // 菜单使用的配置项
         props: {
@@ -84,85 +73,74 @@ export default {
         },
         // 模式
         mode: String,
+        // 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用）
+        collapse: {
+            type: Boolean,
+            default: false
+        },
+        // 菜单的背景色（仅支持 hex 格式）
+        backgroundColor: {
+            type: String,
+            default: '#545c64',
+        },
+        // 菜单的文字颜色（仅支持 hex 格式）
+        textColor: {
+            type: String,
+            default: '#fff',
+        },
+        // 当前激活菜单的文字颜色（仅支持 hex 格式）
+        activeTextColor: {
+            type: String,
+            default: '#ffd04b',
+        },
+        // 当前打开的 sub-menu 的 index 的数组
+        defaultOpeneds: {
+            type: Array,
+            default: () => [],
+        },
+        // 是否只保持一个子菜单的展开
+        uniqueOpened: {
+            type: Boolean,
+            default: true,
+        },
+        // 子菜单打开的触发方式(只在 mode 为 horizontal 时有效)
+        menuTrigger: {
+            type: String,
+            default: 'hover',
+        },
+        // 是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转
+        router: {
+            type: Boolean,
+            default: true,
+        },
+        // 是否开启折叠动画
+        collapseTransition: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
-            menu: []
+        
         }
     },
     computed: {
-        ...mapGetters(['Tags', 'menuList']),
         // 获取当前的路由路径
         path() {
             return this.$route.path;
         }
     },
-    watch: {
-        data: {
-            handler(val) {
-                console.log(val)
-            },
-            immediate: true,
-            deep: true,
-        },
-    },
-    created() {
-        this.getMenu()
-    },
+    
     mounted() {
     
     },
     methods: {
-        handleSetNav(prev, cur) {
-            // TODO 三级没有处理
-            if (!cur) {
-                this.$store.commit('SET_TAGS', { path: prev.redirect, title: prev.meta.title })
-            } else {
-                // 二级菜单
-                if (prev.path !== '/') {
-                    this.$store.commit('SET_TAGS', { path: prev.path + '/' + cur.path, title: cur.meta.title })
-                } else {
-                    this.$store.commit('SET_TAGS', { path: '/' + cur.path, title: cur.meta.title })
-                }
-                
-            }
-            
-        },
     
-        // 获取菜单信息
-        getMenu() {
-            let { routes } = this.$router.options
-            this.menu = routes.filter(item => {
-                return item.meta && !item.meta.hidden
-            })
-        
-        }
     }
 }
 </script>
 <style>
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 200px;
-        height: 100%;
-        min-height: 400px;
-        overflow-y: auto;
-    }
-    
-    .el-menu--collapse {
-        height: 100%;
-    }
 
-    .el-submenu__title {
-        height: 45px;
-        line-height: 45px;
-    }
-    .el-menu-item-group__title {
-        padding: 0;
-    }
-    .el-submenu .el-menu-item {
-        height: 45px;
-        line-height: 45px;
-    }
 </style>
 <style lang="scss" scoped>
 

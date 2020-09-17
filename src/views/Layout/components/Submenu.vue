@@ -12,17 +12,47 @@
             :disabled="disabled"
             :popperAppendToBody="popperAppendToBody"
     >
-        <span slot="title">
-            <slot name="title"></slot>
-        </span>
-        <slot></slot>
+        <template slot="title">
+            <i :class="[icon, 'menu_icon']"></i>
+            <span slot="title" class="base_menu_title">{{ title }}</span>
+        </template>
+    
+        <template v-for="(item, i) in children">
+            <Submenu
+                    v-if="item[props.children] && item[props.children].length"
+                    :key="i"
+                    :index="`${item[props.label] + i}`"
+                    :icon="item[props.icon]"
+                    :title="item[props.label]"
+                    :props="props"
+                    :children="item[props.children]"
+            />
+        
+            <MenuItem
+                    v-else
+                    :key="i"
+                    :index="item[props.path]"
+                    :icon="item[props.icon]"
+                    :title="item[props.label]"
+            />
+        </template>
+        
     </el-submenu>
 </template>
 
 <script>
+import MenuItem from './MenuItem'
 export default {
     name: 'Submenu',
+    components: {
+        MenuItem,
+    },
     props: {
+        // 子菜单数据
+        children: {
+            type: Array,
+            default: () => [],
+        },
         // 唯一标志
         index: {
             type: String,
@@ -46,23 +76,25 @@ export default {
             default: false,
         },
         popperAppendToBody: Boolean,
+        icon: String,
+        title: String,
+        // 菜单使用的配置项
+        props: {
+            type: Object,
+            default: () => {
+                return {
+                    label: 'title',
+                    icon: 'icon',
+                    path: 'path',
+                    children: 'children',
+                }
+            }
+        },
     },
     data() {
         return {
         
         }
-    },
-    computed: {
-    
-    },
-    watch: {
-    
-    },
-    created() {
-    
-    },
-    mounted() {
-    
     },
     methods: {
     

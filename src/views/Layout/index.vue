@@ -7,8 +7,9 @@
     <div class="l-container">
         <!--左侧菜单栏-->
         <Sidebar
-                :isCollapse="isCollapse"
+                :collapse="isCollapse"
                 :data="routes"
+                :props="menuProps"
         />
         <div class="content" :class="{ 'fixed-header': FixedHeader, 'is-collapse': isCollapse, 'is-tags': TagViews }">
             <header :class="{ 'fixed-header': FixedHeader }">
@@ -76,6 +77,14 @@ export default {
     },
     data() {
         return {
+            // 菜单配置项
+            menuProps: {
+                label: 'menuName',
+                icon: 'menuIcon',
+                path: 'router',
+                children: 'menuChild',
+            },
+            
             isCollapse: true,
             isOpen: false,
             circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',

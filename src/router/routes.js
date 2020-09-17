@@ -8,19 +8,21 @@ import Layout from '@/views/Layout'
 const routes = [
     {
         path: '/',
-        redirect: '/index',
+        redirect: '/homePage',
         component: Layout,
         title: '首页',
         meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
         children: [{
-            path: 'index',
+            path: 'homePage',
             name: 'home',
+            title: '首页',
             meta: { title: '首页' },
             component: () => import( /* webpackChunkName: "home" */ '@/views/Home')
         }]
     },
     {
         path: '/components',
+        title: '组件',
         meta: {
             title: '组件',
             icon: 'el-icon-menu'
@@ -31,6 +33,7 @@ const routes = [
             {
                 path: 'search',
                 name: 'search',
+                title: '搜索',
                 meta: {
                     title: '搜索'
                 },
@@ -39,6 +42,7 @@ const routes = [
             {
                 path: 'button',
                 name: 'componentButton',
+                title: '按钮',
                 meta: {
                     title: '按钮',
                 },
@@ -47,6 +51,7 @@ const routes = [
             {
                 path: 'table',
                 name: 'componentTable',
+                title: '表格',
                 meta: {
                     title: '表格',
                 },
@@ -55,6 +60,7 @@ const routes = [
             {
                 path: 'countTo',
                 name: 'countTo',
+                title: '数值动画',
                 meta: {
                     title: '数值动画',
                 },
@@ -63,6 +69,7 @@ const routes = [
             {
                 path: 'messageBox',
                 name: 'messageBox',
+                title: '消息提示框',
                 meta: {
                     title: '消息提示框'
                 },
