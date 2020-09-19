@@ -35,6 +35,7 @@
                 :size="item.size"
         >
             <slot name="label"></slot>
+            <slot :name="item.beforeSlot" :options="item" :value="params[item.name]"></slot>
             <component
                     :is="element[item.element]"
                     :ref="item.name"
@@ -50,7 +51,7 @@
                     @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
             >
             </component>
-        
+            <slot :name="item.afterSlot" :options="item" :value="params[item.name]"></slot>
         </el-form-item>
         
         <el-form-item class="search-button" v-if="isShowSubmit">
@@ -62,7 +63,7 @@
 
 <script>
 import * as utils from '@/utils'
-import { SUCCESSCODE } from '@/config/httpCode'
+import { SUCCESS } from '@/config/httpCode'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
@@ -206,7 +207,7 @@ export default {
         }
     },
     created() {
-    
+        this.init()
     },
     mounted() {
     },
@@ -217,11 +218,11 @@ export default {
             this.options.forEach((item, i) => {
                 
                 // 默认获取配置项
-                if (item.options && item.method) {
+                if (item.method) {
                     // 开启loading
                     this.$set(this.options[i], 'loading', true)
                     item.method(item.params).then(response => {
-                        if (response[SUCCESSCODE.key] === SUCCESSCODE.value) {
+                        if (response[SUCCESS.key] === SUCCESS.value) {
                             let data = response.data || []
                             this.$set(this.options[i], 'options', data)
                             // 关闭loading
@@ -231,24 +232,18 @@ export default {
                 }
                 
                 // 自定义获取配置项
+                if (item.customMethod) {
+                    // 开启loading
+                    this.$set(this.options[i], 'loading', true)
+                    item.customMethod.call(item, item).then(response => {
+                        this.$set(this.options[i], 'options', response)
+                        // 关闭loading
+                        this.$set(this.options[i], 'loading', false)
+                    })
+                }
                 
             })
             
-            
-            // this.options.map(async (item, i) => {
-            //     // 获取下拉框的数据
-            //     if (item.type === 'select' && item.method) {
-            //         // 开启loading
-            //         this.$set(this.options[i], 'loading', true)
-            //         await item.method().then(res => {
-            //
-            //             this.$set(this.options[i], 'options', res ? res : [])
-            //             // item.options = res
-            //             // 关闭loading
-            //             this.$set(this.options[i], 'loading', false)
-            //         })
-            //     }
-            // })
         },
         // 重置
         handleReset(name) {

@@ -16,7 +16,7 @@
             :allowCreate="options.allowCreate"
             :filterMethod="options.filterMethod"
             :remote="options.remote"
-            :remoteMethod="options.remoteMethod"
+            :remoteMethod="value => options.remoteMethod.call(options, value, options)"
             :loading="options.loading"
             :loadingText="options.loadingText"
             :noMatchText="options.noMatchText"
@@ -36,9 +36,9 @@
     >
         <el-option
                 v-for="item in options.options"
-                :key="item[options.optionsKey[1]]"
-                :label="item[options.optionsKey[0]]"
-                :value="item[options.optionsKey[1]]"
+                :key="item[options.props.value]"
+                :label="item[options.props.label]"
+                :value="item[options.props.value]"
                 @click.native="event => $emit('select', { row: item, event })"
         >
         </el-option>

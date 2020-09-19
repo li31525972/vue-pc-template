@@ -20,7 +20,7 @@
 <script>
 import { CommonTable, CommonBtnGroup, CommonForm } from '@/components'
 import { search, table } from '@/mixins'
-import { getStatus } from '@/api/test'
+import * as api from '@/api/test'
 export default {
     name: 'compomentTable',
     components: {
@@ -78,10 +78,11 @@ export default {
                     label: '状态',
                     name: 'status',
                     type: 'select',
-                    method: getStatus,
-                    options: [],
+                    method: api.getStatus,
+                    params: '63',
                     optionsLabel: 'name',
                     optionsValue: 'key',
+                    optionsKey: ['name', 'key'],
                     filter: true,
                     multiple: true,
                 },

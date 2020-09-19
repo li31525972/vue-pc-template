@@ -147,17 +147,28 @@ $len:length($deviceWidth);
             text-overflow: ellipsis;
         }
     }
-    .search-button {
-        text-align: right;
-    }
-    .el-form-item__content > [class^='el-'] {
-        width: 100%;
+
+    .el-form-item__content {
+        display: flex;
+
+        & > .el-input,
+        & > .el-autocomplete,
+        & > .el-input-number,
+        & > .el-select {
+            flex: 1;
+        }
     }
 
     .el-form-item__content [class^='el-button'] {
         width: auto;
     }
 
+    .search-button {
+        .el-form-item__content {
+            justify-content: flex-end;
+        }
+
+    }
 }
 
 //提示组件

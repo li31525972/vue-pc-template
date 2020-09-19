@@ -2,7 +2,11 @@
     <div>
         <CommonSearch :options="searchOptions" ref="form" :formData="searchParams" @change="onChange" :labelWidth="80"
                     :flex="4"
-                    @handleSearch="handleSearch"></CommonSearch>
+                    @handleSearch="handleSearch">
+            <template v-slot:name="{ options, value }">
+                <el-button @click="handleClickName(options, value)">{{ options.label }}</el-button>
+            </template>
+        </CommonSearch>
     </div>
 </template>
 
@@ -27,6 +31,7 @@ export default {
                     element: 'input',
                     clearable: true,
                     rules: [],
+                    afterSlot: 'name',
                     // rules: [
                     //     {
                     //         required: true,
@@ -38,7 +43,7 @@ export default {
                 {
                     label: '年龄',
                     name: 'age',
-                    element: 'inputNumber',
+                    element: 'datePicker',
                 },
                 {
                     label: '姓名1',
@@ -71,233 +76,24 @@ export default {
                 {
                     label: '状态',
                     name: 'status',
-                    element: 'cascader',
-                    method: api.getStatus,
-                    options: [{
-                        value: 'zhinan',
-                        label: '指南',
-                        children: [
-                            {
-                                value: 'shejiyuanze',
-                                label: '设计原则',
-                                children: [{
-                                    value: 'yizhi',
-                                    label: '一致'
-                                }, {
-                                    value: 'fankui',
-                                    label: '反馈'
-                                }, {
-                                    value: 'xiaolv',
-                                    label: '效率'
-                                }, {
-                                    value: 'kekong',
-                                    label: '可控'
-                                }
-                                ]
-                            },
-                            {
-                                value: 'daohang',
-                                label: '导航',
-                                children: [
-                                    {
-                                        value: 'cexiangdaohang',
-                                        label: '侧向导航'
-                                    }, {
-                                        value: 'dingbudaohang',
-                                        label: '顶部导航'
-                                    }
-                                ]
+                    element: 'select',
+                    remote: true,
+                    filterable: true,
+                    options: [], // 必须添加
+                    remoteMethod: function(str) { // 参数为当前输入的内容
+        
+                        // 直接将数据放到当前options里就行
+                        api.getStatus('63').then(response => {
+                            if (response.code === 0) {
+                
+                                this.options = response.data
                             }
-                        ]
-                    }, {
-                        value: 'zujian',
-                        label: '组件',
-                        children: [{
-                            value: 'basic',
-                            label: 'Basic',
-                            children: [{
-                                value: 'layout',
-                                label: 'Layout 布局'
-                            }, {
-                                value: 'color',
-                                label: 'Color 色彩'
-                            }, {
-                                value: 'typography',
-                                label: 'Typography 字体'
-                            }, {
-                                value: 'icon',
-                                label: 'Icon 图标'
-                            }, {
-                                value: 'button',
-                                label: 'Button 按钮'
-                            }]
-                        }, {
-                            value: 'form',
-                            label: 'Form',
-                            children: [{
-                                value: 'radio',
-                                label: 'Radio 单选框'
-                            }, {
-                                value: 'checkbox',
-                                label: 'Checkbox 多选框'
-                            }, {
-                                value: 'input',
-                                label: 'Input 输入框'
-                            }, {
-                                value: 'input-number',
-                                label: 'InputNumber 计数器'
-                            }, {
-                                value: 'select',
-                                label: 'Select 选择器'
-                            }, {
-                                value: 'cascader',
-                                label: 'Cascader 级联选择器'
-                            }, {
-                                value: 'switch',
-                                label: 'Switch 开关'
-                            }, {
-                                value: 'slider',
-                                label: 'Slider 滑块'
-                            }, {
-                                value: 'time-picker',
-                                label: 'TimePicker 时间选择器'
-                            }, {
-                                value: 'date-picker',
-                                label: 'DatePicker 日期选择器'
-                            }, {
-                                value: 'datetime-picker',
-                                label: 'DateTimePicker 日期时间选择器'
-                            }, {
-                                value: 'upload',
-                                label: 'Upload 上传'
-                            }, {
-                                value: 'rate',
-                                label: 'Rate 评分'
-                            }, {
-                                value: 'form',
-                                label: 'Form 表单'
-                            }]
-                        }, {
-                            value: 'data',
-                            label: 'Data',
-                            children: [{
-                                value: 'table',
-                                label: 'Table 表格'
-                            }, {
-                                value: 'tag',
-                                label: 'Tag 标签'
-                            }, {
-                                value: 'progress',
-                                label: 'Progress 进度条'
-                            }, {
-                                value: 'tree',
-                                label: 'Tree 树形控件'
-                            }, {
-                                value: 'pagination',
-                                label: 'Pagination 分页'
-                            }, {
-                                value: 'badge',
-                                label: 'Badge 标记'
-                            }]
-                        }, {
-                            value: 'notice',
-                            label: 'Notice',
-                            children: [{
-                                value: 'alert',
-                                label: 'Alert 警告'
-                            }, {
-                                value: 'loading',
-                                label: 'Loading 加载'
-                            }, {
-                                value: 'message',
-                                label: 'Message 消息提示'
-                            }, {
-                                value: 'message-box',
-                                label: 'MessageBox 弹框'
-                            }, {
-                                value: 'notification',
-                                label: 'Notification 通知'
-                            }]
-                        }, {
-                            value: 'navigation',
-                            label: 'Navigation',
-                            children: [{
-                                value: 'menu',
-                                label: 'NavMenu 导航菜单'
-                            }, {
-                                value: 'tabs',
-                                label: 'Tabs 标签页'
-                            }, {
-                                value: 'breadcrumb',
-                                label: 'Breadcrumb 面包屑'
-                            }, {
-                                value: 'dropdown',
-                                label: 'Dropdown 下拉菜单'
-                            }, {
-                                value: 'steps',
-                                label: 'Steps 步骤条'
-                            }]
-                        }, {
-                            value: 'others',
-                            label: 'Others',
-                            children: [{
-                                value: 'dialog',
-                                label: 'Dialog 对话框'
-                            }, {
-                                value: 'tooltip',
-                                label: 'Tooltip 文字提示'
-                            }, {
-                                value: 'popover',
-                                label: 'Popover 弹出框'
-                            }, {
-                                value: 'card',
-                                label: 'Card 卡片'
-                            }, {
-                                value: 'carousel',
-                                label: 'Carousel 走马灯'
-                            }, {
-                                value: 'collapse',
-                                label: 'Collapse 折叠面板'
-                            }]
-                        }]
-                    }, {
-                        value: 'ziyuan',
-                        label: '资源',
-                        children: [{
-                            value: 'axure',
-                            label: 'Axure Components'
-                        }, {
-                            value: 'sketch',
-                            label: 'Sketch Templates'
-                        }, {
-                            value: 'jiaohu',
-                            label: '组件交互文档'
-                        }]
-                    }],
-                    props: {
-                        lazy: false,
-                        async lazyLoad(node, resolve, options) {
-                            let { level, root, value } = node
-                            console.log(node, options)
-                            console.log(this)
-                            if (root) {
-                                let { data } = await api.getProvinceDropDown()
-                                resolve(data)
-                            } else {
-                                let { data } = await api.getAreaDropDown(value)
-                                data.map(item => {
-                                    item.leaf = level >= 2
-                                })
-                                resolve(data)
-                            }
-                            
-                        },
-                        // label: 'dropDownValue',
-                        // value: 'dropDownKey',
-                        
-                        children: 'children',
+                        })
                     },
-                    // multiple: true,
+                    props: {
+                        label: 'dropDownValue',
+                        value: 'dropDownKey',
+                    },
                 },
                 // {
                 //     label: '开始时间',
@@ -348,6 +144,10 @@ export default {
         },
         onChange({ name, value }) {
             console.log(name, ':', value);
+        },
+    
+        handleClickName(options, val) {
+            console.log(options, val);
         },
     }
 }
