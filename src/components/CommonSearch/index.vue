@@ -53,11 +53,12 @@
             </component>
             <slot :name="item.afterSlot" :options="item" :value="params[item.name]"></slot>
         </el-form-item>
-        
+    
         <el-form-item class="search-button" v-if="isShowSubmit">
-            <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
             <el-button @click="handleReset('ruleForm')">重置</el-button>
+            <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
         </el-form-item>
+        
     </el-form>
 </template>
 
@@ -197,22 +198,22 @@ export default {
     computed: {
     
     },
-    watch: {
-        formData: {
-            handler(val) {
-                this.params = JSON.parse(JSON.stringify(val))
-            },
-            immediate: true,
-            deep: true,
-        }
-    },
     created() {
+        this.initParams()
         this.init()
     },
     mounted() {
     },
     methods: {
-        // 初始化方法
+        // 初始化默认值
+        initParams() {
+            this.options.forEach(item => {
+                if (item.defaultValue || this.formData[item.name]) {
+                    this.$set(this.params, item.name, this.formData[item.name] || item.defaultValue)
+                }
+            })
+        },
+        // 初始化获取数据方法
         init() {
             // 获取表格数据
             this.options.forEach((item, i) => {
@@ -248,7 +249,7 @@ export default {
         // 重置
         handleReset(name) {
             this.$refs[name].resetFields();
-            this.params = { ...this.formData }
+            this.initParams()
             
             this.$emit('handleReset', this.params)
         },

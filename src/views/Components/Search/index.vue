@@ -31,6 +31,7 @@ export default {
                     element: 'input',
                     clearable: true,
                     rules: [],
+                    defaultValue: '小明',
                     afterSlot: 'name',
                     // rules: [
                     //     {
@@ -77,19 +78,9 @@ export default {
                     label: '状态',
                     name: 'status',
                     element: 'select',
-                    remote: true,
-                    filterable: true,
-                    options: [], // 必须添加
-                    remoteMethod: function(str) { // 参数为当前输入的内容
-        
-                        // 直接将数据放到当前options里就行
-                        api.getStatus('63').then(response => {
-                            if (response.code === 0) {
-                
-                                this.options = response.data
-                            }
-                        })
-                    },
+                    method: api.getStatus,
+                    params: '63',
+                    afterSlot: 'name',
                     props: {
                         label: 'dropDownValue',
                         value: 'dropDownKey',
