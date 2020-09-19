@@ -5,6 +5,17 @@
 */
 @import './base';
 
+//禁止选中
+.disabled_selected {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
 //菜单样式修改
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
@@ -30,13 +41,7 @@
 .el-submenu__title,
 .el-menu-item {
     font-size: 16px;
-
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    @extend .disabled_selected;
 
     & > i {
         font-size: 16px;
@@ -77,12 +82,7 @@
         }
 
         span {
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+            @extend .disabled_selected;
         }
     }
     .el-drawer__body {
@@ -138,4 +138,10 @@
         width: auto;
     }
 
+}
+
+//提示组件
+.el-tooltip:focus {
+    outline: none;
+    @extend .disabled_selected;
 }

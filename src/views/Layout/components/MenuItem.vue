@@ -6,7 +6,7 @@
 <template>
     <el-menu-item
         :index="index"
-        :route="route"
+        :route="route ? { name: route } : null"
         :disabled="disabled"
         class="base_menu_item"
     >
@@ -21,8 +21,8 @@ export default {
     props: {
         index: String,
         route: {
-            type: Object,
-            default: () => null,
+            type: String,
+            default: null,
         },
         disabled: {
             type: Boolean,

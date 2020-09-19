@@ -20,7 +20,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    document.title = to.meta.title
+    document.title = to.meta.title || to.title
 
     if (to.name !== 'login') {
         let token = sessionStorage.getItem('token')

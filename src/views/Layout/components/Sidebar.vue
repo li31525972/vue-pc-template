@@ -36,6 +36,7 @@
                     :key="i"
                     :index="item[props.path]"
                     :icon="item[props.icon]"
+                    :route="item[props.route]"
                     :title="item[props.label]"
             />
         </template>
@@ -67,6 +68,7 @@ export default {
                     label: 'title',
                     icon: 'icon',
                     path: 'path',
+                    route: 'name',
                     children: 'children',
                 }
             }

@@ -32,6 +32,7 @@
                     v-else
                     :key="i"
                     :index="item[props.path]"
+                    :route="item[props.route]"
                     :icon="item[props.icon]"
                     :title="item[props.label]"
             />
@@ -86,6 +87,7 @@ export default {
                     label: 'title',
                     icon: 'icon',
                     path: 'path',
+                    route: 'name',
                     children: 'children',
                 }
             }

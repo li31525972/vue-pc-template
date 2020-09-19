@@ -17,10 +17,27 @@
                     <div class="hamburger" @click="handleCollapse"
                          :class="[ isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></div>
                     <div class="content">
+                        <!--面包屑导航-->
+                        
                         <BreadCrumbs class="bread"></BreadCrumbs>
+                        
                         <div class="right-menu">
-                            <i @click="openRight" class="setting-btn el-icon-setting"></i>
-                            <i @click="handleFullScreen" class="el-icon-full-screen screen-full"></i>
+                            <el-tooltip class="item" effect="dark" content="错误信息" placement="bottom">
+                                <el-badge :value="456" :max="999" class="item">
+                                    <i class="el-icon-warning-outline"
+                                       @click="() => $router.push({ name: 'errorLog' })"></i>
+                                </el-badge>
+                            </el-tooltip>
+                            
+                            <el-tooltip class="item" :disabled="isOpen" effect="dark" content="系统设置"
+                                        placement="bottom">
+                                <i @click="openRight" class="setting-btn el-icon-setting"></i>
+                            </el-tooltip>
+                            <el-tooltip class="item" effect="dark" content="全屏" placement="bottom">
+                                <i @click="handleFullScreen" class="el-icon-full-screen screen-full"></i>
+                            </el-tooltip>
+                            
+                            
                             <el-dropdown @command="handleCommand" trigger="click">
                                 <span class="el-dropdown-link">
                                     <el-avatar shape="square" size="medium" :src="circleUrl"></el-avatar>
@@ -34,6 +51,8 @@
                         </div>
                     </div>
                 </div>
+                
+                <!--tab栏-->
                 <TagViews :class="['tags-view', { 'is-tags': TagViews }]"/>
             </header>
             <main :class="{ 'main': FixedHeader }">
@@ -67,6 +86,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Sidebar from './components/Sidebar'
 import TagViews from './components/tag-view'
 import BreadCrumbs from './components/bread.vue'
+import * as constant from '@/config/constant'
 
 export default {
     name: 'layout',
@@ -78,12 +98,7 @@ export default {
     data() {
         return {
             // 菜单配置项
-            menuProps: {
-                label: 'menuName',
-                icon: 'menuIcon',
-                path: 'router',
-                children: 'menuChild',
-            },
+            menuProps: constant.menuProps(),
             
             isCollapse: true,
             isOpen: false,
@@ -99,7 +114,11 @@ export default {
         }),
         // 过滤菜单
         routes() {
-            return this.menuList || this.getMenu()
+            console.log(this.menuList);
+            if (constant.env.NODE_ENV === 'test') {
+                return this.menuList
+            }
+            return this.getMenu()
         },
         FixedHeader: {
             get() {
@@ -120,7 +139,7 @@ export default {
     },
     watch: {},
     created() {
-        console.log(process.env);
+    
     },
     mounted() {
     },
@@ -205,21 +224,43 @@ export default {
 </style>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style lang="scss" scoped>
     @import '~@/assets/css/base.scss';
     /*最外层盒子*/
-
-
+    
+    
     .l-container {
         display: flex;
         width: 100%;
         height: 100%;
         /*background-color: #f5f5f5;*/
-
+        
         & > aside {
             /*width: 200px;*/
         }
-
+        
         & > .content {
             flex: 1;
             width: 100%;
@@ -227,72 +268,80 @@ export default {
             overflow-x: hidden;
             overflow-y: auto;
             position: relative;
-
+            
             &.fixed-header {
                 display: flex;
                 flex-direction: column;
             }
-
+            
             header {
                 width: 100%;
                 background-color: #fff;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
                 border-bottom: 1px solid #ccc;
-
+                
                 .navbar {
                     height: 50px;
                     display: flex;
                     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-
+                    
                     .hamburger {
                         width: 50px;
                         line-height: 50px;
                         text-align: center;
                         font-size: 22px;
                         cursor: pointer;
-
+                        
                         &:hover {
                             color: #409EFF;
                         }
                     }
-
+                    
                     .content {
                         flex: 1;
                         display: flex;
                         justify-content: space-between;
-
+                        
                         .right-menu {
                             height: 100%;
-                            line-height: 50px;
                             margin-right: 10px;
                             display: flex;
                             align-items: center;
-
+    
+                            /deep/ .el-badge__content.is-fixed {
+                                top: 5px;
+                                right: 20px;
+                            }
+                            
                             .el-dropdown {
                                 cursor: pointer;
                                 height: 100%;
-
+                                
                                 .el-dropdown-link.el-dropdown-selfdefine {
                                     display: flex;
                                     height: 100%;
                                     align-items: center;
                                 }
                             }
-
+                            
                             i {
+                                margin-right: 10px;
+                                height: 30px;
+                                width: 30px;
+                                line-height: 30px;
                                 font-size: 20px;
                                 font-weight: 700;
-                                margin-right: 10px;
+                                text-align: center;
                                 cursor: pointer;
                             }
                         }
                     }
                 }
-
+                
                 .tags-view {
                     height: 0;
                     overflow: hidden;
-
+                    
                     transition: $transition;
                     &.is-tags {
                         height: 34px;
@@ -302,13 +351,13 @@ export default {
                     }
                 }
             }
-
+            
             .wrap {
                 background-color: #fff;
                 border-radius: 2px 0 0 2px;
                 padding: 10px;
             }
-
+            
             main {
                 box-sizing: border-box;
                 display: flex;
@@ -322,32 +371,32 @@ export default {
                     width: 100%;
                 }
             }
-
+            
             .main {
-
+                
                 flex: 1;
                 width: 100%;
                 min-height: calc(100% - 85px);
-
+                
                 .wrap {
                     -webkit-box-sizing: border-box;
                     -moz-box-sizing: border-box;
                     box-sizing: border-box;
                     width: 100%;
                     min-height: 100%;
-
+                    
                 }
             }
         }
     }
-
+    
     .drawer-list {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         height: 100%;
         padding: 0 20px;
-
+        
         li {
             display: flex;
             align-items: center;
@@ -356,29 +405,29 @@ export default {
             justify-content: space-between;
         }
     }
-
+    
     // fade
     .fade-enter-active,
     .fade-leave-active {
         transition: opacity 0.28s;
     }
-
+    
     .fade-enter,
     .fade-leave-active {
         opacity: 0;
     }
-
+    
     // fade-transform
     .fade-transform-leave-active,
     .fade-transform-enter-active {
         transition: all .5s;
     }
-
+    
     .fade-transform-enter {
         opacity: 0;
         transform: translateX(-30px);
     }
-
+    
     .fade-transform-leave-to {
         opacity: 0;
         transform: translateX(30px);

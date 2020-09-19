@@ -11,6 +11,7 @@ const routes = [
         redirect: '/homePage',
         component: Layout,
         title: '首页',
+        icon: 'el-icon-s-home',
         meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
         children: [{
             path: 'homePage',
@@ -23,6 +24,7 @@ const routes = [
     {
         path: '/components',
         title: '组件',
+        icon: 'el-icon-menu',
         meta: {
             title: '组件',
             icon: 'el-icon-menu'
@@ -82,6 +84,26 @@ const routes = [
         name: 'login',
         meta: { title: '登录', hidden: true },
         component: () => import(/* webpackChunkName: "login" */ '@/views/Login')
+    },
+    {
+        path: '/error',
+        redirect: '/error/error-log',
+        hidden: true,
+        component: Layout,
+        children: [
+            {
+                path: 'error-log',
+                name: 'errorLog',
+                title: '错误日志',
+                component: () => import(/* webpackChunkName: '404' */ '@/views/Error/ErrorLog.vue')
+            },
+            {
+                path: 'statistics',
+                name: 'statistics',
+                title: '错误统计',
+                component: () => import(/* webpackChunkName: '404' */ '@/views/Error/Statistics.vue')
+            },
+        ],
     },
     {
         path: '*',
