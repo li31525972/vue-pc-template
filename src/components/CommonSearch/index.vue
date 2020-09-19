@@ -23,8 +23,7 @@
         <el-form-item
                 v-for="(item, i) in options"
                 :key="i"
-                :class="['search-item', { 'no-rules-item': !rulesFlag} ]"
-                :style="styleObject(item)"
+                :class="['search-item-col', { 'no-rules-item': !rulesFlag} ]"
                 :prop="item.name"
                 :label="item.label"
                 :labelWidth="item.labelWidth"
@@ -63,6 +62,7 @@
 
 <script>
 import * as utils from '@/utils'
+import { SUCCESSCODE } from '@/config/httpCode'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
@@ -206,46 +206,49 @@ export default {
         }
     },
     created() {
-        
-        // this.init()
+    
     },
     mounted() {
     },
     methods: {
-        // 计算宽度
-        styleObject(row) {
-            let flex = Number(this.flex)
-            let width = 100 / flex * (row.flex ? Number(row.flex) : 1) + '%'
-            return {
-                width,
-                minWidth: width,
-                maxWidth: width,
-            }
-            
-        },
         // 初始化方法
         init() {
-            this.options.map(async (item, i) => {
-                // 获取下拉框的数据
-                if (item.type === 'select' && item.method) {
+            // 获取表格数据
+            this.options.forEach((item, i) => {
+                
+                // 默认获取配置项
+                if (item.options && item.method) {
                     // 开启loading
                     this.$set(this.options[i], 'loading', true)
-                    await item.method().then(res => {
-                        
-                        this.$set(this.options[i], 'options', res ? res : [])
-                        // item.options = res
-                        // 关闭loading
-                        this.$set(this.options[i], 'loading', false)
+                    item.method(item.params).then(response => {
+                        if (response[SUCCESSCODE.key] === SUCCESSCODE.value) {
+                            let data = response.data || []
+                            this.$set(this.options[i], 'options', data)
+                            // 关闭loading
+                            this.$set(this.options[i], 'loading', false)
+                        }
                     })
                 }
                 
-                // 获取验证规则
-                if (item.rules) {
-                    this.rulesFlag = true
-                    // this.rules[item.name] = item.rules
-                    this.$set(this.rules, item.name, item.rules)
-                }
+                // 自定义获取配置项
+                
             })
+            
+            
+            // this.options.map(async (item, i) => {
+            //     // 获取下拉框的数据
+            //     if (item.type === 'select' && item.method) {
+            //         // 开启loading
+            //         this.$set(this.options[i], 'loading', true)
+            //         await item.method().then(res => {
+            //
+            //             this.$set(this.options[i], 'options', res ? res : [])
+            //             // item.options = res
+            //             // 关闭loading
+            //             this.$set(this.options[i], 'loading', false)
+            //         })
+            //     }
+            // })
         },
         // 重置
         handleReset(name) {

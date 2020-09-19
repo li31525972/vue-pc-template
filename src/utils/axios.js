@@ -6,7 +6,7 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
 import { Message } from 'element-ui'
-import CODE from '@/config/httpCode'
+import { CODE } from '@/config/httpCode'
 
 // // 当前正在请求的api
 let loadingApi = []

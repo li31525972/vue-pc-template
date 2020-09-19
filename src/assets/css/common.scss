@@ -5,6 +5,26 @@
 */
 @import './base';
 
+//使用媒体查询来适配
+$deviceWidth:500px, 700px, 1000px, 1400px, 1920px, 2560px, 2900px;
+//设备的种类
+$len:length($deviceWidth);
+
+@mixin adapter($i: 1) {
+    @for $i from 1 through $len {
+        @media screen and (min-width: nth($deviceWidth,$i)) {
+            //搜索组件的适配
+            .search-item-col {
+                width: 100% / $i;
+                min-width: 100% / $i;
+                max-width: 100% / $i;
+            }
+        }
+    }
+}
+
+@include adapter(1)
+
 //禁止选中
 .disabled_selected {
     -webkit-user-select: none;

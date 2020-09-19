@@ -1,8 +1,8 @@
 <template>
     <div>
-        <CommonForm :options="searchOptions" ref="form" :formData="searchParams" @change="onChange" :labelWidth="80"
+        <CommonSearch :options="searchOptions" ref="form" :formData="searchParams" @change="onChange" :labelWidth="80"
                     :flex="4"
-                    @handleSearch="handleSearch"></CommonForm>
+                    @handleSearch="handleSearch"></CommonSearch>
     </div>
 </template>
 

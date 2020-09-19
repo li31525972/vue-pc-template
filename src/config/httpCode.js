@@ -3,9 +3,15 @@
 * @date 2020-04-08
 * @author YaHui Li
 */
+// 成功的状态码
+export const SUCCESS = {
+    key: 'code',
+    value: 0,
+}
+
 
 // 系统错误状态码
-export default {
+export const CODE = {
     400: '客户端参数有误',
     401: '认证失败，请重新登录',
     404: '请求的地址不存在',
