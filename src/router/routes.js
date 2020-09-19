@@ -88,19 +88,21 @@ const routes = [
     {
         path: '/error',
         redirect: '/error/error-log',
-        hidden: true,
+        meta: { title: '错误', hidden: true },
         component: Layout,
         children: [
             {
                 path: 'error-log',
                 name: 'errorLog',
                 title: '错误日志',
+                meta: { title: '错误日志' },
                 component: () => import(/* webpackChunkName: '404' */ '@/views/Error/ErrorLog.vue')
             },
             {
                 path: 'statistics',
                 name: 'statistics',
                 title: '错误统计',
+                meta: { title: '错误统计' },
                 component: () => import(/* webpackChunkName: '404' */ '@/views/Error/Statistics.vue')
             },
         ],

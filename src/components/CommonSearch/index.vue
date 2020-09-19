@@ -192,17 +192,11 @@ export default {
                 timeSelect: 'NmTimeSelect',
                 upload: 'NmUpload',
             },
-            refs: {},
         }
-    },
-    computed: {
-    
     },
     created() {
         this.initParams()
         this.init()
-    },
-    mounted() {
     },
     methods: {
         // 初始化默认值

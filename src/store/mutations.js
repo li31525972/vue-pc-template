@@ -2,7 +2,7 @@ import { initState } from './index'
 export default {
     // 重置store的数据
     RESET_STORE(state) {
-        state = Object.assign({}, initState)
+        state = Object.assign(state, initState)
     },
 
     // 存储用户信息
