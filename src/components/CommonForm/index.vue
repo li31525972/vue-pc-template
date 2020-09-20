@@ -219,7 +219,7 @@ export default {
                 // 存储当前配置项
                 this.$set(this.currentOptions, item.name, item)
                 
-                if (item.disabled) {
+                if (item.disabledArr) {
                     
                 }
                 
