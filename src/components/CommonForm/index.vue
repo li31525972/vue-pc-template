@@ -35,7 +35,6 @@
                     :is="element[item.element]"
                     :ref="item.name"
                     :options="item"
-                    :disabled="computedDisabled(item)"
                     v-model="params[item.name]"
                     @input="value => $emit('input', { name: item.name, value: value })"
                     @change="value => $emit('change', { name: item.name, value: value })"
@@ -185,6 +184,14 @@ export default {
     computed: {
     
     },
+    watch: {
+        params: {
+            handler(value) {
+                console.log(value);
+            },
+            deep: true
+        },
+    },
     created() {
         this.init()
         this.initParams()
@@ -209,8 +216,12 @@ export default {
                 if (item.rules) {
                     this.rulesFlag = true
                 }
-            
+                // 存储当前配置项
                 this.$set(this.currentOptions, item.name, item)
+                
+                if (item.disabled) {
+                    
+                }
                 
                 // 默认获取配置项
                 if (item.method) {
@@ -251,17 +262,6 @@ export default {
                 maxWidth: width,
             }
 
-        },
-        
-        // 表格禁用
-        computedDisabled(item) {
-            console.log(utils.type(item.hidden));
-            if (utils.type(item.hidden) === 'Boolean') {
-                return item.hidden
-            }
-            if (utils.type(item.hidden) === 'Function') {
-                return item.hidden(this.params)
-            }
         },
         
         // 获取表单中的值
