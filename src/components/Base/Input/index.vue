@@ -8,7 +8,7 @@
             :showWordLimit="options.showWordLimit"
             :clearable="options.clearable"
             :showPassword="options.showPassword"
-            :disabled="options.disabled"
+            :disabled="disabled"
             :size="options.size"
             :prefixIcon="options.prefixIcon"
             :suffixIcon="options.suffixIcon"
@@ -47,7 +47,11 @@ export default {
         options: {
             type: Object,
             default: () => ({}),
-        }
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {

@@ -39,7 +39,7 @@
                 :key="item[options.props.value]"
                 :label="item[options.props.label]"
                 :value="item[options.props.value]"
-                @click.native="event => $emit('select', { row: item, event })"
+                @click.native="event => $emit('select', item)"
         >
         </el-option>
     </el-select>

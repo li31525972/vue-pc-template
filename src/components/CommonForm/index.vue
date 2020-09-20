@@ -16,7 +16,7 @@
             :labelWidth="labelWidth + 'px'"
             class="search-wrap">
         <el-form-item
-                v-for="(item, i) in options"
+                v-for="(item, i) in currentOptions"
                 :key="i"
                 :class="['search-item', { 'no-rules-item': !rulesFlag} ]"
                 :style="styleObject(item)"
@@ -30,29 +30,33 @@
                 :inlineMessage="item.inlineMessage"
                 :size="item.size"
         >
-            <slot name="label"></slot>
+            <slot :name="item.beforeSlot" :options="item" :value="params[item.name]"></slot>
             <component
                     :is="element[item.element]"
                     :ref="item.name"
                     :options="item"
+                    :disabled="computedDisabled(item)"
                     v-model="params[item.name]"
                     @input="value => $emit('input', { name: item.name, value: value })"
                     @change="value => $emit('change', { name: item.name, value: value })"
                     @blur="value => $emit('blur', { name: item.name, value: value })"
                     @focus="value => $emit('focus', { name: item.name, value: value })"
-                    @select="value => $emit('select', { name: item.name, value: value })"
+                    @select="currentOptions => $emit('select', { name: item.name, value: params[item.name], options: currentOptions
+                     })"
                     @clear="value => $emit('clear', { name: item.name, value: value })"
                     @expandChange="value => $emit('expandChange', { name: item.name, value: value })"
                     @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
             >
             </component>
-
+            <slot :name="item.afterSlot" :options="item" :value="params[item.name]"></slot>
         </el-form-item>
 
     </el-form>
 </template>
 
 <script>
+import * as utils from '@/utils'
+import { SUCCESS } from '@/config/httpCode'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')
@@ -155,6 +159,7 @@ export default {
     },
     data() {
         return {
+            currentOptions: {},
             params: {},
             rules: {},
             rulesFlag: false,
@@ -180,22 +185,62 @@ export default {
     computed: {
     
     },
-    watch: {
-        formData: {
-            handler(val) {
-                this.params = JSON.parse(JSON.stringify(val))
-            },
-            immediate: true,
-            deep: true,
-        }
-    },
     created() {
-        
-        // this.init()
+        this.init()
+        this.initParams()
     },
     mounted() {
     },
     methods: {
+        // 初始化默认值
+        initParams() {
+            this.options.forEach(item => {
+                if (item.defaultValue || this.formData[item.name]) {
+                    this.$set(this.params, item.name, this.formData[item.name] || item.defaultValue)
+                }
+            })
+        },
+    
+        // 初始化获取数据方法
+        init() {
+            // 获取表格数据
+            this.options.forEach((item, i) => {
+                // 判断是否有验证规则(用于样式)
+                if (item.rules) {
+                    this.rulesFlag = true
+                }
+            
+                this.$set(this.currentOptions, item.name, item)
+                
+                // 默认获取配置项
+                if (item.method) {
+                    // 开启loading
+                    this.$set(this.options[i], 'loading', true)
+                    item.method(item.params).then(response => {
+                        if (response[SUCCESS.key] === SUCCESS.value) {
+                            let data = response.data || []
+                            this.$set(this.options[i], 'options', data)
+                            // 关闭loading
+                            this.$set(this.options[i], 'loading', false)
+                        }
+                    })
+                }
+            
+                // 自定义获取配置项
+                if (item.customMethod) {
+                    // 开启loading
+                    this.$set(this.options[i], 'loading', true)
+                    item.customMethod.call(item, item).then(response => {
+                        this.$set(this.options[i], 'options', response)
+                        // 关闭loading
+                        this.$set(this.options[i], 'loading', false)
+                    })
+                }
+            
+            })
+        
+        },
+        
         // 计算宽度
         styleObject(row) {
             let flex = Number(this.flex)
@@ -206,6 +251,44 @@ export default {
                 maxWidth: width,
             }
 
+        },
+        
+        // 表格禁用
+        computedDisabled(item) {
+            console.log(utils.type(item.hidden));
+            if (utils.type(item.hidden) === 'Boolean') {
+                return item.hidden
+            }
+            if (utils.type(item.hidden) === 'Function') {
+                return item.hidden(this.params)
+            }
+        },
+        
+        // 获取表单中的值
+        getFormData(isDefault) {
+            // 是否需要返回默认值中没有用到的值
+            if (isDefault) {
+                return Object.assign({}, this.formData, this.params)
+            }
+            return this.params
+        },
+    
+        // 修改表单中的值
+        changeFormData(data) {
+            if (utils.type(data) === 'Object') {
+                for (let key in data) {
+                    this.$set(this.params, key, data[key])
+                }
+            }
+        },
+    
+        // 修改表单配置项
+        changeForm(data) {
+            if (utils.type(data) === 'Object') {
+                for (let key in data) {
+                    this.$set(this.currentOptions, key, data[key])
+                }
+            }
         },
     }
 }

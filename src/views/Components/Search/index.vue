@@ -1,12 +1,19 @@
 <template>
     <div>
-        <CommonSearch :options="searchOptions" ref="form" :formData="searchParams" @change="onChange" :labelWidth="80"
-                    :flex="4"
-                    @handleSearch="handleSearch">
+        <CommonForm
+                :options="searchOptions"
+                ref="form"
+                :formData="searchParams"
+                @change="onChange"
+                :labelWidth="80"
+                :flex="4"
+                @handleSearch="handleSearch"
+                @select="onSearchSelect"
+        >
             <template v-slot:name="{ options, value }">
                 <el-button @click="handleClickName(options, value)">{{ options.label }}</el-button>
             </template>
-        </CommonSearch>
+        </CommonForm>
     </div>
 </template>
 
@@ -33,6 +40,12 @@ export default {
                     rules: [],
                     defaultValue: '小明',
                     afterSlot: 'name',
+                    hidden: (data) => {
+                        console.log(data);
+                        if (data.status === '3') {
+                            return true
+                        }
+                    },
                     // rules: [
                     //     {
                     //         required: true,
@@ -136,9 +149,24 @@ export default {
         onChange({ name, value }) {
             console.log(name, ':', value);
         },
-    
+        
         handleClickName(options, val) {
             console.log(options, val);
+        },
+    
+        onSearchSelect(data) {
+            console.log(data);
+            let element = this.$refs.form
+            if (data.value == 5) {
+                this.$set(element.currentOptions.name, 'hidden', true)
+                // this.$set(element.params, 'name', undefined)
+            } else {
+                this.$set(element.currentOptions.name, 'hidden', false)
+                // this.$set(element.currentOptions.name, 'disabled', false)
+            }
+            
+            // this.$refs.form.changeForm({}, 'currentOptions.name')
+            console.log(this.$refs.form);
         },
     }
 }

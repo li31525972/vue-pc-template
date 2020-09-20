@@ -23,7 +23,7 @@
         <el-form-item
                 v-for="(item, i) in options"
                 :key="i"
-                :class="['search-item-col', { 'no-rules-item': !rulesFlag} ]"
+                :class="['search-item-col', 'no-rules-item']"
                 :prop="item.name"
                 :label="item.label"
                 :labelWidth="item.labelWidth"
@@ -35,7 +35,6 @@
                 :size="item.size"
         >
             <slot name="label"></slot>
-            <slot :name="item.beforeSlot" :options="item" :value="params[item.name]"></slot>
             <component
                     :is="element[item.element]"
                     :ref="item.name"
@@ -51,7 +50,6 @@
                     @activeChange="value => $emit('activeChange', { name: item.name, value: value })"
             >
             </component>
-            <slot :name="item.afterSlot" :options="item" :value="params[item.name]"></slot>
         </el-form-item>
     
         <el-form-item class="search-button" v-if="isShowSubmit">
@@ -63,7 +61,6 @@
 </template>
 
 <script>
-import * as utils from '@/utils'
 import { SUCCESS } from '@/config/httpCode'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
@@ -154,16 +151,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        // 每行显示几个
-        flex: {
-            type: [Number, String],
-            default: 4,
-        },
-        // 表单默认数据
-        formData: {
-            type: Object,
-            default: () => {}
-        },
         // 是否显示提交按钮
         isShowSubmit: {
             type: Boolean,
@@ -173,8 +160,6 @@ export default {
     data() {
         return {
             params: {},
-            rules: {},
-            rulesFlag: false,
             element: {
                 input: 'NmInput',
                 cascader: 'NmCascader',
@@ -202,8 +187,8 @@ export default {
         // 初始化默认值
         initParams() {
             this.options.forEach(item => {
-                if (item.defaultValue || this.formData[item.name]) {
-                    this.$set(this.params, item.name, this.formData[item.name] || item.defaultValue)
+                if (item.defaultValue) {
+                    this.$set(this.params, item.name, item.defaultValue)
                 }
             })
         },
@@ -256,14 +241,6 @@ export default {
                     return false
                 }
             })
-        },
-        // 修改表单中的值
-        changeFormData(data) {
-            if (utils.type(data) === 'Object') {
-                for (let key in data) {
-                    this.$set(this.params, key, data[key])
-                }
-            }
         },
     }
 }

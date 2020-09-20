@@ -5,6 +5,7 @@
     {
         label: '姓名', 表单名称
         name: 'name', 字段名
+        defaultValue: '小明', 默认值
         type: 'select', input类型，默认为text
         options: [], 表单为下拉框的option选项, 默认显示使用字段为label，绑定至为value，
         手动修改使用optionsLabel, optionsValue,
@@ -33,7 +34,11 @@ flex="4" 参数类型为数字或字符串, 默认一行显示4个表单
 
 #### 手动获取表单数据
 ```
+方法1 获取当前form表单中的数据
 this.$refs['组件'].params
+
+方法2 获取当前form表单中的数据带默认数据
+this.$refs['组件'].getFormData(true)
 ```
 
 #### 表单数据源
@@ -41,25 +46,30 @@ this.$refs['组件'].params
 :formData="searchParams" 表单回显数据
 ```
 
-#### 是否显示搜索按钮和重置按钮
+#### 事件(参考ElementUI)
 ```
-:isShowSubmit="false" 默认为true
+方法有一个参数，参数为对象:
+    name代表触发的是哪个input框
+    value代表当前值
+    options为当前选中项的数据
+
+
+```
+### 手动改变表单中的值
+```xlsx
+方法1(可以改变多个)
+let params = {
+    name: '小明', // 意思是修改表单中字段name的值为 '小明'
+}
+this.$refs['组件'].changeFormData(params)
+
+方法2(仅能改变单个)
+let element = this.$refs['组件']
+this.$set(element.params, 'name', '小明')
 ```
 
-#### 搜索按钮
+### 手动改变表单配置项的值(用于表单联动效果, 如：禁用、表单的根据条件隐藏)
 ```
-@handleSearch="handleSearch" 方法默认参数为表单数据
-```
-
-#### 重置按钮
-```
-@handleReset="handleReset"
-```
-#### 单独触发事件
-```
-方法有一个参数，参数为对象 name代表触发的是哪个input框，value代表当前值
-
-@inputChange="onInputChange", 输入框触发
-@selectChange="onSelectChange", 选择框触发
-@dateChange="onDateChange", 时间选择器触发
+let element = this.$refs['组件'].currentOptions
+this.$set(element.name, 'hidden', false)
 ```
