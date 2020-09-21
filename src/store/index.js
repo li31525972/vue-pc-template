@@ -20,7 +20,6 @@ Vue.use(Vuex)
 export const initState = {
     userInfo: {}, // 用户信息
     isFixedHeader: constant.ISFIXEDHEADER, // 是否固定头部
-    isTagViews: constant.ISSHOWTAG, // 是否显示tab栏
     tags: [],
     menuList: [], // 菜单数据
 }
@@ -49,7 +48,6 @@ export default new Vuex.Store({
             reducer(val) {
                 return {
                     isFixedHeader: val.isFixedHeader,
-                    isTagViews: val.isTagViews,
                 }
             },
         })

@@ -7,8 +7,9 @@
                 @change="onChange"
                 :labelWidth="80"
                 :flex="4"
+                :linkage="true"
                 @handleSearch="handleSearch"
-                @select="onSearchSelect"
+                @input="onSearchSelect"
         >
             <template v-slot:name="{ options, value }">
                 <el-button @click="handleClickName(options, value)">{{ options.label }}</el-button>
@@ -40,12 +41,6 @@ export default {
                     rules: [],
                     defaultValue: '小明',
                     afterSlot: 'name',
-                    hidden: (data) => {
-                        console.log(data);
-                        if (data.status === '3') {
-                            return true
-                        }
-                    },
                     // rules: [
                     //     {
                     //         required: true,
@@ -116,6 +111,7 @@ export default {
             searchParams: {
                 name: '张三',
                 age: 18,
+                status: '5',
             },
         }
     },
@@ -154,19 +150,17 @@ export default {
             console.log(options, val);
         },
     
-        onSearchSelect(data) {
-            console.log(data);
-            let element = this.$refs.form
-            if (data.value == 5) {
-                this.$set(element.currentOptions.name, 'hidden', true)
-                // this.$set(element.params, 'name', undefined)
-            } else {
-                this.$set(element.currentOptions.name, 'hidden', false)
-                // this.$set(element.currentOptions.name, 'disabled', false)
-            }
+        onSearchSelect({ name, value }) {
             
-            // this.$refs.form.changeForm({}, 'currentOptions.name')
-            console.log(this.$refs.form);
+            let element = this.$refs.form
+            if (name === 'status') {
+                if (value == 5) {
+                    this.$set(element.currentOptions.name, 'disabled', true)
+                } else {
+                    this.$set(element.currentOptions.name, 'disabled', false)
+                }
+                
+            }
         },
     }
 }

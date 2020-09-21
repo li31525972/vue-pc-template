@@ -9,6 +9,7 @@
         :route="route ? { name: route } : null"
         :disabled="disabled"
         class="base_menu_item"
+        @click="onClick"
     >
         <i :class="[icon, 'menu_icon']"></i>
         <span slot="title" class="base_menu_title">{{ title }}</span>
@@ -49,7 +50,9 @@ export default {
     
     },
     methods: {
-    
+        onClick(data) {
+            console.log(data);
+        },
     }
 }
 </script>

@@ -18,6 +18,7 @@
         <el-form-item
                 v-for="(item, i) in currentOptions"
                 :key="i"
+                v-if="!item.hidden"
                 :class="['search-item', { 'no-rules-item': !rulesFlag} ]"
                 :style="styleObject(item)"
                 :prop="item.name"
@@ -155,6 +156,11 @@ export default {
             type: Object,
             default: () => {}
         },
+        // 用于开启表单的联动效果
+        linkage: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -179,6 +185,7 @@ export default {
                 timeSelect: 'NmTimeSelect',
                 upload: 'NmUpload',
             },
+            disabledOptions: [],
         }
     },
     computed: {
@@ -186,10 +193,13 @@ export default {
     },
     watch: {
         params: {
-            handler(value) {
-                console.log(value);
+            handler(val) {
+                if (this.linkage) {
+                    for (let name in val) {
+                        this.$emit('input', { name, value: val[name] })
+                    }
+                }
             },
-            deep: true
         },
     },
     created() {
@@ -201,15 +211,18 @@ export default {
     methods: {
         // 初始化默认值
         initParams() {
+            let params = {}
             this.options.forEach(item => {
                 if (item.defaultValue || this.formData[item.name]) {
-                    this.$set(this.params, item.name, this.formData[item.name] || item.defaultValue)
+                    params[item.name] = this.formData[item.name] || item.defaultValue
                 }
             })
+            this.$set(this, 'params', params)
         },
     
         // 初始化获取数据方法
         init() {
+            let currentOptions = {}
             // 获取表格数据
             this.options.forEach((item, i) => {
                 // 判断是否有验证规则(用于样式)
@@ -217,11 +230,8 @@ export default {
                     this.rulesFlag = true
                 }
                 // 存储当前配置项
-                this.$set(this.currentOptions, item.name, item)
-                
-                if (item.disabledArr) {
-                    
-                }
+                currentOptions[item.name] = item
+                // this.$set(this.currentOptions, item.name, item)
                 
                 // 默认获取配置项
                 if (item.method) {
@@ -249,6 +259,7 @@ export default {
                 }
             
             })
+            this.$set(this, 'currentOptions', currentOptions)
         
         },
         
@@ -266,7 +277,7 @@ export default {
         
         // 获取表单中的值
         getFormData(isDefault) {
-            // 是否需要返回默认值中没有用到的值
+            // 是否需要返回默认值中没有用到的值, 默认不返回
             if (isDefault) {
                 return Object.assign({}, this.formData, this.params)
             }

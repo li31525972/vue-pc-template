@@ -11,7 +11,7 @@
                 :data="routes"
                 :props="menuProps"
         />
-        <div class="content" :class="{ 'fixed-header': FixedHeader, 'is-collapse': isCollapse, 'is-tags': TagViews }">
+        <div class="content" :class="{ 'fixed-header': FixedHeader, 'is-collapse': isCollapse }">
             <header :class="{ 'fixed-header': FixedHeader }">
                 <div class="navbar">
                     <div class="hamburger" @click="handleCollapse"
@@ -51,15 +51,11 @@
                         </div>
                     </div>
                 </div>
-                
-                <!--tab栏-->
-                <TagViews :class="['tags-view', { 'is-tags': TagViews }]"/>
+            
             </header>
             <main :class="{ 'main': FixedHeader }">
                 <transition name="fade-transform" mode="out-in">
-                <keep-alive>
                     <router-view class="wrap"/>
-                </keep-alive>
                 </transition>
             </main>
             <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen"
@@ -68,11 +64,6 @@
                     <li>
                         <span>固定 Header</span>
                         <el-switch v-model="FixedHeader">
-                        </el-switch>
-                    </li>
-                    <li>
-                        <span>显示 Tag-views</span>
-                        <el-switch v-model="TagViews">
                         </el-switch>
                     </li>
                 </ul>
@@ -84,7 +75,6 @@
 import screenFull from 'screenfull'
 import { mapGetters, mapActions } from 'vuex'
 import Sidebar from './components/Sidebar'
-import TagViews from './components/tag-view'
 import BreadCrumbs from './components/bread.vue'
 import * as constant from '@/config/constant'
 
@@ -92,7 +82,6 @@ export default {
     name: 'layout',
     components: {
         Sidebar,
-        TagViews,
         BreadCrumbs,
     },
     data() {
@@ -109,12 +98,10 @@ export default {
     computed: {
         ...mapGetters({
             isFixedHeader: 'isFixedHeader',
-            isTagViews: 'isTagViews',
             menuList: 'menuList',
         }),
         // 过滤菜单
         routes() {
-            console.log(this.menuList);
             if (constant.env.NODE_ENV === 'test') {
                 return this.menuList
             }
@@ -128,14 +115,6 @@ export default {
                 this.changeHeader(newValue)
             }
         },
-        TagViews: {
-            get() {
-                return this.isTagViews
-            },
-            set(newValue) {
-                this.changeTagView(newValue)
-            }
-        },
     },
     watch: {},
     created() {
@@ -146,7 +125,6 @@ export default {
     methods: {
         ...mapActions([
             'changeHeader',
-            'changeTagView',
         ]),
         
         // 获取菜单信息
@@ -156,11 +134,8 @@ export default {
             return routes.filter(item => {
                 return item.meta && !item.meta.hidden
             })
-        
+            
         },
-        
-        
-        
         
         
         // 全屏
@@ -174,6 +149,7 @@ export default {
             }
             screenFull.toggle()
         },
+        
         // 侧边栏显示
         handleCollapse() {
             this.isCollapse = !this.isCollapse;
@@ -186,16 +162,16 @@ export default {
         handleClose(done) {
             done()
         },
-
+        
         handleCommand(name) {
             this[name]()
         },
-
+        
         // 个人中心
         handleSynopsis() {
             console.log(2);
         },
-
+        
         // 退出登录
         handleSignOut() {
             this.$store.commit('RESET_STORE')
@@ -207,13 +183,13 @@ export default {
 
 </script>
 <style>
-
-
+    
+    
     .right-menu .el-badge__content.is-fixed {
         top: 12px;
         right: 18px;
     }
-
+    
     .right-menu .el-badge__content {
         height: 12px;
         line-height: 12px;
@@ -222,28 +198,6 @@ export default {
     }
 
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <style lang="scss" scoped>
@@ -307,7 +261,7 @@ export default {
                             margin-right: 10px;
                             display: flex;
                             align-items: center;
-    
+                            
                             /deep/ .el-badge__content.is-fixed {
                                 top: 5px;
                                 right: 20px;
@@ -343,6 +297,7 @@ export default {
                     overflow: hidden;
                     
                     transition: $transition;
+                    
                     &.is-tags {
                         height: 34px;
                         line-height: 34px;
@@ -367,6 +322,7 @@ export default {
                 overflow-y: auto;
                 background-color: #EBEBF0;
                 min-height: calc(100% - 85px);
+                
                 .wrap {
                     width: 100%;
                 }

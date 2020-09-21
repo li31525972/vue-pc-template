@@ -83,12 +83,12 @@ export default {
         // 菜单的背景色（仅支持 hex 格式）
         backgroundColor: {
             type: String,
-            default: '#545c64',
+            default: 'rgb(48, 65, 86)',
         },
         // 菜单的文字颜色（仅支持 hex 格式）
         textColor: {
             type: String,
-            default: '#fff',
+            default: 'rgb(191, 203, 217)',
         },
         // 当前激活菜单的文字颜色（仅支持 hex 格式）
         activeTextColor: {
@@ -129,6 +129,7 @@ export default {
     computed: {
         // 获取当前的路由路径
         path() {
+            console.log(this.$route.path);
             return this.$route.path;
         }
     },

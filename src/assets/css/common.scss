@@ -52,14 +52,18 @@ $len:length($deviceWidth);
 .el-menu-item-group__title {
     padding: 0;
 }
-.el-submenu__title,
-.el-menu-item {
-    height: 45px;
-    line-height: 45px;
+
+.el-submenu__title:hover {
+    background-color: rgb(38, 52, 69)!important;
+}
+.el-submenu .el-menu-item {
+    background-color: #1f2d3d !important;
 }
 
 .el-submenu__title,
 .el-menu-item {
+    height: 45px;
+    line-height: 45px;
     font-size: 16px;
     @extend .disabled_selected;
 
