@@ -1,6 +1,6 @@
 <template>
     <div class="common-wrap">
-        <CommonForm :options="searchOptions" :labelWidth="80" flex="4" @handleSearch="handleSearch"></CommonForm>
+        <CommonSearch :options="searchOptions" :labelWidth="80" flex="4" @handleSearch="handleSearch"></CommonSearch>
         <CommonBtnGroup :options="options1" @handleAction="handleAction"/>
         <CommonTable
                 :options="options"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { CommonTable, CommonBtnGroup, CommonForm } from '@/components'
+import { CommonTable, CommonBtnGroup, CommonSearch } from '@/components'
 import { search, table } from '@/mixins'
 import * as api from '@/api/test'
 export default {
@@ -26,7 +26,7 @@ export default {
     components: {
         CommonTable,
         CommonBtnGroup,
-        CommonForm,
+        CommonSearch,
     },
     mixins: [search, table],
     data() {
@@ -110,58 +110,10 @@ export default {
                     prop: 'age',
                 },
                 {
-                    label: '年龄111111111',
-                    prop: 'age1',
-                },
-                {
                     label: '时间2222222222',
                     prop: 'date',
                     slot: true,
                     type: 'date',
-                },
-                {
-                    label: '年龄23333333',
-                    prop: 'age23',
-                },
-                {
-                    label: '年龄344444444',
-                    prop: 'age3',
-                },
-                {
-                    label: '年龄44444444',
-                    prop: 'age4',
-                },
-                {
-                    label: '年龄5455555555',
-                    prop: 'age5',
-                },
-                {
-                    label: '年龄66666666666',
-                    prop: 'age6',
-                },
-                {
-                    label: '年龄7',
-                    prop: 'age7',
-                },
-                {
-                    label: '年龄8',
-                    prop: 'age8',
-                },
-                {
-                    label: '年龄9',
-                    prop: 'ag9e',
-                },
-                {
-                    label: '年龄10',
-                    prop: 'age10',
-                },
-                {
-                    label: '年龄11',
-                    prop: 'age11',
-                },
-                {
-                    label: '年龄12',
-                    prop: 'age12',
                 },
                 {
                     label: '性别',

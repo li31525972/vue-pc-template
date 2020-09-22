@@ -1,424 +1,279 @@
+/**
+* @file 表格组件
+* @date 2020-09-22
+* @author Yahui Li
+*/
 <template>
-    <div :class="['common-table', {
-    'page-fixed': isFixed,
-    'table-flex': isFlex,
-    }]">
-        <!--表格配置项按钮-->
-        <!--<span v-if="setting" :class="['el-icon-setting', 'table-setting']" @click="isShowSetting = !isShowSetting"></span>-->
-
-        <!--<div v-if="isShowSetting" :class="['setting-wrap']">-->
-        <!--&lt;!&ndash;所有列表配置项&ndash;&gt;-->
-        <!--<el-checkbox-group v-model="settingList">-->
-        <!--<template v-for="(item, i) in options">-->
-        <!--<el-checkbox :key="i" :label="item.label"></el-checkbox>-->
-        <!--</template>-->
-
-        <!--</el-checkbox-group>-->
-        <!--</div>-->
-
-        <el-table
-                ref="commonTable"
-                :data="data"
-                :border="border"
-                @select="handleSelection"
-                :height="isFlex ? tableHeight : null"
-                :style="'width:' + width">
-
-            <el-table-column
-                    v-if="isSelection || isRadio"
-                    type="selection"
-                    fixed
-                    align="center"
-                    width="40">
-            </el-table-column>
-            <el-table-column
-                    v-if="isIndex"
-                    label="序号"
-                    type="index"
-                    fixed
-                    :index="indexMethod"
-                    align="center"
-                    width="60">
-            </el-table-column>
-
-            <template v-for="item in options">
-
-                <el-table-column
-                        :key="item.label"
-                        :prop="item.prop"
-                        :label="item.label"
-                        :fixed="item.fixed"
-                        :show-overflow-tooltip="tooltip"
-                        :align="item.align || 'center'"
-                        :min-width="item.width || '120'">
-
-                    <template slot-scope="{ row, $index }">
-
-                        <div :class="cellClassMethod(item, row, $index)" @click="onTdClick(item, row, $index)">
-                            <!--时间格式化-->
-                            <span v-if="item.type === 'date'">{{ row[item.prop] | dateformat(item.dateformat || 'YYYY-MM-DD') }}</span>
-
-                            <!--需要格式化的-->
-                            <span v-else-if="item.formatter">{{ item.formatter(row) }}</span>
-
-                            <!--需要插槽-->
-                            <slot v-else-if="item.slot" :slot="item.slot"></slot>
-                            <!--不需要处理的-->
-                            <span v-else>{{ row[item.prop] }}</span>
-                        </div>
-
-                    </template>
-                </el-table-column>
-
-            </template>
-
-            <!--操作列-->
-            <el-table-column
-                    v-if="operArr.length"
-                    :label="btnConfig.label || '操作'"
-                    :fixed="btnConfig.fixed || 'right'"
-                    :align="btnConfig.align || 'center'"
-                    :width="operWidth || 100"
-            >
-                <template slot-scope="{ row, $index }">
-                    <CommonBtnGroup ref="btnGroup" :options="operArr"
-                                    @handleAction="(name) => $emit('handleOperClick', name, row, $index )"></CommonBtnGroup>
-                </template>
-            </el-table-column>
-
-        </el-table>
-
-        <!--分页组件-->
-        <div class="common-page">
-            <el-pagination
-                    v-if="isPagination"
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="page"
-                    :page-sizes="PAGESIZES"
-                    :page-size="size"
-                    :layout="LAYOUT"
-                    :total="total || data.length">
-            </el-pagination>
-        </div>
-    </div>
+    <el-table
+            ref="commonTable"
+            :data="data"
+            :height="height"
+            :maxHeight="maxHeight"
+            :stripe="stripe"
+            :border="border"
+            :size="size"
+            :fit="fit"
+            :showHeader="showHeader"
+            :highlightCurrentRow="highlightCurrentRow"
+            :currentRowKey="currentRowKey"
+            :rowClassName="rowClassName"
+            :rowStyle="rowStyle"
+            :cellClassName="cellClassName"
+            :cellStyle="cellStyle"
+            :headerRowClassName="headerRowClassName"
+            :headerRowStyle="headerRowStyle"
+            :headerCellClassName="headerCellClassName"
+            :headerCellStyle="headerCellStyle"
+            :rowKey="rowKey"
+            :emptyText="emptyText"
+            :defaultExpandAll="defaultExpandAll"
+            :expandRowKeys="expandRowKeys"
+            :defaultSort="defaultSort"
+            :tooltipEffect="tooltipEffect"
+            :showSummary="showSummary"
+            :sumText="sumText"
+            :summaryMethod="summaryMethod"
+            :spanMethod="spanMethod"
+            :selectOnIndeterminate="selectOnIndeterminate"
+            :indent="indent"
+            :lazy="lazy"
+            :load="load"
+            :treeProps="treeProps"
+            style="width: 100%"
+            @select="(selection, row) => $emit('select', selection, row)"
+            @selectAll="(selection) => $emit('selectAll', selection)"
+            @selectionChange="(selection) => $emit('selectionChange', selection)"
+            @cellMouseEnter="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
+            @cellMouseLeave="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
+            @cellClick="(row, column, cell, event) => $emit('cellClick', row, column, cell, event)"
+            @cellDblclick="(row, column, cell, event) => $emit('cellDblclick', row, column, cell, event)"
+            @rowClick="(row, column, event) => $emit('rowClick', row, column, event)"
+            @rowContextmenu="(row, column, event) => $emit('rowContextmenu', row, column, event)"
+            @rowDblclick="(row, column, event) => $emit('rowDblclick', row, column, event)"
+            @headerClick="(column, event) => $emit('headerClick', column, event)"
+            @headerContextmenu="(column, event) => $emit('headerContextmenu', column, event)"
+            @sortChange="props => $emit('sortChange', props)"
+            @filterChange="props => $emit('filterChange', props)"
+            @currentChange="(currentRow, oldCurrentRow) => $emit('currentChange', currentRow, oldCurrentRow)"
+            @headerDragend="(newWidth, oldWidth, column, event) => $emit('headerDragend', newWidth, oldWidth, column, event)"
+            @expandChange="(row, expandedRows) => $emit('expandChange', row, expandedRows)"
+    >
+    
+        <CommonTableColumn
+            v-for="item in options"
+            :key="item.prop"
+            :options="item"
+        />
+        <template v-slot:append="scoped">
+            <slot name="append" :scoped="scoped"></slot>
+        </template>
+    </el-table>
 </template>
 
 <script>
-import { CommonBtnGroup } from '@/components'
-import { PAGESIZES, LAYOUT } from '@/config/constant'
-
+import CommonTableColumn from './CommonTableColumn'
 export default {
+    name: 'CommonTable',
+    components: {
+        CommonTableColumn,
+    },
     props: {
-        // 表格配置项
-        options: {
-            type: Array,
-            default: () => []
-        },
-        // 表格配置项是否可修改
-        setting: {
-            type: Boolean,
-            default: true,
-        },
-        // 表格数据
+        // 表格显示的数据
         data: {
             type: Array,
             default: () => []
         },
-        // 表格宽度
-        width: {
-            type: String,
-            default: '100%'
+        // 表格行配置项
+        options: {
+            type: Array,
+            default: () => [],
         },
-        // 表格自定义高度
-        height: {
-            type: Number,
-            default: 0
-        },
-        isFlex: {
+        // Table 的高度，默认为自动高度。如果 height 为 number 类型，单位 px；如果 height 为 string 类型，则这个高度会设置为 Table 的 style.height 的值，Table 的高度会受控于外部样式。
+        height: [String, Number],
+        // Table 的最大高度。合法的值为数字或者单位为 px 的高度。
+        maxHeight: [String, Number],
+        // 是否为斑马纹 table
+        stripe: {
             type: Boolean,
             default: false,
         },
-        // 是否显示边框
+        // 是否带有纵向边框
         border: {
             type: Boolean,
-            default: true
+            default: false,
         },
-        // 是否当内容过长被隐藏显示tooltip
-        tooltip: {
+        // Table 的尺寸
+        size: {
+            type: String,
+            default: 'small',
+        },
+        // 列的宽度是否自撑开
+        fit: {
             type: Boolean,
             default: true,
         },
-        // 是否显示多选框
-        isSelection: {
+        // 是否显示表头
+        showHeader: {
             type: Boolean,
-            default: false
+            default: true,
         },
-        // 是否单选
-        isRadio: {
-            type: Boolean,
-            default: false,
-        },
-        // 是否显示序列号
-        isIndex: {
+        // 是否要高亮当前行
+        highlightCurrentRow: {
             type: Boolean,
             default: false,
         },
-        // 操作列按钮配置
-        operArr: {
+        // 当前行的 key，只写属性
+        currentRowKey: [String, Number],
+        // 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。
+        rowClassName: {
+            type: Function,
+            default: () => {}
+        },
+        // 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。
+        rowStyle: {
+            type: Function,
+            default: () => {}
+        },
+        // 单元格的 className 的回调方法，也可以使用字符串为所有单元格设置一个固定的 className。
+        cellClassName: {
+            type: Function,
+            default: () => {}
+        },
+        // 单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有单元格设置一样的 Style。
+        cellStyle: {
+            type: Function,
+            default: () => {}
+        },
+        // 表头行的 className 的回调方法，也可以使用字符串为所有表头行设置一个固定的 className。
+        headerRowClassName: {
+            type: Function,
+            default: () => {}
+        },
+        // 表头行的 style 的回调方法，也可以使用一个固定的 Object 为所有表头行设置一样的 Style。
+        headerRowStyle: {
+            type: Function,
+            default: () => {}
+        },
+        // 表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。
+        headerCellClassName: {
+            type: Function,
+            default: () => {}
+        },
+        // 表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。
+        headerCellStyle: {
+            type: Function,
+            default: () => {}
+        },
+        // 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：user.info.id，但不支持 user.info[0].id，此种情况请使用 Function。
+        rowKey: [String, Function],
+        // 空数据时显示的文本内容，也可以通过 slot="empty" 设置
+        emptyText: String,
+        // 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效
+        defaultExpandAll: {
+            type: Boolean,
+            default: false,
+        },
+        // 可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。
+        expandRowKeys: {
             type: Array,
             default: () => []
         },
-        // 操作列宽度
-        operWidth: {
-            type: Number,
-        },
-        // 操作类配置
-        btnConfig: {
+        // 默认的排序列的 prop 和顺序。它的prop属性指定默认的排序的列，order指定默认排序的顺序
+        defaultSort: {
             type: Object,
-            default: () => new Object()
+            default: () => ({})
         },
-        // 是否显示表格分页
-        isPagination: {
+        // tooltip effect 属性
+        tooltipEffect: {
+            type: String,
+            default: 'dark',
+        },
+        // 是否在表尾显示合计行
+        showSummary: {
             type: Boolean,
-            default: true
+            default: false,
         },
-        // 当前页码
-        page: {
-            type: Number,
-            default: 1
+        // 合计行第一列的文本
+        sumText: String,
+        // 自定义的合计计算方法
+        summaryMethod: {
+            type: Function,
+            default: () => {}
         },
-        // 当前页的条数
-        size: {
-            type: Number,
-            default: 10,
+        // 合并行或列的计算方法
+        spanMethod: {
+            type: Function,
+            default: () => {}
         },
-        // 表格数据总条数
-        total: {
-            type: Number,
-            default: 0,
-        }
-
-    },
-    components: {
-        CommonBtnGroup,
+        // 在多选表格中，当仅有部分行被选中时，点击表头的多选框时的行为。若为 true，则选中所有行；若为 false，则取消选择所有行
+        selectOnIndeterminate: {
+            type: Boolean,
+            default: true,
+        },
+        // 展示树形数据时，树节点的缩进
+        indent: Number,
+        // 是否懒加载子节点数据
+        lazy: Boolean,
+        // 加载子节点数据的函数，lazy 为 true 时生效，函数第二个参数包含了节点的层级信息
+        load: {
+            type: Function,
+            default: () => {}
+        },
+        // 渲染嵌套数据的配置选项
+        treeProps: Object,
     },
     data() {
-        return {
-            PAGESIZES,
-            LAYOUT,
-
-            currentPage: 1, // 当前页
-            currentSize: 10, // 当前页条数
-
-            isShowSetting: false, // 是否显示表格配置项
-            settingList: [], // 表格配置项
-            settingCheckList: [], // 表格选中配置项
-            isFixed: true,
-        }
+        return {}
     },
-    computed: {
-        // 表格配置项
-        tableOptions() {
-            return this.options.filter(item => this.settingList.includes(item.label))
-        },
-        // 表格高度
-        tableHeight() {
-            let height = 0
-            if (this.height) {
-                height = this.height
-            } else if (this.isFlex) {
-                let pagination = this.isPagination ? '52px' : '0px'
-                height = `calc(100% - ${ pagination })`
-            }
-            console.log(height);
-            return height
-        },
-        // 表格操作列默认宽度
-        // operArrayLength() {
-        //     let width = 0
-        //     this.operArr.forEach(item => {
-        //         let btnWidth = item.label && item.label.length * 15 || 30
-        //         if (item.type && item.type !== 'text') {
-        //
-        //             width += 42 + btnWidth
-        //
-        //         } else {
-        //             width += 10 + btnWidth
-        //         }
-        //     })
-        //     return width
-        // },
-    },
-    watch: {
-        page: {
-            handler() {
-                this.currentPage = this.page
-            },
-            deep: true
-        },
-        size: {
-            handler() {
-                this.currentSize = this.size
-            },
-            deep: true
-        },
-        data: {
-            deep: true
-        },
-        options: {
-            handler() {
-                this.options.forEach(item => {
-                    this.settingList.push(item.label)
-                })
-            },
-            deep: true
-        }
-    },
+    computed: {},
+    watch: {},
     created() {
-        this.options.forEach(item => {
-            this.settingList.push(item.label)
-        })
+    
     },
     mounted() {
-
+    
     },
     methods: {
-        // 表格序号
-        indexMethod(index) {
-            return (this.page - 1) * this.size + index + 1
+        // 用于多选表格，清空用户的选择
+        clearSelection() {
+            this.$refs.commonTable.clearSelection()
         },
-        // 单元格样式处理
-        cellClassMethod(item, row, index) {
-            let data = []
-            // 当前列能够点击
-            if (item.click) {
-                // 单元格增加一个鼠标样式
-                data.push('is-click')
-                // 如果class为字符串，那么直接加到类名
-                if (typeof item.class === 'string') {
-                    data.push(item.class)
-                    // 如果是个函数
-                } else if (typeof item.class === 'function') {
-                    data.push(item.class(row, index))
-                }
-            } else {
-                // 如果不能点击
-                // 如果class为字符串，那么直接加到类名
-                if (typeof item.class === 'string') {
-                    data.push(item.class)
-                    // 如果是个函数
-                } else if (typeof item.class === 'function') {
-                    data.push(item.class(row, index))
-                }
-            }
-
-            return data
+        // 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
+        toggleRowSelection(row, selected) {
+            this.$refs.commonTable.toggleRowSelection(row, selected)
         },
-
-        // 多选框发生改变
-        handleSelection(selection) {
-            if (this.isRadio && selection.length > 1) {
-                this.$refs.commonTable.clearSelection()
-                this.$refs.commonTable.toggleRowSelection(selection.pop())
-            }
-            this.$emit('handleSelection', selection)
+        // 用于多选表格，切换所有行的选中状态
+        toggleAllSelection() {
+            this.$refs.commonTable.toggleAllSelection()
         },
-
-        // 点击单元格
-        onTdClick(item, row, index) {
-            if (item.click) {
-                this.$emit('onTdClick', row, index)
-            } else {
-                return false
-            }
+        // 用于可展开表格与树形表格，切换某一行的展开状态，如果使用了第二个参数，则是设置这一行展开与否（expanded 为 true 则展开）
+        toggleRowExpansion(row, expanded) {
+            this.$refs.commonTable.toggleRowExpansion(row, expanded)
         },
-        // 当前页条数改变
-        handleSizeChange(val) {
-            this.$emit('onPageChange', { page: this.currentPage, size: val })
+        // 用于单选表格，设定某一行为选中行，如果调用时不加参数，则会取消目前高亮行的选中状态。
+        setCurrentRow(row) {
+            this.$refs.commonTable.setCurrentRow(row)
         },
-        // 页码改变
-        handleCurrentChange(val) {
-            this.$emit('onPageChange', { page: val, size: this.currentSize })
+        // 用于清空排序条件，数据会恢复成未排序的状态
+        clearSort() {
+            this.$refs.commonTable.clearSort()
         },
-    }
+        // 不传入参数时用于清空所有过滤条件，数据会恢复成未过滤的状态，也可传入由columnKey组成的数组以清除指定列的过滤条件
+        clearFilter(columnKey) {
+            this.$refs.commonTable.clearFilter(columnKey)
+        },
+        // 对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法
+        doLayout() {
+            this.$refs.commonTable.doLayout()
+        },
+        // 手动对 Table 进行排序。参数prop属性指定排序列，order指定排序顺序。
+        sort(row, expanded) {
+            this.$refs.commonTable.sort(row, expanded)
+        },
+}
 }
 </script>
-<style>
-    .common-table .el-table thead th {
-        background-color: #e2e6ea;
-    }
-</style>
+
 <style lang="scss" scoped>
-    @import '~@/assets/css/base.scss';
 
-    .common-table {
-        flex: 1;
-        position: relative;
-
-        /*表格设置按钮样式*/
-        .table-setting {
-            position: absolute;
-            right: 0;
-            top: -40px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 18px;
-            text-align: center;
-            cursor: pointer;
-            &:hover {
-                color: $themeColor;
-            }
-        }
-
-        /*表格配置项盒子样式*/
-        .setting-wrap {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #fff;
-            -webkit-border-radius: $boxRadius;
-            -moz-border-radius: $boxRadius;
-            border-radius: $boxRadius;
-            transition: all 1s;
-
-            .el-checkbox {
-                height: 30px;
-                line-height: 30px;
-            }
-        }
-        /*表格有点击事件时*/
-        .is-click {
-            cursor: pointer;
-        }
-
-        & > .el-table {
-            position: absolute;
-        }
-
-        .common-page {
-            /*position: absolute;*/
-            /*bottom: 0;*/
-            /*right: 0;*/
-            margin-top: 10px;
-            height: 35px;
-
-            .el-pagination {
-                float: right;
-            }
-        }
-
-    }
-
-    .table-flex {
-        position: relative;
-        & > .el-table {
-            position: absolute;
-        }
-        .common-page {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-        }
-    }
 </style>

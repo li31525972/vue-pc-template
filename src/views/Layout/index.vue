@@ -209,6 +209,7 @@ export default {
         display: flex;
         width: 100%;
         height: 100%;
+        overflow: hidden;
         /*background-color: #f5f5f5;*/
         
         & > aside {
