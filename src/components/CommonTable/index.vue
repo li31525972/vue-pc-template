@@ -125,47 +125,26 @@ export default {
         // 当前行的 key，只写属性
         currentRowKey: [String, Number],
         // 行的 className 的回调方法，也可以使用字符串为所有行设置一个固定的 className。
-        rowClassName: {
-            type: Function,
-            default: () => {}
-        },
+        rowClassName: Function,
         // 行的 style 的回调方法，也可以使用一个固定的 Object 为所有行设置一样的 Style。
-        rowStyle: {
-            type: Function,
-            default: () => {}
-        },
+        rowStyle: Function,
         // 单元格的 className 的回调方法，也可以使用字符串为所有单元格设置一个固定的 className。
-        cellClassName: {
-            type: Function,
-            default: () => {}
-        },
+        cellClassName: Function,
         // 单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有单元格设置一样的 Style。
-        cellStyle: {
-            type: Function,
-            default: () => {}
-        },
+        cellStyle: Function,
         // 表头行的 className 的回调方法，也可以使用字符串为所有表头行设置一个固定的 className。
-        headerRowClassName: {
-            type: Function,
-            default: () => {}
-        },
+        headerRowClassName: Function,
         // 表头行的 style 的回调方法，也可以使用一个固定的 Object 为所有表头行设置一样的 Style。
-        headerRowStyle: {
-            type: Function,
-            default: () => {}
-        },
+        headerRowStyle: Function,
         // 表头单元格的 className 的回调方法，也可以使用字符串为所有表头单元格设置一个固定的 className。
-        headerCellClassName: {
-            type: Function,
-            default: () => {}
-        },
+        headerCellClassName: Function,
         // 表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。
-        headerCellStyle: {
-            type: Function,
-            default: () => {}
-        },
+        headerCellStyle: Function,
         // 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：user.info.id，但不支持 user.info[0].id，此种情况请使用 Function。
-        rowKey: [String, Function],
+        rowKey: {
+            type: [String, Function],
+            default: 'row_id',
+        },
         // 空数据时显示的文本内容，也可以通过 slot="empty" 设置
         emptyText: String,
         // 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效
@@ -196,15 +175,9 @@ export default {
         // 合计行第一列的文本
         sumText: String,
         // 自定义的合计计算方法
-        summaryMethod: {
-            type: Function,
-            default: () => {}
-        },
+        summaryMethod: Function,
         // 合并行或列的计算方法
-        spanMethod: {
-            type: Function,
-            default: () => {}
-        },
+        spanMethod: Function,
         // 在多选表格中，当仅有部分行被选中时，点击表头的多选框时的行为。若为 true，则选中所有行；若为 false，则取消选择所有行
         selectOnIndeterminate: {
             type: Boolean,
@@ -215,10 +188,7 @@ export default {
         // 是否懒加载子节点数据
         lazy: Boolean,
         // 加载子节点数据的函数，lazy 为 true 时生效，函数第二个参数包含了节点的层级信息
-        load: {
-            type: Function,
-            default: () => {}
-        },
+        load: Function,
         // 渲染嵌套数据的配置选项
         treeProps: Object,
     },
@@ -226,7 +196,9 @@ export default {
         return {}
     },
     computed: {},
-    watch: {},
+    watch: {
+    
+    },
     created() {
     
     },

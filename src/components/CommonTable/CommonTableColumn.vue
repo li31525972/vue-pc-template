@@ -31,13 +31,6 @@
             :filteredValue="options.filteredValue"
     >
     
-        <template v-slot:header="scoped">
-            <slot name="header" :scoped="scoped"></slot>
-        </template>
-        <template v-slot:default="scoped">
-            <slot :scoped="scoped"></slot>
-        </template>
-        
     </el-table-column>
 </template>
 

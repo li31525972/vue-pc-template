@@ -34,6 +34,11 @@ export const menuProps = () => {
     // 否则启用菜单组件默认配置
 }
 
+// 表格配置项
+export const tableConfig = {
+    border: true,
+}
+
 
 // 分页组件配置
 export const PAGESIZES = [10, 20, 30, 50, 100] // 每页条数可选

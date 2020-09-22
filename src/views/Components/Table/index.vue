@@ -1,18 +1,9 @@
 <template>
-    <div class="common-wrap">
-        <CommonSearch :options="searchOptions" :labelWidth="80" flex="4" @handleSearch="handleSearch"></CommonSearch>
+    <div >
+        <!--<CommonSearch :options="searchOptions" :labelWidth="80" flex="4" @handleSearch="handleSearch"></CommonSearch>-->
         <CommonBtnGroup :options="options1" @handleAction="handleAction"/>
         <CommonTable
                 :options="options"
-                isIndex
-                isRadio
-                isFlex
-                @onTdClick="onTdClick"
-                :operArr="BtnOptions"
-                @handleSelection="handleSelection"
-                @handleOperClick="handleOperClick"
-                @onPageChange="onPageChange"
-                :operWidth="operWidth"
                 :data="data"></CommonTable>
     </div>
 </template>
