@@ -40,7 +40,7 @@
                     :title="item[props.label]"
             />
         </template>
-        
+    
     </el-menu>
 </template>
 

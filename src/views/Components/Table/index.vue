@@ -4,7 +4,9 @@
         <CommonBtnGroup :options="options1" @handleAction="handleAction"/>
         <CommonTable
                 :options="options"
-                :data="data"></CommonTable>
+                :data="data"
+        >
+        </CommonTable>
     </div>
 </template>
 

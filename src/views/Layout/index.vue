@@ -322,7 +322,7 @@ export default {
                 overflow-x: hidden;
                 overflow-y: auto;
                 background-color: #EBEBF0;
-                min-height: calc(100% - 85px);
+                min-height: calc(100% - 51px);
                 
                 .wrap {
                     width: 100%;
@@ -333,7 +333,7 @@ export default {
                 
                 flex: 1;
                 width: 100%;
-                min-height: calc(100% - 85px);
+                min-height: calc(100% - 51px);
                 
                 .wrap {
                     -webkit-box-sizing: border-box;
