@@ -129,7 +129,6 @@ export default {
     computed: {
         // 获取当前的路由路径
         path() {
-            console.log(this.$route.path);
             return this.$route.path;
         }
     },
@@ -148,6 +147,9 @@ export default {
 <style lang="scss" scoped>
 .el-menu {
     position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
     height: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;

@@ -15,7 +15,7 @@
         />
 
         <div class="nm-layout-container" :class="{ 'is-collapse': isCollapse }">
-            <div class="navbar">
+            <div class="navbar" :class="{ 'is-collapse': isCollapse }">
                 <div class="hamburger" @click="handleCollapse"
                      :class="[ isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold']"></div>
                 <div class="content">
@@ -53,7 +53,9 @@
                     </div>
                 </div>
             </div>
-            <div>1111111111111</div>
+            <transition name="fade-transform" mode="out-in">
+                <router-view class="nm-layout-content"/>
+            </transition>
         </div>
     </div>
 
@@ -143,7 +145,7 @@ export default {
             // 菜单配置项
             menuProps: constant.menuProps(),
 
-            isCollapse: false,
+            isCollapse: true,
             isOpen: false,
             circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
             isShow: false,
@@ -261,19 +263,35 @@ export default {
     .nm-layout-wrap {
 
         .nm-layout-container {
+            position: relative;
+            overflow-x: hidden;
             height: 100%;
-            padding-left: 210px;
-            transition: padding-left $transition;
+            width: calc(100% - 210px);
+            margin-left: 210px;
+            transition: all $transition;
 
             &.is-collapse {
-                padding-left: 60px;
-                transition: padding-left $transition;
+                margin-left: 60px;
+                width: calc(100% - 60px);
+                transition: all $transition;
             }
 
             .navbar {
+                position: fixed;
+                left: 210px;
+                top: 0;
+                z-index: 998;
+                width: calc(100% - 210px);
                 height: 50px;
                 display: flex;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                background-color: #fff;
+                transition: all $transition;
+                &.is-collapse {
+                    left: 60px;
+                    width: calc(100% - 60px);
+                    transition: all $transition;
+                }
 
                 .hamburger {
                     width: 50px;
@@ -327,148 +345,10 @@ export default {
                     }
                 }
             }
-        }
-    }
 
-
-    .l-container {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        /*background-color: #f5f5f5;*/
-
-        & > aside {
-            /*width: 200px;*/
-        }
-
-        & > .content {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-            position: relative;
-
-            &.fixed-header {
-                display: flex;
-                flex-direction: column;
-            }
-
-            header {
-                width: 100%;
-                background-color: #fff;
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                border-bottom: 1px solid #ccc;
-
-                .navbar {
-                    height: 50px;
-                    display: flex;
-                    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-
-                    .hamburger {
-                        width: 50px;
-                        line-height: 50px;
-                        text-align: center;
-                        font-size: 22px;
-                        cursor: pointer;
-
-                        &:hover {
-                            color: #409EFF;
-                        }
-                    }
-
-                    .content {
-                        flex: 1;
-                        display: flex;
-                        justify-content: space-between;
-
-                        .right-menu {
-                            height: 100%;
-                            margin-right: 10px;
-                            display: flex;
-                            align-items: center;
-
-                            /deep/ .el-badge__content.is-fixed {
-                                top: 5px;
-                                right: 20px;
-                            }
-
-                            .el-dropdown {
-                                cursor: pointer;
-                                height: 100%;
-
-                                .el-dropdown-link.el-dropdown-selfdefine {
-                                    display: flex;
-                                    height: 100%;
-                                    align-items: center;
-                                }
-                            }
-
-                            i {
-                                margin-right: 10px;
-                                height: 30px;
-                                width: 30px;
-                                line-height: 30px;
-                                font-size: 20px;
-                                font-weight: 700;
-                                text-align: center;
-                                cursor: pointer;
-                            }
-                        }
-                    }
-                }
-
-                .tags-view {
-                    height: 0;
-                    overflow: hidden;
-
-                    transition: $transition;
-
-                    &.is-tags {
-                        height: 34px;
-                        line-height: 34px;
-                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                        transition: $transition;
-                    }
-                }
-            }
-
-            .wrap {
-                background-color: #fff;
-                border-radius: 2px 0 0 2px;
-                padding: 10px;
-            }
-
-            main {
+            .nm-layout-content {
                 box-sizing: border-box;
-                display: flex;
-                padding: 10px;
-                flex: 1;
-                overflow-x: hidden;
-                overflow-y: auto;
-                background-color: #EBEBF0;
-                min-height: calc(100% - 51px);
-
-                .wrap {
-                    width: 100%;
-                }
-            }
-
-            .main {
-
-                flex: 1;
-                width: 100%;
-                min-height: calc(100% - 51px);
-
-                .wrap {
-                    -webkit-box-sizing: border-box;
-                    -moz-box-sizing: border-box;
-                    box-sizing: border-box;
-                    width: 100%;
-                    min-height: 100%;
-
-                }
+                padding: 60px 10px 10px 10px;
             }
         }
     }
