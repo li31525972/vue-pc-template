@@ -9,11 +9,13 @@ import 'nprogress/nprogress.css'
 import router from './router'
 import store from './store'
 import * as filters from '@/filters'
+import api from '@/api'
 
 // require('../mock')
 
 Vue.use(Element,{ size: 'small' })
 Vue.config.productionTip = false
+Vue.prototype.$api = api
 
 // 全局过滤器
 Object.keys(filters).forEach(item => {

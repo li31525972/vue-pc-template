@@ -61,7 +61,7 @@
                 <CommonButton
                         v-else
                         :key="i"
-                        :type="item.type || 'text'"
+                        :type="item.type || 'primary'"
                         :size="item.size"
                         :plain="item.plain"
                         :round="item.round"

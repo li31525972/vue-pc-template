@@ -1,39 +1,41 @@
 <template>
-    <div class="wscn-http404-container">
-        <div class="wscn-http404">
-            <div class="pic-404">
-                <img
-                        class="pic-404__parent"
-                        src="../../assets/images/404.png"
-                        alt="404"
-                >
-                <img
-                        class="pic-404__child left"
-                        src="../../assets/images/404-cloud.png"
-                        alt="404"
-                >
-                <img
-                        class="pic-404__child mid"
-                        src="../../assets/images/404-cloud.png"
-                        alt="404"
-                >
-                <img
-                        class="pic-404__child right"
-                        src="../../assets/images/404-cloud.png"
-                        alt="404"
-                >
-            </div>
-            <div class="text-404">
-                <div class="text-404__headline">
-                    {{ message }}
+    <div>
+        <div class="wscn-http404-container">
+            <div class="wscn-http404">
+                <div class="pic-404">
+                    <img
+                            class="pic-404__parent"
+                            src="../../assets/images/404.png"
+                            alt="404"
+                    >
+                    <img
+                            class="pic-404__child left"
+                            src="../../assets/images/404-cloud.png"
+                            alt="404"
+                    >
+                    <img
+                            class="pic-404__child mid"
+                            src="../../assets/images/404-cloud.png"
+                            alt="404"
+                    >
+                    <img
+                            class="pic-404__child right"
+                            src="../../assets/images/404-cloud.png"
+                            alt="404"
+                    >
                 </div>
-                <div class="text-404__info">
-                    Please check that the URL you entered is correct, or click the button below to return to the homepage.
+                <div class="text-404">
+                    <div class="text-404__headline">
+                        {{ message }}
+                    </div>
+                    <div class="text-404__info">
+                        Please check that the URL you entered is correct, or click the button below to return to the homepage.
+                    </div>
+                    <router-link
+                            to="/"
+                            class="text-404__return-home"
+                    >Back to home</router-link>
                 </div>
-                <router-link
-                        to="/"
-                        class="text-404__return-home"
-                >Back to home</router-link>
             </div>
         </div>
     </div>

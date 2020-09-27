@@ -10,7 +10,7 @@
             :label="options.label"
             :prop="options.prop"
             :width="options.width"
-            :minWidth="options.minWidth"
+            :minWidth="options.minWidth || minWidth"
             :fixed="options.fixed"
             :renderHeader="options.renderHeader"
             :sortable="options.sortable"
@@ -20,7 +20,7 @@
             :resizable="options.resizable"
             :formatter="options.formatter"
             :showOverflowTooltip="options.showOverflowTooltip"
-            :align="options.align"
+            :align="options.align || 'center'"
             :headerAlign="options.headerAlign"
             :className="options.className"
             :labelClassName="options.labelClassName"
@@ -45,7 +45,7 @@ export default {
     },
     data() {
         return {
-        
+            minWidth: 120,
         }
     },
     computed: {

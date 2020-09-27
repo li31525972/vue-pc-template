@@ -100,7 +100,7 @@ export default {
         // 是否带有纵向边框
         border: {
             type: Boolean,
-            default: false,
+            default: true,
         },
         // Table 的尺寸
         size: {

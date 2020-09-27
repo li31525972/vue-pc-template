@@ -80,6 +80,26 @@ const routes = [
         ],
     },
     {
+        path: '/settingUp',
+        component: Layout,
+        title: '设置',
+        icon: 'el-icon-s-home',
+        children: [
+            {
+                path: 'systemManagement',
+                component: () => import('@/views/settingUp/systemManagement'),
+                title: '系统设置',
+                children: [
+                    {
+                        path: 'accountManagement',
+                        component: () => import('@/views/settingUp/systemManagement/accountManagement'),
+                        title: '账号管理',
+                    }
+                ],
+            }
+        ],
+    },
+    {
         path: '/login',
         name: 'login',
         meta: { title: '登录', hidden: true },

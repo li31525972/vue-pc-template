@@ -7,7 +7,6 @@
     <el-form
             ref="ruleForm"
             :model="params"
-            :rules="rules"
             :inline="inline"
             :labelPosition="labelPosition"
             :labelSuffix="labelSuffix"
