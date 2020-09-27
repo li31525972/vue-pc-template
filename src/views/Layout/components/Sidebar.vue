@@ -17,9 +17,9 @@
             :router="router"
             :collapse="collapse"
             :collapseTransition="collapseTransition"
-            class="el-menu-vertical-demo"
+            class=""
     >
-        
+
         <template v-for="(item, i) in data">
             {{ props.title }}
             <Submenu
@@ -40,7 +40,7 @@
                     :title="item[props.label]"
             />
         </template>
-    
+
     </el-menu>
 </template>
 
@@ -123,7 +123,7 @@ export default {
     },
     data() {
         return {
-        
+
         }
     },
     computed: {
@@ -133,12 +133,12 @@ export default {
             return this.$route.path;
         }
     },
-    
+
     mounted() {
-    
+
     },
     methods: {
-    
+
     }
 }
 </script>
@@ -146,5 +146,17 @@ export default {
 
 </style>
 <style lang="scss" scoped>
-
+.el-menu {
+    position: fixed;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 210px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    &.el-menu--collapse {
+        width: 60px;
+    }
+}
 </style>
