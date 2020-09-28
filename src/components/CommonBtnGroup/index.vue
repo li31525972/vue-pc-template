@@ -114,7 +114,7 @@ export default {
     methods: {
         handleBtnClick(data) {
             data.loading = data.hasOwnProperty('loading') && data.loading == false
-            this.$emit('handleAction', data)
+            this.$emit('handleBtnClick', { options: data })
         },
         handleClickCancel() {
 

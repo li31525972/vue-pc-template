@@ -12,6 +12,7 @@
 
         <CommonBtnGroup
             :options="buttonGroupOptions"
+            @handleBtnClick="handleBtnClick"
         />
 
         <CommonTable
