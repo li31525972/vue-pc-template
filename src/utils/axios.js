@@ -5,8 +5,15 @@
 */
 import axios from 'axios'
 import Nprogress from 'nprogress'
-import { Message } from 'element-ui'
+import { Message, Loading } from 'element-ui'
 import { CODE } from '@/config/httpCode'
+
+let loadingOptions = {
+    text: '正在加载中...',
+    background: 'rgba(0, 0, 0, 0.2)',
+}
+
+let loadingInstance = null
 
 // // 当前正在请求的api
 let loadingApi = []
@@ -30,13 +37,15 @@ const service = axios.create({
 
 // 请求拦截
 service.interceptors.request.use(config => {
-    if (!loadingApi.length) {
-        Nprogress.start()
+    if (!config.loading) {
+        loadingInstance = Loading.service(loadingOptions)
+
+        loadingApi.push(config.url)
     }
-    loadingApi.push(config.url)
+
 
     let token = sessionStorage.getItem('token');
-    if (token != null) {
+    if (token) {
         config.headers.Authorization = 'Bearer ' + token;
     }
 
@@ -48,15 +57,16 @@ service.interceptors.request.use(config => {
 
 // 响应拦截
 service.interceptors.response.use(response => {
-    let { code, msg } = response.data
+    let { code, msg, data } = response.data
 
-    // 删除当前api记录
-    loadingApi.splice(loadingApi.indexOf(response.config.url), 1)
+    if (!response.config.loading) {
+        loadingApi.splice(loadingApi.indexOf(response.config.url), 1)
 
-    // 判断是否关闭
-    if (!loadingApi.length) {
-        Nprogress.done()
+        if (!loadingApi.length) {
+            loadingInstance.close()
+        }
     }
+
 
     if (response.data.hasOwnProperty('code')) {
         if (code === 0 && msg) {
@@ -68,19 +78,28 @@ service.interceptors.response.use(response => {
 
     }
 
+    if (response.config.nodeRoot) {
+        return response
+    }
 
-    return response.data
+    return data
+
 }, error => {
 
     let response = error.response
 
-    // 删除当前api记录
-    loadingApi.splice(loadingApi.indexOf(response.config.url), 1)
+    if (!response.config.loading) {
+        loadingApi.splice(loadingApi.indexOf(response.config.url), 1)
+
+        if (!loadingApi.length) {
+            loadingInstance.close()
+        }
+    }
 
     // 判断是否关闭
-    if (!loadingApi.length) {
-        Nprogress.done()
-    }
+    // if (!loadingApi.length) {
+    //     Nprogress.done()
+    // }
     for (let key in CODE) {
         if (key == response.status) {
             Message.error(CODE[key])

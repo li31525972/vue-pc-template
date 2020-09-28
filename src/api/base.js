@@ -7,4 +7,4 @@ import axios from '@/utils/axios'
 const baseURL = '/base'
 
 // CodeMaster 接口
-export const getCodeMaster = id => axios.post(`${baseURL}/dropDown/getCodeDropDown`, {codeId: id})
+export const getCodeMaster = id => axios.post(`${baseURL}/dropDown/getCodeDropDown`, {codeId: id}, { loading: false })

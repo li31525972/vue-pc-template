@@ -63,13 +63,14 @@ export default {
                     }
                     // 进行认证
                     api.authToken(formData).then(response => {
-                        sessionStorage.setItem('token', response.access_token)
+
+                        sessionStorage.setItem('token', response.data.access_token)
 
                         return api.login(formData)
                         // 进行登录
                     }).then(response => {
                         // 存储个人信息、跳转到首页
-                        this.$store.commit('SET_USER', response.data)
+                        this.$store.commit('SET_USER', response)
                         this.$router.replace({ path: '/' })
                     })
 

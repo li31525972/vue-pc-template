@@ -5,7 +5,10 @@ export default {
     data() {
         return {
             // 表单数据
-            search: {}
+            search: {},
+            // 固定参数
+            fixedParams: {},
+            sortParams: {},
         }
     },
     methods: {
@@ -13,9 +16,10 @@ export default {
             this.search = { ...data }
             // 重置分页
             this.page = 1
-            
+
             // 请求数据
             this.init()
-        }
+        },
+
     }
 }

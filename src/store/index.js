@@ -22,6 +22,8 @@ export const initState = {
     isFixedHeader: constant.ISFIXEDHEADER, // 是否固定头部
     tags: [],
     menuList: [], // 菜单数据
+    tableConfig: constant.tableConfig,
+    isTableFlex: constant.ISFLEX,
 }
 
 export default new Vuex.Store({
@@ -48,6 +50,7 @@ export default new Vuex.Store({
             reducer(val) {
                 return {
                     isFixedHeader: val.isFixedHeader,
+                    isTableFlex: val.isTableFlex,
                 }
             },
         })

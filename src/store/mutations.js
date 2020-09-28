@@ -10,6 +10,12 @@ export default {
         state.userInfo = val
         state.menuList = val.menuInfoList || []
     },
+
+    // 表格自适应高度
+    SET_FLEXTABLE(state, data) {
+        state.isTableFlex = data
+    },
+
     // 设置固定头部
     SET_HEADER(state, value) {
         state.isFixedHeader = value

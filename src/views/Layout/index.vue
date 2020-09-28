@@ -57,6 +57,17 @@
                 <router-view class="nm-layout-content"/>
             </transition>
         </div>
+
+        <el-drawer title="系统布局配置" size="20%" wrapperClosable :show-close="false" :visible.sync="isOpen"
+                   direction="rtl" :before-close="handleClose">
+            <ul class="drawer-list">
+                <li>
+                    <span>固定 分页</span>
+                    <el-switch v-model="FlexTable">
+                    </el-switch>
+                </li>
+            </ul>
+        </el-drawer>
     </div>
 
     <!--<div class="l-container">-->
@@ -153,7 +164,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            isFixedHeader: 'isFixedHeader',
+            isTableFlex: 'isTableFlex',
             menuList: 'menuList',
         }),
         // 过滤菜单
@@ -163,12 +174,12 @@ export default {
             }
             return this.getMenu()
         },
-        FixedHeader: {
+        FlexTable: {
             get() {
-                return this.isFixedHeader
+                return this.isTableFlex
             },
             set(newValue) {
-                this.changeHeader(newValue)
+                this.$store.commit('SET_FLEXTABLE', newValue)
             }
         },
     },
@@ -261,6 +272,7 @@ export default {
     /*最外层盒子*/
 
     .nm-layout-wrap {
+        height: 100%;
 
         .nm-layout-container {
             position: relative;
@@ -347,6 +359,9 @@ export default {
             }
 
             .nm-layout-content {
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
                 box-sizing: border-box;
                 padding: 60px 10px 10px 10px;
             }

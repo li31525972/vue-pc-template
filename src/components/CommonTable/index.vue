@@ -4,74 +4,93 @@
 * @author Yahui Li
 */
 <template>
-    <el-table
-            ref="commonTable"
-            :data="data"
-            :height="height"
-            :maxHeight="maxHeight"
-            :stripe="stripe"
-            :border="border"
-            :size="size"
-            :fit="fit"
-            :showHeader="showHeader"
-            :highlightCurrentRow="highlightCurrentRow"
-            :currentRowKey="currentRowKey"
-            :rowClassName="rowClassName"
-            :rowStyle="rowStyle"
-            :cellClassName="cellClassName"
-            :cellStyle="cellStyle"
-            :headerRowClassName="headerRowClassName"
-            :headerRowStyle="headerRowStyle"
-            :headerCellClassName="headerCellClassName"
-            :headerCellStyle="headerCellStyle"
-            :rowKey="rowKey"
-            :emptyText="emptyText"
-            :defaultExpandAll="defaultExpandAll"
-            :expandRowKeys="expandRowKeys"
-            :defaultSort="defaultSort"
-            :tooltipEffect="tooltipEffect"
-            :showSummary="showSummary"
-            :sumText="sumText"
-            :summaryMethod="summaryMethod"
-            :spanMethod="spanMethod"
-            :selectOnIndeterminate="selectOnIndeterminate"
-            :indent="indent"
-            :lazy="lazy"
-            :load="load"
-            :treeProps="treeProps"
-            style="width: 100%"
-            @select="(selection, row) => $emit('select', selection, row)"
-            @selectAll="(selection) => $emit('selectAll', selection)"
-            @selectionChange="(selection) => $emit('selectionChange', selection)"
-            @cellMouseEnter="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
-            @cellMouseLeave="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
-            @cellClick="(row, column, cell, event) => $emit('cellClick', row, column, cell, event)"
-            @cellDblclick="(row, column, cell, event) => $emit('cellDblclick', row, column, cell, event)"
-            @rowClick="(row, column, event) => $emit('rowClick', row, column, event)"
-            @rowContextmenu="(row, column, event) => $emit('rowContextmenu', row, column, event)"
-            @rowDblclick="(row, column, event) => $emit('rowDblclick', row, column, event)"
-            @headerClick="(column, event) => $emit('headerClick', column, event)"
-            @headerContextmenu="(column, event) => $emit('headerContextmenu', column, event)"
-            @sortChange="props => $emit('sortChange', props)"
-            @filterChange="props => $emit('filterChange', props)"
-            @currentChange="(currentRow, oldCurrentRow) => $emit('currentChange', currentRow, oldCurrentRow)"
-            @headerDragend="(newWidth, oldWidth, column, event) => $emit('headerDragend', newWidth, oldWidth, column, event)"
-            @expandChange="(row, expandedRows) => $emit('expandChange', row, expandedRows)"
-    >
-    
-        <CommonTableColumn
-            v-for="item in options"
-            :key="item.prop"
-            :options="item"
-        />
-        <template v-slot:append="scoped">
-            <slot name="append" :scoped="scoped"></slot>
-        </template>
-    </el-table>
+    <div class="nm-common-table" :class="{
+                    'is-flex': isTableFlex && !height && !maxHeight,
+                    'is-page': isShowPage
+                }">
+        <el-table
+                ref="commonTable"
+                :data="data"
+                :height="height"
+                :maxHeight="maxHeight"
+                :stripe="stripe"
+                :border="border"
+                :fit="fit"
+                :showHeader="showHeader"
+                :highlightCurrentRow="highlightCurrentRow"
+                :currentRowKey="currentRowKey"
+                :rowClassName="rowClassName"
+                :rowStyle="rowStyle"
+                :cellClassName="cellClassName"
+                :cellStyle="cellStyle"
+                :headerRowClassName="headerRowClassName"
+                :headerRowStyle="headerRowStyle"
+                :headerCellClassName="headerCellClassName"
+                :headerCellStyle="headerCellStyle"
+                :rowKey="rowKey"
+                :emptyText="emptyText"
+                :defaultExpandAll="defaultExpandAll"
+                :expandRowKeys="expandRowKeys"
+                :defaultSort="defaultSort"
+                :tooltipEffect="tooltipEffect"
+                :showSummary="showSummary"
+                :sumText="sumText"
+                :summaryMethod="summaryMethod"
+                :spanMethod="spanMethod"
+                :selectOnIndeterminate="selectOnIndeterminate"
+                :indent="indent"
+                :lazy="lazy"
+                :load="load"
+                :treeProps="treeProps"
+                style="width: 100%"
+                @select="(selection, row) => $emit('select', selection, row)"
+                @selectAll="(selection) => $emit('selectAll', selection)"
+                @selectionChange="(selection) => $emit('selectionChange', selection)"
+                @cellMouseEnter="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
+                @cellMouseLeave="(row, column, cell, event) => $emit('cellMouseEnter', row, column, cell, event)"
+                @cellClick="(row, column, cell, event) => $emit('cellClick', row, column, cell, event)"
+                @cellDblclick="(row, column, cell, event) => $emit('cellDblclick', row, column, cell, event)"
+                @rowClick="(row, column, event) => $emit('rowClick', row, column, event)"
+                @rowContextmenu="(row, column, event) => $emit('rowContextmenu', row, column, event)"
+                @rowDblclick="(row, column, event) => $emit('rowDblclick', row, column, event)"
+                @headerClick="(column, event) => $emit('headerClick', column, event)"
+                @headerContextmenu="(column, event) => $emit('headerContextmenu', column, event)"
+                @sortChange="props => $emit('sortChange', props)"
+                @filterChange="props => $emit('filterChange', props)"
+                @currentChange="(currentRow, oldCurrentRow) => $emit('currentChange', currentRow, oldCurrentRow)"
+                @headerDragend="(newWidth, oldWidth, column, event) => $emit('headerDragend', newWidth, oldWidth, column, event)"
+                @expandChange="(row, expandedRows) => $emit('expandChange', row, expandedRows)"
+        >
+
+            <CommonTableColumn
+                    v-for="item in options"
+                    :key="item.prop"
+                    :options="item"
+            />
+            <template v-slot:append="scoped">
+                <slot name="append" :scoped="scoped"></slot>
+            </template>
+        </el-table>
+
+        <div class="nm-common-pagination" v-if="isShowPage">
+            <el-pagination
+                    @size-change="onSizeChange"
+                    @current-change="onPageChange"
+                    :current-page="page"
+                    :page-sizes="PAGESIZES"
+                    :page-size="size"
+                    :layout="LAYOUT"
+                    :total="total">
+            </el-pagination>
+        </div>
+    </div>
 </template>
 
 <script>
 import CommonTableColumn from './CommonTableColumn'
+import { PAGESIZES, LAYOUT, SIZE, PAGE } from '@/config/constant'
+import { mapGetters } from 'vuex'
+
 export default {
     name: 'CommonTable',
     components: {
@@ -101,11 +120,6 @@ export default {
         border: {
             type: Boolean,
             default: true,
-        },
-        // Table 的尺寸
-        size: {
-            type: String,
-            default: 'small',
         },
         // 列的宽度是否自撑开
         fit: {
@@ -191,19 +205,44 @@ export default {
         load: Function,
         // 渲染嵌套数据的配置选项
         treeProps: Object,
+        // 当前页
+        page: {
+            type: Number,
+            default: PAGE,
+        },
+        // 当前页条数
+        size: {
+            type: Number,
+            default: SIZE,
+        },
+        // 总条数
+        total: {
+            type: Number,
+            default: 0,
+        },
+        // 是否显示分页
+        isShowPage: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
-        return {}
+        return {
+            PAGESIZES,
+            LAYOUT,
+        }
     },
-    computed: {},
-    watch: {
-    
+    computed: {
+        ...mapGetters({
+            isTableFlex: 'isTableFlex',
+        }),
     },
+    watch: {},
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
         // 用于多选表格，清空用户的选择
@@ -242,7 +281,16 @@ export default {
         sort(row, expanded) {
             this.$refs.commonTable.sort(row, expanded)
         },
-}
+
+
+        // 分页改变
+        onSizeChange(size) {
+            this.$emit('onPageChange', { page: this.page, size })
+        },
+        onPageChange(page) {
+            this.$emit('onPageChange', { page, size: this.size })
+        },
+    }
 }
 </script>
 

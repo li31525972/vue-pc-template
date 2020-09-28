@@ -50,12 +50,12 @@
             >
             </component>
         </el-form-item>
-    
+
         <el-form-item class="search-button" v-if="isShowSubmit">
             <el-button @click="handleReset('ruleForm')">重置</el-button>
             <el-button type="primary" @click="handleSearch('ruleForm')">搜索</el-button>
         </el-form-item>
-        
+
     </el-form>
 </template>
 
@@ -195,21 +195,19 @@ export default {
         init() {
             // 获取表格数据
             this.options.forEach((item, i) => {
-                
+
                 // 默认获取配置项
                 if (item.method) {
                     // 开启loading
                     this.$set(this.options[i], 'loading', true)
                     item.method(item.params).then(response => {
-                        if (response[SUCCESS.key] === SUCCESS.value) {
-                            let data = response.data || []
-                            this.$set(this.options[i], 'options', data)
-                            // 关闭loading
-                            this.$set(this.options[i], 'loading', false)
-                        }
+                        let data = response || []
+                        this.$set(this.options[i], 'options', data)
+                        // 关闭loading
+                        this.$set(this.options[i], 'loading', false)
                     })
                 }
-                
+
                 // 自定义获取配置项
                 if (item.customMethod) {
                     // 开启loading
@@ -220,15 +218,15 @@ export default {
                         this.$set(this.options[i], 'loading', false)
                     })
                 }
-                
+
             })
-            
+
         },
         // 重置
         handleReset(name) {
             this.$refs[name].resetFields();
             this.initParams()
-            
+
             this.$emit('handleReset', this.params)
         },
         // 点击搜索
