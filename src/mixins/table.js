@@ -8,6 +8,7 @@ export default {
         return {
             page: PAGE,
             size: SIZE,
+            selectData: [],
         }
     },
     methods: {
@@ -16,6 +17,11 @@ export default {
             this.size = size
 
             this.init()
+        },
+    
+        // 表格多选框改变
+        onSelectChange(data) {
+            this.selectData = data
         },
     },
 }

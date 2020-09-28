@@ -16,9 +16,12 @@
 
         <CommonTable
             :options="tableOptions"
+            :btnOptions="tableBtnOptions"
             :data="data"
             :total="total"
+            @handleBtnClick="handleBtnClick"
             @onPageChange="onPageChange"
+            @select="onSelectChange"
         />
     </div>
 </template>
@@ -26,10 +29,10 @@
 <script>
 import { CommonSearch, CommonBtnGroup, CommonTable } from '@/components'
 import * as config from '@/pageConfig/settingUp/systemManagement/accountManagement'
-import { search, table } from '@/mixins'
+import { search, table, button } from '@/mixins'
 export default {
     name: 'accountManagement',
-    mixins: [search, table],
+    mixins: [search, table, button],
     components: {
         CommonSearch,
         CommonBtnGroup,

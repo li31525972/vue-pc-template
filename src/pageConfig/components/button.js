@@ -22,4 +22,17 @@ export const buttonOptions = {
         name: 'handleDelete',
         type: 'danger',
     },
+    4: {
+        label: '重置密码',
+        name: 'handleResetPassword',
+    },
+    5: {
+        label: '启用',
+        name: 'handleUse',
+    },
+    6: {
+        label: '禁用',
+        name: 'handleDisabled',
+        type: 'danger',
+    },
 }

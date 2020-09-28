@@ -62,3 +62,9 @@ export const tableOptions = [
         prop: 'statusName',
     },
 ]
+
+// 表格按钮配置项
+export const tableBtnOptions = [
+    buttonOptions[5],
+    buttonOptions[6],
+]

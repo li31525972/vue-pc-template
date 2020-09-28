@@ -236,7 +236,8 @@ $len: length($deviceWidth);
         top: 0;
         height: calc(100% - 40px);
 
-        .el-table__body-wrapper {
+        .el-table__body-wrapper,
+        .el-table__fixed-body-wrapper {
           max-height: calc(100% - 40px);
           overflow-y: auto;
         }

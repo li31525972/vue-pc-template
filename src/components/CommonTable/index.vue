@@ -61,6 +61,13 @@
                 @headerDragend="(newWidth, oldWidth, column, event) => $emit('headerDragend', newWidth, oldWidth, column, event)"
                 @expandChange="(row, expandedRows) => $emit('expandChange', row, expandedRows)"
         >
+            <el-table-column
+                    v-if="isShowSelection"
+                    fixed
+                    type="selection"
+                    align="center"
+                    width="40">
+            </el-table-column>
 
             <CommonTableColumn
                     v-for="item in options"
@@ -70,6 +77,25 @@
             <template v-slot:append="scoped">
                 <slot name="append" :scoped="scoped"></slot>
             </template>
+    
+            <el-table-column
+                    v-if="btnOptions"
+                    fixed="right"
+                    align="center"
+                    label="操作"
+                    :width="currentOperateWidth"
+            >
+                <template v-slot:default="{ row, $index }">
+                    <CommonButton
+                        v-for="item in btnOptions"
+                        :key="item.label"
+                        :label="item.label"
+                        :disabled="item.disabled"
+                        type="text"
+                        @handleClick="event => $emit('handleBtnClick', { row, $index, options: item })"
+                    />
+                </template>
+            </el-table-column>
         </el-table>
 
         <div class="nm-common-pagination" v-if="isShowPage">
@@ -87,6 +113,7 @@
 </template>
 
 <script>
+import CommonButton from '@/components/CommonButton'
 import CommonTableColumn from './CommonTableColumn'
 import { PAGESIZES, LAYOUT, SIZE, PAGE } from '@/config/constant'
 import { mapGetters } from 'vuex'
@@ -95,6 +122,7 @@ export default {
     name: 'CommonTable',
     components: {
         CommonTableColumn,
+        CommonButton,
     },
     props: {
         // 表格显示的数据
@@ -107,6 +135,7 @@ export default {
             type: Array,
             default: () => [],
         },
+        btnOptions: Array,
         // Table 的高度，默认为自动高度。如果 height 为 number 类型，单位 px；如果 height 为 string 类型，则这个高度会设置为 Table 的 style.height 的值，Table 的高度会受控于外部样式。
         height: [String, Number],
         // Table 的最大高度。合法的值为数字或者单位为 px 的高度。
@@ -155,10 +184,7 @@ export default {
         // 表头单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有表头单元格设置一样的 Style。
         headerCellStyle: Function,
         // 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的。类型为 String 时，支持多层访问：user.info.id，但不支持 user.info[0].id，此种情况请使用 Function。
-        rowKey: {
-            type: [String, Function],
-            default: 'row_id',
-        },
+        rowKey: [String, Function],
         // 空数据时显示的文本内容，也可以通过 slot="empty" 设置
         emptyText: String,
         // 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效
@@ -167,10 +193,7 @@ export default {
             default: false,
         },
         // 可以通过该属性设置 Table 目前的展开行，需要设置 row-key 属性才能使用，该属性为展开行的 keys 数组。
-        expandRowKeys: {
-            type: Array,
-            default: () => []
-        },
+        expandRowKeys: Array,
         // 默认的排序列的 prop 和顺序。它的prop属性指定默认的排序的列，order指定默认排序的顺序
         defaultSort: {
             type: Object,
@@ -225,6 +248,13 @@ export default {
             type: Boolean,
             default: true,
         },
+        // 是否显示多选框
+        isShowSelection: {
+            type: Boolean,
+            default: true,
+        },
+        // 表格操作列宽度
+        operateWidth: Number,
     },
     data() {
         return {
@@ -236,6 +266,23 @@ export default {
         ...mapGetters({
             isTableFlex: 'isTableFlex',
         }),
+        
+        currentOperateWidth() {
+            let width = 0
+            if (this.operateWidth) {
+                width = this.operateWidth
+            }
+            this.btnOptions.forEach(item => {
+                if (item.label) {
+                    width += item.label.length * 25
+                }
+                if (item.icon) {
+                    width += 20
+                }
+            })
+    
+            return width
+        },
     },
     watch: {},
     created() {

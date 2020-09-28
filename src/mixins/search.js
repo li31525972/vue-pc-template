@@ -9,6 +9,7 @@ export default {
             // 固定参数
             fixedParams: {},
             sortParams: {},
+            selectData: [],
         }
     },
     methods: {
@@ -16,6 +17,7 @@ export default {
             this.search = { ...data }
             // 重置分页
             this.page = 1
+            this.selectData = []
 
             // 请求数据
             this.init()
