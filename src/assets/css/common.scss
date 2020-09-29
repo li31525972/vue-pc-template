@@ -196,6 +196,9 @@ $len: length($deviceWidth);
 .el-table .el-table__header th {
   background-color: #f5f7fa;
 }
+.el-table .el-table__body td {
+  padding: 5px 0;
+}
 
 //分页基本样式
 .nm-common-pagination {
@@ -205,6 +208,7 @@ $len: length($deviceWidth);
   align-items: center;
 }
 
+//表格样式
 .nm-common-table {
   flex: 1;
   display: flex;
@@ -251,33 +255,36 @@ $len: length($deviceWidth);
     }
   }
 
-  //.el-table {
-  //  left: 0;
-  //  top: 0;
-  //  height: auto;
-  //  &.is-page {
-  //    height: calc(100% - 40px);
-  //    overflow-y: auto;
-  //  }
-  //
-  //  &.is-flex {
-  //    height: 100%;
-  //    overflow-y: auto;
-  //
-  //  }
-  //  &.is-flex.is-page {
-  //    height: calc(100% - 40px);
-  //  }
-  //
-  //  &.is-flex {
-  //    height: 100%;
-  //    overflow-y: auto;
-  //  }
-  //  &.is-flex.is-page {
-  //    height: calc(100% - 40px);
-  //  }
-  //}
+}
 
+//弹出框样式
+.el-dialog {
+  .el-dialog__header {
+    box-sizing: border-box;
+    padding: 0 15px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: $titleBorder;
+    @extend .disabled_selected;
 
+    .el-dialog__headerbtn {
+      position: static;
+    }
+  }
 
+  .el-dialog__body {
+    padding: 10px 15px;
+  }
+
+  .el-dialog__footer {
+    box-sizing: border-box;
+    padding: 0 15px;
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: $titleBorder;
+  }
 }

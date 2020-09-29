@@ -39,7 +39,6 @@
                     :ref="item.name"
                     :options="item"
                     v-model="params[item.name]"
-                    @input="value => $emit('input', { name: item.name, value: value })"
                     @change="value => $emit('change', { name: item.name, value: value })"
                     @blur="value => $emit('blur', { name: item.name, value: value })"
                     @focus="value => $emit('focus', { name: item.name, value: value })"
@@ -188,6 +187,8 @@ export default {
             this.options.forEach(item => {
                 if (item.defaultValue) {
                     this.$set(this.params, item.name, item.defaultValue)
+                } else {
+                    this.$set(this.params, item.name, undefined)
                 }
             })
         },
@@ -227,7 +228,7 @@ export default {
             this.$refs[name].resetFields();
             this.initParams()
 
-            this.$emit('handleReset', this.params)
+            this.$emit('handleSearch', this.params)
         },
         // 点击搜索
         handleSearch(name) {

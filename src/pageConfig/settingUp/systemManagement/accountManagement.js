@@ -35,7 +35,13 @@ export const searchOptions = [
 
 // 按钮配置项
 export const buttonGroupOptions = [
-    buttonOptions['0'],
+    {
+        ...buttonOptions['0'],
+        proxy: true,
+        checkSelect: true,
+        checkWarning: true,
+        module: 'approval',
+    },
     buttonOptions['3'],
 ]
 
@@ -48,6 +54,7 @@ export const tableOptions = [
     {
         label: '用户名',
         prop: 'account',
+        element: 'input',
     },
     {
         label: '所属公司',
@@ -65,6 +72,20 @@ export const tableOptions = [
 
 // 表格按钮配置项
 export const tableBtnOptions = [
-    buttonOptions[5],
-    buttonOptions[6],
+    {
+        ...buttonOptions[5],
+        disabled(row) {
+            if (row.status === '0') {
+                return true
+            }
+        }
+    },
+    {
+        ...buttonOptions[6],
+        disabled(row) {
+            if (row.status === '1') {
+                return true
+            }
+        }
+    },
 ]

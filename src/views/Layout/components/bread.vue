@@ -6,7 +6,7 @@
 <template>
     <el-breadcrumb separator="/">
         <!--<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
-        <el-breadcrumb-item v-for="item in route" :key="item.path" :to="item.path">{{ item.meta.title }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in route" :key="item.path" >{{ item.meta.title }}</el-breadcrumb-item>
     </el-breadcrumb>
 </template>
 <script>

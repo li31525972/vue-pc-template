@@ -15,7 +15,7 @@ const routes = [
         meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
         children: [{
             path: 'homePage',
-            name: 'home',
+            name: 'homePage',
             title: '首页',
             meta: { title: '首页' },
             component: () => import( /* webpackChunkName: "home" */ '@/views/Home')
@@ -83,17 +83,27 @@ const routes = [
         path: '/settingUp',
         component: Layout,
         title: '设置',
+        meta: {
+            title: '设置'
+        },
         icon: 'el-icon-s-home',
         children: [
             {
                 path: 'systemManagement',
                 component: () => import('@/views/settingUp/systemManagement'),
                 title: '系统设置',
+                meta: {
+                    title: '系统设置'
+                },
                 children: [
                     {
                         path: 'accountManagement',
+                        name: 'accountManagement',
                         component: () => import('@/views/settingUp/systemManagement/accountManagement'),
                         title: '账号管理',
+                        meta: {
+                            title: '账号管理'
+                        },
                     }
                 ],
             }

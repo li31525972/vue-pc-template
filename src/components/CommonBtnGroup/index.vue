@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         handleBtnClick(data) {
-            data.loading = data.hasOwnProperty('loading') && data.loading == false
+            // data.loading = data.hasOwnProperty('loading') && data.loading == false
             this.$emit('handleBtnClick', { options: data })
         },
         handleClickCancel() {
@@ -121,7 +121,6 @@ export default {
         },
 
         handleBeforeUpload(data) {
-            console.log(2);
             data.loading = data.hasOwnProperty('loading') && data.loading == false
         },
 

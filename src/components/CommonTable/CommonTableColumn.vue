@@ -30,7 +30,9 @@
             :filterMethod="options.filterMethod"
             :filteredValue="options.filteredValue"
     >
-    
+        <template slot-scope="{ row, $index }">
+            <slot :name="options.slot" :row="row" :index="$index" :options="options">{{ row[options.prop] }}</slot>
+        </template>
     </el-table-column>
 </template>
 
@@ -49,19 +51,19 @@ export default {
         }
     },
     computed: {
-    
+
     },
     watch: {
-    
+
     },
     created() {
-    
+
     },
     mounted() {
-    
+
     },
     methods: {
-    
+
     }
 }
 </script>

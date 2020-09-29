@@ -66,7 +66,7 @@
                     fixed
                     type="selection"
                     align="center"
-                    width="40">
+                    width="50">
             </el-table-column>
 
             <CommonTableColumn
@@ -77,7 +77,7 @@
             <template v-slot:append="scoped">
                 <slot name="append" :scoped="scoped"></slot>
             </template>
-    
+
             <el-table-column
                     v-if="btnOptions"
                     fixed="right"
@@ -90,7 +90,7 @@
                         v-for="item in btnOptions"
                         :key="item.label"
                         :label="item.label"
-                        :disabled="item.disabled"
+                        :disabled="onBtnDisabled(row, $index, item)"
                         type="text"
                         @handleClick="event => $emit('handleBtnClick', { row, $index, options: item })"
                     />
@@ -266,7 +266,7 @@ export default {
         ...mapGetters({
             isTableFlex: 'isTableFlex',
         }),
-        
+
         currentOperateWidth() {
             let width = 0
             if (this.operateWidth) {
@@ -280,7 +280,7 @@ export default {
                     width += 20
                 }
             })
-    
+
             return width
         },
     },
@@ -336,6 +336,16 @@ export default {
         },
         onPageChange(page) {
             this.$emit('onPageChange', { page, size: this.size })
+        },
+
+        // 表格按钮禁用
+        onBtnDisabled(row, index, options) {
+            if (typeof options.disabled === 'boolean') {
+                return options.disabled
+            } else if (typeof options.disabled === 'function') {
+                return options.disabled(row, index)
+            }
+            return false
         },
     }
 }

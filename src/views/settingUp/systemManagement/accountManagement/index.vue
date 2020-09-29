@@ -24,11 +24,15 @@
             @onPageChange="onPageChange"
             @select="onSelectChange"
         />
+
+        <CommonDialog v-model="isShow" >
+            111
+        </CommonDialog>
     </div>
 </template>
 
 <script>
-import { CommonSearch, CommonBtnGroup, CommonTable } from '@/components'
+import { CommonSearch, CommonBtnGroup, CommonTable, CommonDialog } from '@/components'
 import * as config from '@/pageConfig/settingUp/systemManagement/accountManagement'
 import { search, table, button } from '@/mixins'
 export default {
@@ -38,12 +42,14 @@ export default {
         CommonSearch,
         CommonBtnGroup,
         CommonTable,
+        CommonDialog,
     },
     data() {
         return {
             ...config,
             data: [],
             total: 0,
+            isShow: false,
         }
     },
     computed: {
@@ -70,6 +76,29 @@ export default {
             this.$api.upms.getAccountList(params).then(response => {
                 this.data = response.list
                 this.total = response.total
+            })
+        },
+
+        // 新增
+        handleAdd() {
+            console.log('新增----------')
+        },
+        // 删除
+        handleDelete() {
+            this.isShow = true
+        },
+
+        // 禁用
+        handleDisabled(row) {
+            this.$api.upms.updateStatus({ userId: row.userId, status: '1' }).then(() => {
+                this.init()
+            })
+        },
+
+        // 启用
+        handleUse(row) {
+            this.$api.upms.updateStatus({ userId: row.userId, status: '0' }).then(() => {
+                this.init()
             })
         },
     }

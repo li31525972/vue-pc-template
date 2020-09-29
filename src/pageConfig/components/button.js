@@ -3,6 +3,13 @@
 * @date 2020-09-28
 * @author Yahui Li
 */
+/**
+ * proxy: true, // 是否需要拦截按钮事件进行预处理
+ * checkSelect: true, // 是否需要check表格是否选中数据，需要和 混入中的table配合使用
+ * checkWarning: true, // 是否需要弹出警告框提示用户
+ * checkProps: {}, 警告框的配置项，详见 MessageBox 配置项
+ * module: '', // 调用全局共通模块
+ */
 
 export const buttonOptions = {
     0: {

@@ -13,3 +13,4 @@ export { default as CommonTables } from './CommonTables' // 表格
 export { default as CountTo } from './CountTo' // 数字动画
 export { default as MessageBox } from './MessageBox' // 消息提示组件
 export { default as CommonDrawer } from './CommonDrawer' // 抽屉组件
+export { default as CommonDialog } from './CommonDialog' // dialog弹出框组件

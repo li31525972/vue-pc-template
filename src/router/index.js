@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Nprogress from 'nprogress'
 import routes from './routes'
 import { env, menuProps } from '@/config/constant'
 
 Vue.use(VueRouter)
 
+Nprogress.configure({ showSpinner: false })
 
 const router = new VueRouter({
     mode: 'history',
@@ -21,6 +23,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    Nprogress.start()
     if (env === 'test') {
         let props = menuProps()
         document.title = props.label
@@ -37,6 +40,10 @@ router.beforeEach((to, from, next) => {
         }
     }
     next()
+})
+
+router.afterEach(() => {
+    Nprogress.done()
 })
 
 
