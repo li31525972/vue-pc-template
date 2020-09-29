@@ -14,10 +14,10 @@ let instance = null, current = null
 let defaultOptions = {
     value: false,
     width: '30%',
-    fullscreen: false,
     modal: true,
     showClose: true,
     destroyOnClose: true,
+    flex: 1,
 }
 
 function dialog(options, callback) {
@@ -44,7 +44,7 @@ function showDialog() {
 
     if (!instance.value) {
         let options = current.options
-
+        
         for (let key in options) {
             if (options.hasOwnProperty(key)) {
                 instance[key] = options[key]

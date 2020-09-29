@@ -89,14 +89,14 @@ export default {
         },
 
         // 禁用
-        handleDisabled(row) {
+        handleDisabled({ row }) {
             this.$api.upms.updateStatus({ userId: row.userId, status: '1' }).then(() => {
                 this.init()
             })
         },
 
         // 启用
-        handleUse(row) {
+        handleUse({ row }) {
             this.$api.upms.updateStatus({ userId: row.userId, status: '0' }).then(() => {
                 this.init()
             })

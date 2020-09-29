@@ -6,6 +6,7 @@
 import { Notification, MessageBox } from 'element-ui';
 import message from '@/config/message'
 import dialog from '@/pageConfig/components/modules/CommonDialog'
+import * as moduleConfig from '@/pageConfig/components/modules/config'
 
 
 export default function btnProxy(data) {
@@ -69,8 +70,21 @@ btnProxy.check = function (data) {
 
 // 按钮调用的共通组件
 btnProxy.module = function (data) {
-
-    dialog({}, (params, close) => {
+    let { options } = data
+    
+    // 所有的模块
+    let moduleOptions = {
+        dialog,
+    }
+    
+    // 使用哪个模块，默认为dialog
+    let status = options.moduleType || 'dialog'
+    
+    // 当前模块配置项
+    let currentOptions = moduleConfig[options.module] || {}
+    
+    // 调用当前模块
+    moduleOptions[status](currentOptions, (params, close) => {
 
         btnProxy.confirm.call(this, data, params, close)
     })
@@ -82,7 +96,7 @@ btnProxy.confirm = function (data, params, close) {
     let { row, $index, options } = data
 
     if (typeof this[options.name] === 'function') {
-        this[options.name](row, $index, params, close)
+        this[options.name]({ row, $index }, params, close)
 
     } else {
 

@@ -166,6 +166,7 @@ export default {
         return {
             currentOptions: {},
             params: {},
+            defaultParams: {},
             rules: {},
             rulesFlag: false,
             element: {
@@ -203,26 +204,27 @@ export default {
         },
     },
     created() {
+        // this.initParams()
         this.init()
-        this.initParams()
     },
     mounted() {
     },
     methods: {
         // 初始化默认值
         initParams() {
-            let params = {}
+            
             this.options.forEach(item => {
-                if (item.defaultValue || this.formData[item.name]) {
-                    params[item.name] = this.formData[item.name] || item.defaultValue
-                }
+                this.$set(this.defaultParams, item.name, this.formData[item.name] || item.defaultValue)
+                // console.log(params);
+                // params[item.name] = this.formData[item.name] || item.defaultValue
             })
-            this.$set(this, 'params', params)
+            console.log('-----',this.defaultParams);
+            this.$set(this, 'params', this.defaultParams)
         },
     
         // 初始化获取数据方法
         init() {
-            let currentOptions = {}
+            let params = {}, currentOptions = {}
             // 获取表格数据
             this.options.forEach((item, i) => {
                 // 判断是否有验证规则(用于样式)
@@ -230,6 +232,7 @@ export default {
                     this.rulesFlag = true
                 }
                 // 存储当前配置项
+                params[item.name] = this.formData[item.name] || item.defaultValue
                 currentOptions[item.name] = item
                 // this.$set(this.currentOptions, item.name, item)
                 
@@ -259,8 +262,8 @@ export default {
                 }
             
             })
+            this.$set(this, 'params', params)
             this.$set(this, 'currentOptions', currentOptions)
-        
         },
         
         // 计算宽度

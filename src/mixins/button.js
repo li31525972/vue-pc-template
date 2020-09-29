@@ -19,7 +19,7 @@ export default {
             } else {
 
                 if (typeof this[options.name] === 'function') {
-                    this[options.name](row, $index)
+                    this[options.name]({ row, $index })
 
                 } else {
 

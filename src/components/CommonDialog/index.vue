@@ -17,18 +17,32 @@
             :close-on-press-escape="closeOnPressEscape"
             :show-close="showClose"
             :destroy-on-close="destroyOnClose"
-            :before-close="handleClose">
-        <slot></slot>
+            :before-close="handleClose"
+    >
+        <slot>
+            <CommonForm
+                :options="options"
+                :flex="flex"
+                ref="form"
+                :formData="undefined"
+                :labelWidth="80"
+                :linkage="true"
+            />
+        </slot>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="handleClose">取 消</el-button>
-    <el-button type="primary" @click="handleConfirm">确 定</el-button>
-  </span>
+            <el-button @click="handleClose">取 消</el-button>
+            <el-button type="primary" @click="handleConfirm">确 定</el-button>
+        </span>
     </el-dialog>
 </template>
 
 <script>
+import { CommonForm } from '@/components'
 export default {
     name: 'CommonDialog',
+    components: {
+        CommonForm,
+    },
     props: {
         value: {
             type: Boolean,
@@ -81,18 +95,25 @@ export default {
             type: Boolean,
             default: true,
         },
-        callback: Function,
+    },
+    data() {
+        return {
+            callback: null,
+            options: undefined,
+            flex: null,
+            defaultData: undefined,
+        }
     },
     methods: {
         handleClose() {
             this.$emit('input', false)
-
+            
             this.callback && this.callback(false)
-
+            
         },
         handleConfirm() {
             this.$emit('handleClose')
-
+            
             this.callback && this.callback(true)
         },
     },

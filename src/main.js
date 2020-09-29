@@ -16,7 +16,6 @@ import api from '@/api'
 Vue.use(Element,{ size: 'small' })
 Vue.config.productionTip = false
 Vue.prototype.$api = api
-
 // 全局过滤器
 Object.keys(filters).forEach(item => {
     Vue.filter(item, filters[item])
