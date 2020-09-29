@@ -81,13 +81,19 @@ export default {
             type: Boolean,
             default: true,
         },
+        callback: Function,
     },
     methods: {
         handleClose() {
             this.$emit('input', false)
+
+            this.callback && this.callback(false)
+
         },
         handleConfirm() {
             this.$emit('handleClose')
+
+            this.callback && this.callback(true)
         },
     },
 }

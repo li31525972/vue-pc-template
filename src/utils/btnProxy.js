@@ -5,15 +5,19 @@
 */
 import { Notification, MessageBox } from 'element-ui';
 import message from '@/config/message'
+import dialog from '@/pageConfig/components/modules/CommonDialog'
+
 
 export default function btnProxy(data) {
-    let { row, $index, options } = data
+    let { options } = data
 
     // 是否需要经过拦截处理
     if (options.checkSelect || options.checkWarning) {
         btnProxy.check.call(this, data)
 
         // 不需要拦截处理
+    } else if (options.module) {
+        btnProxy.module.call(this, data)
     }
 
 }
@@ -65,16 +69,20 @@ btnProxy.check = function (data) {
 
 // 按钮调用的共通组件
 btnProxy.module = function (data) {
-    console.log(data);
+
+    dialog({}, (params, close) => {
+
+        btnProxy.confirm.call(this, data, params, close)
+    })
 },
 
 
 // 最终确认调用按钮事件
-btnProxy.confirm = function (data) {
+btnProxy.confirm = function (data, params, close) {
     let { row, $index, options } = data
 
     if (typeof this[options.name] === 'function') {
-        this[options.name](row, $index)
+        this[options.name](row, $index, params, close)
 
     } else {
 
