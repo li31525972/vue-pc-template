@@ -154,7 +154,7 @@ export default {
         // 表单默认数据
         formData: {
             type: Object,
-            default: () => {}
+            default: () => ({})
         },
         // 用于开启表单的联动效果
         linkage: {
@@ -190,7 +190,7 @@ export default {
         }
     },
     computed: {
-    
+
     },
     watch: {
         params: {
@@ -212,44 +212,41 @@ export default {
     methods: {
         // 初始化默认值
         initParams() {
-            
+            let params = {}
             this.options.forEach(item => {
                 this.$set(this.defaultParams, item.name, this.formData[item.name] || item.defaultValue)
-                // console.log(params);
-                // params[item.name] = this.formData[item.name] || item.defaultValue
+                params[item.name] = this.formData[item.name] || item.defaultValue
             })
-            console.log('-----',this.defaultParams);
-            this.$set(this, 'params', this.defaultParams)
+            this.$set(this, 'params', params)
         },
-    
+
         // 初始化获取数据方法
         init() {
-            let params = {}, currentOptions = {}
-            // 获取表格数据
+            let currentOptions = {}, params = {}
+            console.log(this.options);
+            // 配置项
             this.options.forEach((item, i) => {
                 // 判断是否有验证规则(用于样式)
                 if (item.rules) {
                     this.rulesFlag = true
                 }
                 // 存储当前配置项
-                params[item.name] = this.formData[item.name] || item.defaultValue
                 currentOptions[item.name] = item
-                // this.$set(this.currentOptions, item.name, item)
-                
+
+                params[item.name] = this.formData[item.name] || item.defaultValue
+
                 // 默认获取配置项
                 if (item.method) {
                     // 开启loading
                     this.$set(this.options[i], 'loading', true)
                     item.method(item.params).then(response => {
-                        if (response[SUCCESS.key] === SUCCESS.value) {
-                            let data = response.data || []
-                            this.$set(this.options[i], 'options', data)
-                            // 关闭loading
-                            this.$set(this.options[i], 'loading', false)
-                        }
+
+                        this.$set(this.options[i], 'options', response)
+                        // 关闭loading
+                        this.$set(this.options[i], 'loading', false)
                     })
                 }
-            
+
                 // 自定义获取配置项
                 if (item.customMethod) {
                     // 开启loading
@@ -260,12 +257,12 @@ export default {
                         this.$set(this.options[i], 'loading', false)
                     })
                 }
-            
+
             })
             this.$set(this, 'params', params)
             this.$set(this, 'currentOptions', currentOptions)
         },
-        
+
         // 计算宽度
         styleObject(row) {
             let flex = Number(this.flex)
@@ -277,7 +274,7 @@ export default {
             }
 
         },
-        
+
         // 获取表单中的值
         getFormData(isDefault) {
             // 是否需要返回默认值中没有用到的值, 默认不返回
@@ -286,7 +283,7 @@ export default {
             }
             return this.params
         },
-    
+
         // 修改表单中的值
         changeFormData(data) {
             if (utils.type(data) === 'Object') {
@@ -295,7 +292,7 @@ export default {
                 }
             }
         },
-    
+
         // 修改表单配置项
         changeForm(data) {
             if (utils.type(data) === 'Object') {

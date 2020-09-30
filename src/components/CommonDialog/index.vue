@@ -24,7 +24,7 @@
                 :options="options"
                 :flex="flex"
                 ref="form"
-                :formData="undefined"
+                :formData="defaultData"
                 :labelWidth="80"
                 :linkage="true"
             />
@@ -99,22 +99,30 @@ export default {
     data() {
         return {
             callback: null,
-            options: undefined,
+            options: [],
             flex: null,
-            defaultData: undefined,
+            defaultData: {},
         }
     },
     methods: {
         handleClose() {
-            this.$emit('input', false)
-            
-            this.callback && this.callback(false)
-            
+            if (this.callback) {
+                this.callback(false)
+            } else {
+                this.$emit('input', false)
+            }
+
+
+
         },
         handleConfirm() {
-            this.$emit('handleClose')
-            
-            this.callback && this.callback(true)
+            if (this.callback) {
+                this.callback(true)
+            } else {
+                this.$emit('handleClose')
+            }
+
+
         },
     },
 }

@@ -44,7 +44,7 @@ function showDialog() {
 
     if (!instance.value) {
         let options = current.options
-        
+
         for (let key in options) {
             if (options.hasOwnProperty(key)) {
                 instance[key] = options[key]
