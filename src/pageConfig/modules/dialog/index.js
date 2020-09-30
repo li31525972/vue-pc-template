@@ -4,7 +4,7 @@
 * @author YaHui Li
 */
 import Vue from 'vue'
-import CommonDialog from '@/components/CommonDialog'
+import CommonDialog from './main'
 
 let DialogConstructor = Vue.extend(CommonDialog)
 
@@ -13,7 +13,8 @@ let instance = null, current = null
 
 let defaultOptions = {
     value: false,
-    width: '30%',
+    title: '标题',
+    width: '400px',
     modal: true,
     showClose: true,
     destroyOnClose: true,

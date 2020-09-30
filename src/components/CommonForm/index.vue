@@ -223,7 +223,7 @@ export default {
         // 初始化获取数据方法
         init() {
             let currentOptions = {}, params = {}
-            console.log(this.options);
+
             // 配置项
             this.options.forEach((item, i) => {
                 // 判断是否有验证规则(用于样式)

@@ -48,5 +48,5 @@ export const approval = {
             ],
         },
     ],
-
+    title: '新增',
 }
