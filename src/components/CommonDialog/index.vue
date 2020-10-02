@@ -11,6 +11,7 @@
             :fullscreen="fullscreen"
             :top="top"
             :modal="modal"
+            v-draggable-dialog="true"
             :modal-append-to-body="modalAppendToBody"
             :append-to-body="appendToBody"
             :close-on-click-modal="closeOnClickModal"

@@ -101,7 +101,8 @@ export default {
             callback: null,
             options: [],
             flex: null,
-            defaultData: {},
+            defaultData: undefined,
+            isDefault: false,
         }
     },
     created() {
@@ -109,23 +110,23 @@ export default {
     },
     methods: {
         handleClose() {
-            if (this.callback) {
+            if (typeof this.callback === 'function') {
                 this.callback(false)
-            } else {
-                this.$emit('input', false)
             }
-
+            
 
 
         },
         handleConfirm() {
-            if (this.callback) {
-                this.callback(true)
-            } else {
-                this.$emit('handleClose')
+            if (typeof this.callback === 'function') {
+                
+                if (this.$refs.form.submitForm()) {
+                    
+                    let params = this.$refs.form.getFormData(this.isDefault)
+                    this.callback(true, params)
+                }
             }
-
-
+            
         },
     },
 }

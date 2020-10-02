@@ -24,12 +24,15 @@
             @onPageChange="onPageChange"
             @select="onSelectChange"
         />
-
+    
+        <CommonDialog
+            v-model="isShow"
+        />
     </div>
 </template>
 
 <script>
-import { CommonSearch, CommonBtnGroup, CommonTable } from '@/components'
+import { CommonSearch, CommonBtnGroup, CommonTable, CommonDialog } from '@/components'
 import * as config from '@/pageConfig/settingUp/systemManagement/accountManagement'
 import { search, table, button } from '@/mixins'
 export default {
@@ -39,6 +42,7 @@ export default {
         CommonSearch,
         CommonBtnGroup,
         CommonTable,
+        CommonDialog,
     },
     data() {
         return {
@@ -76,12 +80,13 @@ export default {
         },
 
         // 新增
-        handleAdd() {
-            console.log('新增----------')
+        handleAdd(data, done) {
+            console.log('新增----------', data, done)
+            done()
         },
         // 删除
         handleDelete() {
-
+            this.isShow = true
         },
 
         // 禁用

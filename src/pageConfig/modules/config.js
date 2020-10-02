@@ -35,16 +35,26 @@ export const approval = {
                 value: 'dropDownKey'
             },
             rules: [
-                { required: true, message: '请选择是否管理员', trigger: 'blur' },
+                { required: true, message: '请选择是否管理员', trigger: 'change' },
             ],
         },
         {
             label: '组织机构',
             name: 'orgId',
-            element: 'select',
+            element: 'cascader',
             options: [],
+            method: api.upms.getOrgDropDown,
+            params: {orgType: '1'},
+            props: {
+                multiple: false,
+                checkStrictly: true,
+                emitPath: false,
+                label: 'orgName',
+                value: 'orgId',
+                children: 'orgChild',
+            },
             rules: [
-                { required: true, message: '请选择组织机构', trigger: 'blur' },
+                { required: true, message: '请选择组织机构', trigger: 'change' },
             ],
         },
     ],

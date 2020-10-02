@@ -3,6 +3,7 @@
 * @date 2020-04-08
 * @author YaHui Li
 */
+import router from '@/router'
 import axios from 'axios'
 import { Message, Loading } from 'element-ui'
 import { CODE } from '@/config/httpCode'
@@ -43,6 +44,7 @@ service.interceptors.request.use(config => {
 
     return config
 }, error => {
+    console.log(error);
     return Promise.reject(error.response)
 });
 
@@ -58,8 +60,8 @@ service.interceptors.response.use(response => {
             loadingInstance.close()
         }
     }
-
-
+    
+    
     if (response.data.hasOwnProperty('code')) {
         if (code === 0 && msg) {
             Message.success(msg)
@@ -77,7 +79,7 @@ service.interceptors.response.use(response => {
     return data
 
 }, error => {
-
+    
     let response = error.response
 
     if (!response.config.loading) {
@@ -90,7 +92,13 @@ service.interceptors.response.use(response => {
 
     for (let key in CODE) {
         if (key == response.status) {
+            
             Message.error(CODE[key])
+            // 认证失败重新登录
+            if (key == 401) {
+                sessionStorage.clear()
+                return router.replace({ name: 'login' })
+            }
         }
     }
     return Promise.reject(error)

@@ -9,6 +9,7 @@ import 'nprogress/nprogress.css'
 import router from './router'
 import store from './store'
 import * as filters from '@/filters'
+import * as directives from '@/directives'
 import api from '@/api'
 
 // require('../mock')
@@ -19,6 +20,10 @@ Vue.prototype.$api = api
 // 全局过滤器
 Object.keys(filters).forEach(item => {
     Vue.filter(item, filters[item])
+})
+// 自定义指令
+Object.keys(directives).forEach(item => {
+    Vue.directive(item, directives[item])
 })
 
 

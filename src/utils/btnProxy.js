@@ -94,9 +94,29 @@ btnProxy.module = function (data) {
 // 最终确认调用按钮事件
 btnProxy.confirm = function (data, params, close) {
     let { row, $index, options } = data
+    /**
+     * 如果没有当前行的数据  模块数据 关闭事件 配置项
+     */
+    
 
     if (typeof this[options.name] === 'function') {
-        this[options.name]({ row, $index }, params, close)
+        
+        if (!row) {
+            // 不是行内操作
+            
+            if (params) {
+                // 模块操作
+                this[options.name](params, close)
+            } else {
+                // 非调用模块操作
+                this[options.name]()
+            }
+            
+        } else {
+            // 行内操作
+    
+            this[options.name]({ row, $index }, params, close)
+        }
 
     } else {
 
