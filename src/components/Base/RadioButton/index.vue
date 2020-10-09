@@ -10,14 +10,14 @@
     >
         <el-radio-button
                 v-for="item in options.options"
-                :key="item[options.optionsKey[1]]"
-                :label="item[options.optionsKey[1]]"
+                :key="item[options.props.value]"
+                :label="item[options.props.label]"
                 :disabled="item.disabled"
                 :border="item.border"
                 :size="item.size"
                 :name="item.name"
         >
-            {{ item[options.optionsKey[1]] }}
+            {{ item[options.props.label] }}
         </el-radio-button>
     </el-radio-group>
 </template>
