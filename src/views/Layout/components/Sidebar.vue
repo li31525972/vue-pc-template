@@ -129,7 +129,7 @@ export default {
     computed: {
         // 获取当前的路由路径
         path() {
-            if (process.env.NODE_ENV === 'test') {
+            if (process.env.NODE_ENV !== 'development') {
                 return this.$route.path;
             }
             return this.$route.name;

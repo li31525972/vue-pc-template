@@ -20,7 +20,13 @@ export default {
     SET_HEADER(state, value) {
         state.isFixedHeader = value
     },
+    // 清除token
     RESET_TOKEN(state) {
         state.userInfo.token = null
+    },
+
+    // 设置弹出框是否能拖拽
+    SET_DRAGGABLE(state, data) {
+        state.isDraggable = data
     },
 }

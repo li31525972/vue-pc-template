@@ -12,7 +12,7 @@ const routes = [
         component: Layout,
         title: '首页',
         icon: 'el-icon-s-home',
-        meta: { title: '首页', icon: 'el-icon-s-home', level: 1 },
+        meta: { title: '首页', icon: 'el-icon-s-home' },
         children: [{
             path: 'homePage',
             name: 'homePage',
@@ -112,6 +112,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
+        title: '登录',
         meta: { title: '登录', hidden: true },
         component: () => import(/* webpackChunkName: "login" */ '@/views/Login')
     },

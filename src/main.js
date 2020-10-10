@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'babel-polyfill';
 import App from './App.vue'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';

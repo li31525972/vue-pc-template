@@ -94,10 +94,8 @@ export default {
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
     .form-container {
-        position: absolute;
+        margin-top: 10%;
         width: 370px;
-        top: 10%;
-        margin: auto;
         padding: 25px;
         border-radius: 5px;
 

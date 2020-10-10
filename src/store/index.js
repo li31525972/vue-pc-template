@@ -19,15 +19,15 @@ Vue.use(Vuex)
 
 export const initState = {
     userInfo: {}, // 用户信息
-    isFixedHeader: constant.ISFIXEDHEADER, // 是否固定头部
     tags: [],
     menuList: [], // 菜单数据
     tableConfig: constant.tableConfig,
-    isTableFlex: constant.ISFLEX,
+    isTableFlex: constant.ISFLEX, // 是否固定分页
+    isDraggable: constant.isDraggable, // 弹出框是否可拖拽
 }
 
 export default new Vuex.Store({
-    strict: process.env.NODE_ENV === 'development', // 开发环境下开启严格模式，严格不能在mutaitions之外修改state的状态
+    // strict: process.env.NODE_ENV === 'development', // 开发环境下开启严格模式，严格不能在mutaitions之外修改state的状态
     /**
      * plugins: 是一个数组，里面的元素为函数，该函数有一个默认参数store，
      *      vuex-persistedstate这个插件的实现 (options, storage, key) => store => {} 这是一个函数，直接调用，返回一个函数实现传参的效果
@@ -49,8 +49,8 @@ export default new Vuex.Store({
             storage: localStorage,
             reducer(val) {
                 return {
-                    isFixedHeader: val.isFixedHeader,
                     isTableFlex: val.isTableFlex,
+                    isDraggable: val.isDraggable,
                 }
             },
         })

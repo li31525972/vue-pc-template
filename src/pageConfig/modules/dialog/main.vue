@@ -113,20 +113,20 @@ export default {
             if (typeof this.callback === 'function') {
                 this.callback(false)
             }
-            
+
 
 
         },
         handleConfirm() {
             if (typeof this.callback === 'function') {
-                
+
                 if (this.$refs.form.submitForm()) {
-                    
+
                     let params = this.$refs.form.getFormData(this.isDefault)
                     this.callback(true, params)
                 }
             }
-            
+
         },
     },
 }

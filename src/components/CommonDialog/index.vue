@@ -11,7 +11,7 @@
             :fullscreen="fullscreen"
             :top="top"
             :modal="modal"
-            v-draggable-dialog="true"
+            v-draggable-dialog="isDraggable"
             :modal-append-to-body="modalAppendToBody"
             :append-to-body="appendToBody"
             :close-on-click-modal="closeOnClickModal"
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'CommonDialog',
     props: {
@@ -91,6 +92,11 @@ export default {
     },
     created() {
 
+    },
+    computed: {
+        ...mapGetters({
+            isDraggable: 'isDraggable',// 弹出框是否可拖拽
+        })
     },
     methods: {
         handleClose() {

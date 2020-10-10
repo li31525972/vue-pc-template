@@ -12,7 +12,7 @@ export const env = process.env
  */
 export const ISFIXEDHEADER = true // 是否固定头部
 export const ISSHOWTAG = true // 是否固定头部
-
+export const isDraggable = true // 弹出框是否可拖拽
 
 
 
@@ -22,7 +22,7 @@ export const ISSHOWTAG = true // 是否固定头部
  */
 export const menuProps = () => {
     // 测试及生产环境配置
-    if (env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV !== 'development') {
         return {
             label: 'menuName', // 菜单名称key
             icon: 'menuIcon', // 菜单图标key

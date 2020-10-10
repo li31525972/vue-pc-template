@@ -63,8 +63,11 @@
             <ul class="drawer-list">
                 <li>
                     <span>固定 分页</span>
-                    <el-switch v-model="FlexTable">
-                    </el-switch>
+                    <el-switch v-model="FlexTable"></el-switch>
+                </li>
+                <li>
+                    <span>弹出框拖拽</span>
+                    <el-switch v-model="Draggable"></el-switch>
                 </li>
             </ul>
         </el-drawer>
@@ -164,22 +167,33 @@ export default {
     },
     computed: {
         ...mapGetters({
-            isTableFlex: 'isTableFlex',
-            menuList: 'menuList',
+            isTableFlex: 'isTableFlex', // 分页是否可拖拽
+            menuList: 'menuList', // 菜单信息
+            isDraggable: 'isDraggable', // 弹出框是否可拖拽
         }),
         // 过滤菜单
         routes() {
-            if (constant.env.NODE_ENV === 'test') {
+            if (process.env.NODE_ENV !== 'development') {
                 return this.menuList
             }
             return this.getMenu()
         },
+        // 分页
         FlexTable: {
             get() {
                 return this.isTableFlex
             },
             set(newValue) {
                 this.$store.commit('SET_FLEXTABLE', newValue)
+            }
+        },
+        // 拖拽
+        Draggable: {
+            get() {
+                return this.isDraggable
+            },
+            set(newValue) {
+                this.$store.commit('SET_DRAGGABLE', newValue)
             }
         },
     },
