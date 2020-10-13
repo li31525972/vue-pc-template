@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { SUCCESS } from '@/config/httpCode'
+import { initOptions } from '@/utils/init'
 const NmAutocomplete = () =>  import('@/components/Base/Autocomplete')
 const NmCascader = () =>  import('@/components/Base/Cascader')
 const NmColorPicker = () =>  import('@/components/Base/ColorPicker')

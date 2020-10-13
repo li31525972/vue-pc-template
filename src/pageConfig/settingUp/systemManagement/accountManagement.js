@@ -26,6 +26,7 @@ export const searchOptions = [
         options: [],
         method: api.base.getCodeMaster,
         params: '41',
+        keepalive: true,
         props: {
             label: 'dropDownValue',
             value: 'dropDownKey',

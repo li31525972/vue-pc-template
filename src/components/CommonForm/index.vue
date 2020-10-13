@@ -301,22 +301,22 @@ export default {
                 }
             }
         },
-        
+
         // 表单验证
         submitForm() {
             let isPass = false
             this.$refs.ruleForm.validate((valid, data) => {
-                
+
                 if (valid) {
                     isPass = true
                 } else {
-                    
+
                     let messageArr = Object.values(data).flat()
                     let message = ''
                     messageArr.forEach(item => {
                         message += `<p>${item.message}</p>`
                     })
-                    
+
                     this.$notify({
                         title: '验证失败！',
                         dangerouslyUseHTMLString: true,
