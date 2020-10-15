@@ -80,6 +80,27 @@ const routes = [
         ],
     },
     {
+        path: '/ds',
+        title: 'D3',
+        icon: 'el-icon-picture',
+        component: Layout,
+        meta: {
+            title: 'D3',
+            icon: 'el-icon-picture',
+        },
+        children: [
+            {
+                path: 'demo',
+                name: 'd3Demo',
+                title: 'demo',
+                meta: {
+                    title: 'demo',
+                },
+                component: () => import('@/views/D3/Demo'),
+            },
+        ],
+    },
+    {
         path: '/settingUp',
         component: Layout,
         title: '设置',

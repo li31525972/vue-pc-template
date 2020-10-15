@@ -9,15 +9,19 @@
             <div class="title">
                 <span>后台管理系统</span>
             </div>
-            <el-form :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px" class="ruleForm">
-                <el-form-item label="用户名" prop="username">
-                    <el-input type="text" v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
+            <el-form :model="ruleForm" :rules="rules" status-icon ref="ruleForm" class="ruleForm">
+                <el-form-item  prop="username" >
+                    <el-input class="username" type="text" v-model="ruleForm.username" placeholder="请输入用户名">
+                        <template slot="prepend"><span class="el-icon-user el-input__icon"></span></template>
+                    </el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input type="password" @keyup.enter.native="submitForm('ruleForm')" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
+                <el-form-item  prop="password">
+                    <el-input type="password" @keyup.enter.native="submitForm('ruleForm')" v-model="ruleForm.password" placeholder="请输入密码">
+                        <template slot="prepend"><span class="el-icon-user el-input__icon"></span></template>
+                    </el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-button class="submit-btn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                <el-form-item class="submit-btn">
+                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -95,7 +99,7 @@ export default {
     background-size: 100% 100%;
     .form-container {
         margin-top: 10%;
-        width: 370px;
+        width: 340px;
         padding: 25px;
         border-radius: 5px;
 
@@ -109,13 +113,33 @@ export default {
 
     .ruleForm {
         margin-top: 20px;
-        padding: 20px 40px 20px 20px;
+        padding: 20px 20px 20px 20px;
         background-color: #fff;
         border-radius: 10px;
-
-        .submit-btn {
-            margin-left: 20px;
+        .el-input {
+            height: 100%;
+            /deep/ input {
+                height: 100%;
+            }
         }
+
+        /deep/.el-input-group__prepend {
+            padding: 0 10px;
+        }
+
+        /deep/.submit-btn .el-form-item__content {
+            display: flex;
+            flex-direction: column;
+
+            .el-button {
+                flex: 1;
+            }
+            .el-button + .el-button {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
     }
 }
 </style>
