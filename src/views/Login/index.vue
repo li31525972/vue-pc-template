@@ -17,7 +17,7 @@
                 </el-form-item>
                 <el-form-item  prop="password">
                     <el-input type="password" @keyup.enter.native="submitForm('ruleForm')" v-model="ruleForm.password" placeholder="请输入密码">
-                        <template slot="prepend"><span class="el-icon-user el-input__icon"></span></template>
+                        <template slot="prepend"><span class="el-icon-lock el-input__icon"></span></template>
                     </el-input>
                 </el-form-item>
                 <el-form-item class="submit-btn">
@@ -124,7 +124,7 @@ export default {
         }
 
         /deep/.el-input-group__prepend {
-            padding: 0 10px;
+            padding: 0 5px;
         }
 
         /deep/.submit-btn .el-form-item__content {
