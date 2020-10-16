@@ -5,28 +5,29 @@
 */
 <template>
     <div>
-        <svg width="400" height="400">
-            <!--<rect x="20" y="20" width="100" height="100" style="fill: #000;"></rect>-->
-            <!--<circle cx="200" cy="200" r="50" style="fill: #EBEEF5;"></circle>-->
-            <!--<ellipse cx="100" cy="100" rx="50" ry="100" style="fill: #aacc33; stroke: black;"></ellipse>-->
-            <!--<line x1="100" x2="400" y1="100" y2="180" style="fill: #000; stroke: black;"></line>-->
-            <!--<polyline points="100,20 20,90, 60,160 140,160 180,90"-->
-                      <!--style="fill: transparent; stroke: black; stroke-width: 3;"></polyline>-->
-            <!--<polygon points="100,20 20,90, 60,160 140,160 180,90"-->
-                      <!--style="fill: transparent; stroke: black; stroke-width: 3;"></polygon>-->
-            <!--<path d="M30,100 L270,300 M30,100 H270 M30,100 V300" style="stroke: black; stroke-width: 3;"></path>-->
-            <!--<path d="M30,100 C100,20 190,20 270,100 S400,180 450,100"-->
-                  <!--style="fill: white; stroke: black; stroke-width: 3;"></path>-->
-            <!--<path d="M30,100 Q190,20 270,100 T450,100"-->
-                  <!--style="fill: white; stroke: black; stroke-width: 3;"></path>-->
-            <text x="100" y="100" dx="-5" dy="5" rotate="0" textLength="30">
-                <tspan style="fill: red;">D3</tspan>demo
-            </text>
+        <!--<svg style="display: none;">-->
+            <!--<defs>-->
+                <!--<linearGradient id="linearGradient" x1="0%" x2="0%" y1="100%" y2="0%">-->
+                    <!--<stop offset="0%" stop-color="#f00"></stop>-->
+                    <!--<stop offset="100%" stop-color="#00f"></stop>-->
+                <!--</linearGradient>-->
+                <!--<linearGradient id="linearGradient2" x1="100%" x2="0%" y1="0%" y2="0%">-->
+                    <!--<stop offset="0%" stop-color="#f00"></stop>-->
+                    <!--<stop offset="100%" stop-color="#00f"></stop>-->
+                <!--</linearGradient>-->
+            <!--</defs>-->
+        <!--</svg>-->
+
+        <svg style="flex: 1;" class="svg_wrap">
+
+            <rect x="0" y="0" width="50%" height="100%"   style="fill: #000"></rect>
+            <rect x="50%" y="0" width="50%" height="100%" style="fill: #999"></rect>
         </svg>
     </div>
 </template>
 
 <script>
+import * as d3 from 'd3'
 export default {
     name: 'D3Demo',
     data() {
@@ -34,9 +35,17 @@ export default {
 
         }
     },
+    mounted() {
+        console.log(d3);
+    }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.svg_wrap {
+    display: flex;
+    rect {
+        flex: 1;
+    }
+}
 </style>
