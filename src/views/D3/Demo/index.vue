@@ -4,7 +4,7 @@
 * @author YaHui Li
 */
 <template>
-    <div>
+    <div class="wrap">
         <!--<svg style="display: none;">-->
             <!--<defs>-->
                 <!--<linearGradient id="linearGradient" x1="0%" x2="0%" y1="100%" y2="0%">-->
@@ -17,12 +17,16 @@
                 <!--</linearGradient>-->
             <!--</defs>-->
         <!--</svg>-->
+        <p>111</p>
+        <p>222</p>
+        <p>333</p>
 
         <svg style="flex: 1;" class="svg_wrap">
-
-            <rect x="0" y="0" width="50%" height="100%"   style="fill: #000"></rect>
-            <rect x="50%" y="0" width="50%" height="100%" style="fill: #999"></rect>
+            
+            <!--<rect x="0" y="0" width="50%" height="100%"   style="fill: #000"></rect>-->
+            <!--<rect x="50%" y="0" width="50%" height="100%" style="fill: #999"></rect>-->
         </svg>
+        
     </div>
 </template>
 
@@ -36,7 +40,12 @@ export default {
         }
     },
     mounted() {
-        console.log(d3);
+        let list = d3.range(10)
+        let list1 = d3.range(2,10)
+        let list2 = d3.range(2,10,2)
+        console.log(list);
+        console.log(list1);
+        console.log(list2);
     }
 }
 </script>
