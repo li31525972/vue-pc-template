@@ -22,11 +22,11 @@
         <p>333</p>
 
         <svg style="flex: 1;" class="svg_wrap">
-            
+
             <!--<rect x="0" y="0" width="50%" height="100%"   style="fill: #000"></rect>-->
             <!--<rect x="50%" y="0" width="50%" height="100%" style="fill: #999"></rect>-->
         </svg>
-        
+
     </div>
 </template>
 
@@ -40,12 +40,18 @@ export default {
         }
     },
     mounted() {
-        let list = d3.range(10)
-        let list1 = d3.range(2,10)
-        let list2 = d3.range(2,10,2)
-        console.log(list);
-        console.log(list1);
-        console.log(list2);
+        let list = [
+            { name: '111', id: 10 },
+            { name: '222', id: 20 },
+            { name: '333', id: 30 },
+        ]
+        let map = d3.map(list, data => data.id)
+        console.log(d3);
+        console.log(map);
+        console.log(map.has(3))
+        console.log(map.has(4))
+
+
     }
 }
 </script>
